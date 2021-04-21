@@ -409,7 +409,7 @@ int spaceTests(void)
         ' ', ' ', ' ', ' ', ' ', ' ', 'S', 'u', 'b', ' ', '1', '\r', '\n', 
         ' ', ' ', ' ', ' ', ' ', ' ', 'C', 'R', 'L', 'F', '.', 'm', '\r', '\n', 
         ' ', ' ', ' ', ' ', '\r', '\n', 
-        ' ', ' ', ' ', ' ', '\r', '\n', 
+        ' ', ' ', ' ', ' ', ' ', '\r', '\n', 
         ' ', ' ', ' ', ' ', 'H', '\t', 'i', '\r', '\n', 
         ' ', 'H', '\t', 'i', '\r', '\n', 
         'H', '\t', 'i', '\r', '\n', 
@@ -570,7 +570,7 @@ int dosTests(void)
 // test2.txt : A mix of space and tab leading, space and tab in middle and only LF EOL.
     std::vector<char> test2{ 
         '\t', ' ', ' ', 'S', 'u', 'b', ' ', '1', '\r', '\n', 
-        ' ', '\t', ' ', ' ', 'C', 'R', 'L', 'F', '.', 'm', '\r', '\n', 
+        ' ', '\t', ' ', ' ', 'L', 'F', '.', 'm', '\r', '\n', 
         ' ', '\t', '\r', '\n', 
         '\t', ' ', '\r', '\n', 
         '\t', 'H', '\t', 'i', '\r', '\n', 
@@ -584,7 +584,7 @@ int dosTests(void)
 
 // test3.txt : A mix of space and tab leading, space and tab in middle and mix of CR LF and LF EOL.
     std::vector<char> test3{ 
-        '\t', ' ', ' ', 'S', 'u', 'b', ' ', '1', '\r', '\n', 
+        '\t', ' ', ' ', 'M', 'i', 'x', ' ', '1', '\r', '\n', 
         ' ', '\t', ' ', ' ', 'C', 'R', 'L', 'F', '.', 'm', '\r', '\n', 
         ' ', '\t', '\r', '\n', 
         '\t', ' ', '\r', '\n', 
@@ -600,7 +600,7 @@ int dosTests(void)
 // test4.txt : A mix of space and tab leading, space and tab in middle and malformed EOL.
     std::vector<char> test4{ 
         '\t', ' ', ' ', 'S', 'u', 'b', ' ', '1', '\r', '\n', 
-        ' ', '\t', ' ', ' ', 'C', 'R', 'L', 'F', '.', 'm', '\r', '\n', 
+        ' ', '\t', ' ', ' ', 'L', 'F', 'C', 'R', '.', 'm', '\r', '\n', 
         ' ', '\t', '\r', '\n', 
         '\t', ' ', '\r', '\n', 
         '\t', 'H', '\t', 'i', '\r', '\n', 
@@ -629,7 +629,7 @@ int unixTests(void)
 // test1.txt : A mix of space and tab leading, space and tab in middle and CR LF EOL.
     std::vector<char> test1{ 
         '\t', ' ', ' ', 'S', 'u', 'b', ' ', '1', '\n', 
-        ' ', '\t', ' ', ' ', 'L', 'F', '.', 'm', '\n', 
+        ' ', '\t', ' ', ' ', 'C', 'R', 'L', 'F', '.', 'm', '\n', 
         ' ', '\t', '\n', 
         '\t', ' ', '\n', 
         '\t', 'H', '\t', 'i', '\n', 
@@ -658,8 +658,8 @@ int unixTests(void)
 
 // test3.txt : A mix of space and tab leading, space and tab in middle and mix of CR LF and LF EOL.
     std::vector<char> test3{ 
-        '\t', ' ', ' ', 'S', 'u', 'b', ' ', '1', '\n', 
-        ' ', '\t', ' ', ' ', 'L', 'F', '.', 'm', '\n', 
+        '\t', ' ', ' ', 'M', 'i', 'x', ' ', '1', '\n', 
+        ' ', '\t', ' ', ' ', 'C', 'R', 'L', 'F', '.', 'm', '\n', 
         ' ', '\t', '\n', 
         '\t', ' ', '\n', 
         '\t', 'H', '\t', 'i', '\n', 
@@ -674,7 +674,7 @@ int unixTests(void)
 // test4.txt : A mix of space and tab leading, space and tab in middle and malformed EOL.
     std::vector<char> test4{ 
         '\t', ' ', ' ', 'S', 'u', 'b', ' ', '1', '\n', 
-        ' ', '\t', ' ', ' ', 'L', 'F', '.', 'm', '\n', 
+        ' ', '\t', ' ', ' ', 'L', 'F', 'C', 'R', '.', 'm', '\n', 
         ' ', '\t', '\n', 
         '\t', ' ', '\n', 
         '\t', 'H', '\t', 'i', '\n', 
@@ -718,7 +718,7 @@ int spaceDosTests(void)
 // test2.txt : A mix of space and tab leading, space and tab in middle and only LF EOL.
     std::vector<char> test2{ 
         ' ', ' ', ' ', ' ', ' ', ' ', 'S', 'u', 'b', ' ', '1', '\r', '\n', 
-        ' ', ' ', ' ', ' ', ' ', ' ', 'C', 'R', 'L', 'F', '.', 'm', '\r', '\n', 
+        ' ', ' ', ' ', ' ', ' ', ' ', 'L', 'F', '.', 'm', '\r', '\n', 
         ' ', ' ', ' ', ' ', '\r', '\n', 
         ' ', ' ', ' ', ' ', '\r', '\n', 
         ' ', ' ', ' ', ' ', 'H', '\t', 'i', '\r', '\n', 
@@ -732,7 +732,7 @@ int spaceDosTests(void)
 
 // test3.txt : A mix of space and tab leading, space and tab in middle and mix of CR LF and LF EOL.
     std::vector<char> test3{ 
-        ' ', ' ', ' ', ' ', ' ', ' ', 'S', 'u', 'b', ' ', '1', '\r', '\n', 
+        ' ', ' ', ' ', ' ', ' ', ' ', 'M', 'i', 'x', ' ', '1', '\r', '\n', 
         ' ', ' ', ' ', ' ', ' ', ' ', 'C', 'R', 'L', 'F', '.', 'm', '\r', '\n', 
         ' ', ' ', ' ', ' ', '\r', '\n', 
         ' ', ' ', ' ', ' ', '\r', '\n', 
@@ -748,7 +748,7 @@ int spaceDosTests(void)
 // test4.txt : A mix of space and tab leading, space and tab in middle and malformed EOL.
     std::vector<char> test4{ 
         ' ', ' ', ' ', ' ', ' ', ' ', 'S', 'u', 'b', ' ', '1', '\r', '\n', 
-        ' ', ' ', ' ', ' ', ' ', ' ', 'C', 'R', 'L', 'F', '.', 'm', '\r', '\n', 
+        ' ', ' ', ' ', ' ', ' ', ' ', 'L', 'F', 'C', 'R', '.', 'm', '\r', '\n', 
         ' ', ' ', ' ', ' ', '\r', '\n', 
         ' ', ' ', ' ', ' ', '\r', '\n', 
         ' ', ' ', ' ', ' ', 'H', '\t', 'i', '\r', '\n', 
@@ -792,7 +792,7 @@ int tabDosTests(void)
 // test2.txt : A mix of space and tab leading, space and tab in middle and only LF EOL.
     std::vector<char> test2{ 
         '\t', ' ', ' ', 'S', 'u', 'b', ' ', '1', '\r', '\n', 
-        '\t', ' ', ' ', 'C', 'R', 'L', 'F', '.', 'm', '\r', '\n', 
+        '\t', ' ', ' ', 'L', 'F', '.', 'm', '\r', '\n', 
         '\t', '\r', '\n', 
         '\t', ' ', '\r', '\n', 
         '\t', 'H', '\t', 'i', '\r', '\n', 
@@ -806,7 +806,7 @@ int tabDosTests(void)
 
 // test3.txt : A mix of space and tab leading, space and tab in middle and mix of CR LF and LF EOL.
     std::vector<char> test3{ 
-        '\t', ' ', ' ', 'S', 'u', 'b', ' ', '1', '\r', '\n', 
+        '\t', ' ', ' ', 'M', 'i', 'x', ' ', '1', '\r', '\n', 
         '\t', ' ', ' ', 'C', 'R', 'L', 'F', '.', 'm', '\r', '\n', 
         '\t', '\r', '\n', 
         '\t', ' ', '\r', '\n', 
@@ -822,7 +822,7 @@ int tabDosTests(void)
 // test4.txt : A mix of space and tab leading, space and tab in middle and malformed EOL.
     std::vector<char> test4{ 
         '\t', ' ', ' ', 'S', 'u', 'b', ' ', '1', '\r', '\n', 
-        '\t', ' ', ' ', 'C', 'R', 'L', 'F', '.', 'm', '\r', '\n', 
+        '\t', ' ', ' ', 'C', 'F', 'C', 'R', '.', 'm', '\r', '\n', 
         '\t', '\r', '\n', 
         '\t', ' ', '\r', '\n', 
         '\t', 'H', '\t', 'i', '\r', '\n', 
@@ -851,7 +851,7 @@ int spaceUnixTests(void)
 // test1.txt : A mix of space and tab leading, space and tab in middle and CR LF EOL.
     std::vector<char> test1{ 
         ' ', ' ', ' ', ' ', ' ', ' ', 'S', 'u', 'b', ' ', '1', '\n', 
-        ' ', ' ', ' ', ' ', ' ', ' ', 'L', 'F', '.', 'm', '\n', 
+        ' ', ' ', ' ', ' ', ' ', ' ', 'C', 'R', 'L', 'F', '.', 'm', '\n', 
         ' ', ' ', ' ', ' ', '\n', 
         ' ', ' ', ' ', ' ', ' ', '\n', 
         ' ', ' ', ' ', ' ', 'H', '\t', 'i', '\n', 
@@ -880,8 +880,8 @@ int spaceUnixTests(void)
 
 // test3.txt : A mix of space and tab leading, space and tab in middle and mix of CR LF and LF EOL.
     std::vector<char> test3{ 
-        ' ', ' ', ' ', ' ', ' ', ' ', 'S', 'u', 'b', ' ', '1', '\n', 
-        ' ', ' ', ' ', ' ', ' ', ' ', 'L', 'F', '.', 'm', '\n', 
+        ' ', ' ', ' ', ' ', ' ', ' ', 'M', 'i', 'x', ' ', '1', '\n', 
+        ' ', ' ', ' ', ' ', ' ', ' ', 'C', 'R', 'L', 'F', '.', 'm', '\n', 
         ' ', ' ', ' ', ' ', '\n', 
         ' ', ' ', ' ', ' ', ' ', '\n', 
         ' ', ' ', ' ', ' ', 'H', '\t', 'i', '\n', 
@@ -896,7 +896,7 @@ int spaceUnixTests(void)
 // test4.txt : A mix of space and tab leading, space and tab in middle and malformed EOL.
     std::vector<char> test4{ 
         ' ', ' ', ' ', ' ', ' ', ' ', 'S', 'u', 'b', ' ', '1', '\n', 
-        ' ', ' ', ' ', ' ', ' ', ' ', 'L', 'F', '.', 'm', '\n', 
+        ' ', ' ', ' ', ' ', ' ', ' ', 'L', 'F', 'C', 'R', '.', 'm', '\n', 
         ' ', ' ', ' ', ' ', '\n', 
         ' ', ' ', ' ', ' ', ' ', '\n', 
         ' ', ' ', ' ', ' ', 'H', '\t', 'i', '\n', 
@@ -925,7 +925,7 @@ int tabUnixTests(void)
 // test1.txt : A mix of space and tab leading, space and tab in middle and CR LF EOL.
     std::vector<char> test1{ 
         '\t', ' ', ' ', 'S', 'u', 'b', ' ', '1', '\n', 
-        '\t', ' ', ' ', 'L', 'F', '.', 'm', '\n', 
+        '\t', ' ', ' ', 'C', 'R', 'L', 'F', '.', 'm', '\n', 
         '\t', '\n', 
         '\t', ' ', '\n', 
         '\t', 'H', '\t', 'i', '\n', 
@@ -954,8 +954,8 @@ int tabUnixTests(void)
 
 // test3.txt : A mix of space and tab leading, space and tab in middle and mix of CR LF and LF EOL.
     std::vector<char> test3{ 
-        '\t', ' ', ' ', 'S', 'u', 'b', ' ', '1', '\n', 
-        '\t', ' ', ' ', 'L', 'F', '.', 'm', '\n', 
+        '\t', ' ', ' ', 'M', 'i', 'x', ' ', '1', '\n', 
+        '\t', ' ', ' ', 'C', 'R', 'L', 'F', '.', 'm', '\n', 
         '\t', '\n', 
         '\t', ' ', '\n', 
         '\t', 'H', '\t', 'i', '\n', 
@@ -970,7 +970,7 @@ int tabUnixTests(void)
 // test4.txt : A mix of space and tab leading, space and tab in middle and malformed EOL.
     std::vector<char> test4{ 
         '\t', ' ', ' ', 'S', 'u', 'b', ' ', '1', '\n', 
-        '\t', ' ', ' ', 'L', 'F', '.', 'm', '\n', 
+        '\t', ' ', ' ', 'L', 'F', 'C', 'R', '.', 'm', '\n', 
         '\t', '\n', 
         '\t', ' ', '\n', 
         '\t', 'H', '\t', 'i', '\n', 
