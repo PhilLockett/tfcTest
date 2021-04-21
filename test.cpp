@@ -178,15 +178,21 @@ static int writeSummaryFile(const std::string & fileName, const std::string & li
 
 
 /**
- * @section test statistics using direct calls to the static singleton.
+ * @section check test environment setup.
  *
- * All of these are interdependent.
  */
+
 UNIT_TEST(test0, "Test environment'.")
 
     REQUIRE(system(NULL) != 0)
 
 END_TEST
+
+
+/**
+ * @section test summary generation.
+ *
+ */
 
 UNIT_TEST(test1, "Test summary generation for 'test1.txt'.")
 
@@ -256,6 +262,601 @@ UNIT_TEST(test4, "Test summary generation for 'test4.txt'.")
 
 END_TEST
 
+
+/**
+ * @section test leading space generation.
+ *
+ */
+
+UNIT_TEST(test1s, "Test leading space generation for 'test1.txt'.")
+
+    std::string fileName{"/test1s.txt"};
+    std::string inputFileName{inputDir + "/test1.txt"};
+    std::string outputFileName{outputDir + fileName};
+    std::string compareFileName{compareDir + fileName};
+
+    std::string command{"tfc -s -i " + inputFileName + " -o " + outputFileName};
+    // std::cout << command << '\n';
+    system(command.c_str());
+    std::vector<char> compare = readBinaryFile(compareFileName);
+    std::vector<char> output = readBinaryFile(outputFileName);
+
+    REQUIRE(std::equal(compare.begin(), compare.end(), output.begin()))
+
+END_TEST
+
+UNIT_TEST(test2s, "Test leading space generation for 'test2.txt'.")
+
+    std::string fileName{"/test2s.txt"};
+    std::string inputFileName{inputDir + "/test2.txt"};
+    std::string outputFileName{outputDir + fileName};
+    std::string compareFileName{compareDir + fileName};
+
+    std::string command{"tfc -s -i " + inputFileName + " -o " + outputFileName};
+    // std::cout << command << '\n';
+    system(command.c_str());
+    std::vector<char> compare = readBinaryFile(compareFileName);
+    std::vector<char> output = readBinaryFile(outputFileName);
+
+    REQUIRE(std::equal(compare.begin(), compare.end(), output.begin()))
+
+END_TEST
+
+UNIT_TEST(test3s, "Test leading space generation for 'test3.txt'.")
+
+    std::string fileName{"/test3s.txt"};
+    std::string inputFileName{inputDir + "/test3.txt"};
+    std::string outputFileName{outputDir + fileName};
+    std::string compareFileName{compareDir + fileName};
+
+    std::string command{"tfc -s -i " + inputFileName + " -o " + outputFileName};
+    // std::cout << command << '\n';
+    system(command.c_str());
+    std::vector<char> compare = readBinaryFile(compareFileName);
+    std::vector<char> output = readBinaryFile(outputFileName);
+
+    REQUIRE(std::equal(compare.begin(), compare.end(), output.begin()))
+
+END_TEST
+
+UNIT_TEST(test4s, "Test leading space generation for 'test4.txt'.")
+
+    std::string fileName{"/test4s.txt"};
+    std::string inputFileName{inputDir + "/test4.txt"};
+    std::string outputFileName{outputDir + fileName};
+    std::string compareFileName{compareDir + fileName};
+
+    std::string command{"tfc -s -i " + inputFileName + " -o " + outputFileName};
+    // std::cout << command << '\n';
+    system(command.c_str());
+    std::vector<char> compare = readBinaryFile(compareFileName);
+    std::vector<char> output = readBinaryFile(outputFileName);
+
+    REQUIRE(std::equal(compare.begin(), compare.end(), output.begin()))
+
+END_TEST
+
+
+/**
+ * @section test leading tab generation.
+ *
+ */
+
+UNIT_TEST(test1t, "Test leading tab generation for 'test1.txt'.")
+
+    std::string fileName{"/test1t.txt"};
+    std::string inputFileName{inputDir + "/test1.txt"};
+    std::string outputFileName{outputDir + fileName};
+    std::string compareFileName{compareDir + fileName};
+
+    std::string command{"tfc -t -i " + inputFileName + " -o " + outputFileName};
+    // std::cout << command << '\n';
+    system(command.c_str());
+    std::vector<char> compare = readBinaryFile(compareFileName);
+    std::vector<char> output = readBinaryFile(outputFileName);
+
+    REQUIRE(std::equal(compare.begin(), compare.end(), output.begin()))
+
+END_TEST
+
+UNIT_TEST(test2t, "Test leading tab generation for 'test2.txt'.")
+
+    std::string fileName{"/test2t.txt"};
+    std::string inputFileName{inputDir + "/test2.txt"};
+    std::string outputFileName{outputDir + fileName};
+    std::string compareFileName{compareDir + fileName};
+
+    std::string command{"tfc -t -i " + inputFileName + " -o " + outputFileName};
+    // std::cout << command << '\n';
+    system(command.c_str());
+    std::vector<char> compare = readBinaryFile(compareFileName);
+    std::vector<char> output = readBinaryFile(outputFileName);
+
+    REQUIRE(std::equal(compare.begin(), compare.end(), output.begin()))
+
+END_TEST
+
+UNIT_TEST(test3t, "Test leading tab generation for 'test3.txt'.")
+
+    std::string fileName{"/test3t.txt"};
+    std::string inputFileName{inputDir + "/test3.txt"};
+    std::string outputFileName{outputDir + fileName};
+    std::string compareFileName{compareDir + fileName};
+
+    std::string command{"tfc -t -i " + inputFileName + " -o " + outputFileName};
+    // std::cout << command << '\n';
+    system(command.c_str());
+    std::vector<char> compare = readBinaryFile(compareFileName);
+    std::vector<char> output = readBinaryFile(outputFileName);
+
+    REQUIRE(std::equal(compare.begin(), compare.end(), output.begin()))
+
+END_TEST
+
+UNIT_TEST(test4t, "Test leading tab generation for 'test4.txt'.")
+
+    std::string fileName{"/test4t.txt"};
+    std::string inputFileName{inputDir + "/test4.txt"};
+    std::string outputFileName{outputDir + fileName};
+    std::string compareFileName{compareDir + fileName};
+
+    std::string command{"tfc -t -i " + inputFileName + " -o " + outputFileName};
+    // std::cout << command << '\n';
+    system(command.c_str());
+    std::vector<char> compare = readBinaryFile(compareFileName);
+    std::vector<char> output = readBinaryFile(outputFileName);
+
+    REQUIRE(std::equal(compare.begin(), compare.end(), output.begin()))
+
+END_TEST
+
+
+/**
+ * @section test trailing dos generation.
+ *
+ */
+
+UNIT_TEST(test1d, "Test trailing dos generation for 'test1.txt'.")
+
+    std::string fileName{"/test1d.txt"};
+    std::string inputFileName{inputDir + "/test1.txt"};
+    std::string outputFileName{outputDir + fileName};
+    std::string compareFileName{compareDir + fileName};
+
+    std::string command{"tfc -d -i " + inputFileName + " -o " + outputFileName};
+    // std::cout << command << '\n';
+    system(command.c_str());
+    std::vector<char> compare = readBinaryFile(compareFileName);
+    std::vector<char> output = readBinaryFile(outputFileName);
+
+    REQUIRE(std::equal(compare.begin(), compare.end(), output.begin()))
+
+END_TEST
+
+UNIT_TEST(test2d, "Test trailing dos generation for 'test2.txt'.")
+
+    std::string fileName{"/test2d.txt"};
+    std::string inputFileName{inputDir + "/test2.txt"};
+    std::string outputFileName{outputDir + fileName};
+    std::string compareFileName{compareDir + fileName};
+
+    std::string command{"tfc -d -i " + inputFileName + " -o " + outputFileName};
+    // std::cout << command << '\n';
+    system(command.c_str());
+    std::vector<char> compare = readBinaryFile(compareFileName);
+    std::vector<char> output = readBinaryFile(outputFileName);
+
+    REQUIRE(std::equal(compare.begin(), compare.end(), output.begin()))
+
+END_TEST
+
+UNIT_TEST(test3d, "Test trailing dos generation for 'test3.txt'.")
+
+    std::string fileName{"/test3d.txt"};
+    std::string inputFileName{inputDir + "/test3.txt"};
+    std::string outputFileName{outputDir + fileName};
+    std::string compareFileName{compareDir + fileName};
+
+    std::string command{"tfc -d -i " + inputFileName + " -o " + outputFileName};
+    // std::cout << command << '\n';
+    system(command.c_str());
+    std::vector<char> compare = readBinaryFile(compareFileName);
+    std::vector<char> output = readBinaryFile(outputFileName);
+
+    REQUIRE(std::equal(compare.begin(), compare.end(), output.begin()))
+
+END_TEST
+
+UNIT_TEST(test4d, "Test trailing dos generation for 'test4.txt'.")
+
+    std::string fileName{"/test4d.txt"};
+    std::string inputFileName{inputDir + "/test4.txt"};
+    std::string outputFileName{outputDir + fileName};
+    std::string compareFileName{compareDir + fileName};
+
+    std::string command{"tfc -d -i " + inputFileName + " -o " + outputFileName};
+    // std::cout << command << '\n';
+    system(command.c_str());
+    std::vector<char> compare = readBinaryFile(compareFileName);
+    std::vector<char> output = readBinaryFile(outputFileName);
+
+    REQUIRE(std::equal(compare.begin(), compare.end(), output.begin()))
+
+END_TEST
+
+
+/**
+ * @section test trailing unix generation.
+ *
+ */
+
+UNIT_TEST(test1u, "Test trailing unix generation for 'test1.txt'.")
+
+    std::string fileName{"/test1u.txt"};
+    std::string inputFileName{inputDir + "/test1.txt"};
+    std::string outputFileName{outputDir + fileName};
+    std::string compareFileName{compareDir + fileName};
+
+    std::string command{"tfc -u -i " + inputFileName + " -o " + outputFileName};
+    // std::cout << command << '\n';
+    system(command.c_str());
+    std::vector<char> compare = readBinaryFile(compareFileName);
+    std::vector<char> output = readBinaryFile(outputFileName);
+
+    REQUIRE(std::equal(compare.begin(), compare.end(), output.begin()))
+
+END_TEST
+
+UNIT_TEST(test2u, "Test trailing unix generation for 'test2.txt'.")
+
+    std::string fileName{"/test2u.txt"};
+    std::string inputFileName{inputDir + "/test2.txt"};
+    std::string outputFileName{outputDir + fileName};
+    std::string compareFileName{compareDir + fileName};
+
+    std::string command{"tfc -u -i " + inputFileName + " -o " + outputFileName};
+    // std::cout << command << '\n';
+    system(command.c_str());
+    std::vector<char> compare = readBinaryFile(compareFileName);
+    std::vector<char> output = readBinaryFile(outputFileName);
+
+    REQUIRE(std::equal(compare.begin(), compare.end(), output.begin()))
+
+END_TEST
+
+UNIT_TEST(test3u, "Test trailing unix generation for 'test3.txt'.")
+
+    std::string fileName{"/test3u.txt"};
+    std::string inputFileName{inputDir + "/test3.txt"};
+    std::string outputFileName{outputDir + fileName};
+    std::string compareFileName{compareDir + fileName};
+
+    std::string command{"tfc -u -i " + inputFileName + " -o " + outputFileName};
+    // std::cout << command << '\n';
+    system(command.c_str());
+    std::vector<char> compare = readBinaryFile(compareFileName);
+    std::vector<char> output = readBinaryFile(outputFileName);
+
+    REQUIRE(std::equal(compare.begin(), compare.end(), output.begin()))
+
+END_TEST
+
+UNIT_TEST(test4u, "Test trailing unix generation for 'test4.txt'.")
+
+    std::string fileName{"/test4u.txt"};
+    std::string inputFileName{inputDir + "/test4.txt"};
+    std::string outputFileName{outputDir + fileName};
+    std::string compareFileName{compareDir + fileName};
+
+    std::string command{"tfc -u -i " + inputFileName + " -o " + outputFileName};
+    // std::cout << command << '\n';
+    system(command.c_str());
+    std::vector<char> compare = readBinaryFile(compareFileName);
+    std::vector<char> output = readBinaryFile(outputFileName);
+
+    REQUIRE(std::equal(compare.begin(), compare.end(), output.begin()))
+
+END_TEST
+
+
+/**
+ * @section test leading space and trailing dos generation.
+ *
+ */
+
+UNIT_TEST(test1sd, "Test leading space and trailing dos generation for 'test1.txt'.")
+
+    std::string fileName{"/test1sd.txt"};
+    std::string inputFileName{inputDir + "/test1.txt"};
+    std::string outputFileName{outputDir + fileName};
+    std::string compareFileName{compareDir + fileName};
+
+    std::string command{"tfc -s -d -i " + inputFileName + " -o " + outputFileName};
+    // std::cout << command << '\n';
+    system(command.c_str());
+    std::vector<char> compare = readBinaryFile(compareFileName);
+    std::vector<char> output = readBinaryFile(outputFileName);
+
+    REQUIRE(std::equal(compare.begin(), compare.end(), output.begin()))
+
+END_TEST
+
+UNIT_TEST(test2sd, "Test leading space and trailing dos generation for 'test2.txt'.")
+
+    std::string fileName{"/test2sd.txt"};
+    std::string inputFileName{inputDir + "/test2.txt"};
+    std::string outputFileName{outputDir + fileName};
+    std::string compareFileName{compareDir + fileName};
+
+    std::string command{"tfc -s -d -i " + inputFileName + " -o " + outputFileName};
+    // std::cout << command << '\n';
+    system(command.c_str());
+    std::vector<char> compare = readBinaryFile(compareFileName);
+    std::vector<char> output = readBinaryFile(outputFileName);
+
+    REQUIRE(std::equal(compare.begin(), compare.end(), output.begin()))
+
+END_TEST
+
+UNIT_TEST(test3sd, "Test leading space and trailing dos generation for 'test3.txt'.")
+
+    std::string fileName{"/test3sd.txt"};
+    std::string inputFileName{inputDir + "/test3.txt"};
+    std::string outputFileName{outputDir + fileName};
+    std::string compareFileName{compareDir + fileName};
+
+    std::string command{"tfc -s -d -i " + inputFileName + " -o " + outputFileName};
+    // std::cout << command << '\n';
+    system(command.c_str());
+    std::vector<char> compare = readBinaryFile(compareFileName);
+    std::vector<char> output = readBinaryFile(outputFileName);
+
+    REQUIRE(std::equal(compare.begin(), compare.end(), output.begin()))
+
+END_TEST
+
+UNIT_TEST(test4sd, "Test leading space and trailing dos generation for 'test4.txt'.")
+
+    std::string fileName{"/test4sd.txt"};
+    std::string inputFileName{inputDir + "/test4.txt"};
+    std::string outputFileName{outputDir + fileName};
+    std::string compareFileName{compareDir + fileName};
+
+    std::string command{"tfc -s -d -i " + inputFileName + " -o " + outputFileName};
+    // std::cout << command << '\n';
+    system(command.c_str());
+    std::vector<char> compare = readBinaryFile(compareFileName);
+    std::vector<char> output = readBinaryFile(outputFileName);
+
+    REQUIRE(std::equal(compare.begin(), compare.end(), output.begin()))
+
+END_TEST
+
+
+/**
+ * @section test leading tab and trailing dos generation.
+ *
+ */
+
+UNIT_TEST(test1td, "Test leading tab and trailing dos generation for 'test1.txt'.")
+
+    std::string fileName{"/test1td.txt"};
+    std::string inputFileName{inputDir + "/test1.txt"};
+    std::string outputFileName{outputDir + fileName};
+    std::string compareFileName{compareDir + fileName};
+
+    std::string command{"tfc -t -d -i " + inputFileName + " -o " + outputFileName};
+    // std::cout << command << '\n';
+    system(command.c_str());
+    std::vector<char> compare = readBinaryFile(compareFileName);
+    std::vector<char> output = readBinaryFile(outputFileName);
+
+    REQUIRE(std::equal(compare.begin(), compare.end(), output.begin()))
+
+END_TEST
+
+UNIT_TEST(test2td, "Test leading tab and trailing dos generation for 'test2.txt'.")
+
+    std::string fileName{"/test2td.txt"};
+    std::string inputFileName{inputDir + "/test2.txt"};
+    std::string outputFileName{outputDir + fileName};
+    std::string compareFileName{compareDir + fileName};
+
+    std::string command{"tfc -t -d -i " + inputFileName + " -o " + outputFileName};
+    // std::cout << command << '\n';
+    system(command.c_str());
+    std::vector<char> compare = readBinaryFile(compareFileName);
+    std::vector<char> output = readBinaryFile(outputFileName);
+
+    REQUIRE(std::equal(compare.begin(), compare.end(), output.begin()))
+
+END_TEST
+
+UNIT_TEST(test3td, "Test leading tab and trailing dos generation for 'test3.txt'.")
+
+    std::string fileName{"/test3td.txt"};
+    std::string inputFileName{inputDir + "/test3.txt"};
+    std::string outputFileName{outputDir + fileName};
+    std::string compareFileName{compareDir + fileName};
+
+    std::string command{"tfc -t -d -i " + inputFileName + " -o " + outputFileName};
+    // std::cout << command << '\n';
+    system(command.c_str());
+    std::vector<char> compare = readBinaryFile(compareFileName);
+    std::vector<char> output = readBinaryFile(outputFileName);
+
+    REQUIRE(std::equal(compare.begin(), compare.end(), output.begin()))
+
+END_TEST
+
+UNIT_TEST(test4td, "Test leading tab and trailing dos generation for 'test4.txt'.")
+
+    std::string fileName{"/test4td.txt"};
+    std::string inputFileName{inputDir + "/test4.txt"};
+    std::string outputFileName{outputDir + fileName};
+    std::string compareFileName{compareDir + fileName};
+
+    std::string command{"tfc -t -d -i " + inputFileName + " -o " + outputFileName};
+    // std::cout << command << '\n';
+    system(command.c_str());
+    std::vector<char> compare = readBinaryFile(compareFileName);
+    std::vector<char> output = readBinaryFile(outputFileName);
+
+    REQUIRE(std::equal(compare.begin(), compare.end(), output.begin()))
+
+END_TEST
+
+
+/**
+ * @section test leading space and trailing unix generation.
+ *
+ */
+
+UNIT_TEST(test1su, "Test leading space and trailing unix generation for 'test1.txt'.")
+
+    std::string fileName{"/test1su.txt"};
+    std::string inputFileName{inputDir + "/test1.txt"};
+    std::string outputFileName{outputDir + fileName};
+    std::string compareFileName{compareDir + fileName};
+
+    std::string command{"tfc -s -u -i " + inputFileName + " -o " + outputFileName};
+    // std::cout << command << '\n';
+    system(command.c_str());
+    std::vector<char> compare = readBinaryFile(compareFileName);
+    std::vector<char> output = readBinaryFile(outputFileName);
+
+    REQUIRE(std::equal(compare.begin(), compare.end(), output.begin()))
+
+END_TEST
+
+UNIT_TEST(test2su, "Test leading space and trailing unix generation for 'test2.txt'.")
+
+    std::string fileName{"/test2su.txt"};
+    std::string inputFileName{inputDir + "/test2.txt"};
+    std::string outputFileName{outputDir + fileName};
+    std::string compareFileName{compareDir + fileName};
+
+    std::string command{"tfc -s -u -i " + inputFileName + " -o " + outputFileName};
+    // std::cout << command << '\n';
+    system(command.c_str());
+    std::vector<char> compare = readBinaryFile(compareFileName);
+    std::vector<char> output = readBinaryFile(outputFileName);
+
+    REQUIRE(std::equal(compare.begin(), compare.end(), output.begin()))
+
+END_TEST
+
+UNIT_TEST(test3su, "Test leading space and trailing unix generation for 'test3.txt'.")
+
+    std::string fileName{"/test3su.txt"};
+    std::string inputFileName{inputDir + "/test3.txt"};
+    std::string outputFileName{outputDir + fileName};
+    std::string compareFileName{compareDir + fileName};
+
+    std::string command{"tfc -s -u -i " + inputFileName + " -o " + outputFileName};
+    // std::cout << command << '\n';
+    system(command.c_str());
+    std::vector<char> compare = readBinaryFile(compareFileName);
+    std::vector<char> output = readBinaryFile(outputFileName);
+
+    REQUIRE(std::equal(compare.begin(), compare.end(), output.begin()))
+
+END_TEST
+
+UNIT_TEST(test4su, "Test leading space and trailing unix generation for 'test4.txt'.")
+
+    std::string fileName{"/test4su.txt"};
+    std::string inputFileName{inputDir + "/test4.txt"};
+    std::string outputFileName{outputDir + fileName};
+    std::string compareFileName{compareDir + fileName};
+
+    std::string command{"tfc -s -u -i " + inputFileName + " -o " + outputFileName};
+    // std::cout << command << '\n';
+    system(command.c_str());
+    std::vector<char> compare = readBinaryFile(compareFileName);
+    std::vector<char> output = readBinaryFile(outputFileName);
+
+    REQUIRE(std::equal(compare.begin(), compare.end(), output.begin()))
+
+END_TEST
+
+
+/**
+ * @section test leading tab and trailing unix generation.
+ *
+ */
+
+UNIT_TEST(test1tu, "Test leading tab and trailing unix generation for 'test1.txt'.")
+
+    std::string fileName{"/test1tu.txt"};
+    std::string inputFileName{inputDir + "/test1.txt"};
+    std::string outputFileName{outputDir + fileName};
+    std::string compareFileName{compareDir + fileName};
+
+    std::string command{"tfc -t -u -i " + inputFileName + " -o " + outputFileName};
+    // std::cout << command << '\n';
+    system(command.c_str());
+    std::vector<char> compare = readBinaryFile(compareFileName);
+    std::vector<char> output = readBinaryFile(outputFileName);
+
+    REQUIRE(std::equal(compare.begin(), compare.end(), output.begin()))
+
+END_TEST
+
+UNIT_TEST(test2tu, "Test leading tab and trailing unix generation for 'test2.txt'.")
+
+    std::string fileName{"/test2tu.txt"};
+    std::string inputFileName{inputDir + "/test2.txt"};
+    std::string outputFileName{outputDir + fileName};
+    std::string compareFileName{compareDir + fileName};
+
+    std::string command{"tfc -t -u -i " + inputFileName + " -o " + outputFileName};
+    // std::cout << command << '\n';
+    system(command.c_str());
+    std::vector<char> compare = readBinaryFile(compareFileName);
+    std::vector<char> output = readBinaryFile(outputFileName);
+
+    REQUIRE(std::equal(compare.begin(), compare.end(), output.begin()))
+
+END_TEST
+
+UNIT_TEST(test3tu, "Test leading tab and trailing unix generation for 'test3.txt'.")
+
+    std::string fileName{"/test3tu.txt"};
+    std::string inputFileName{inputDir + "/test3.txt"};
+    std::string outputFileName{outputDir + fileName};
+    std::string compareFileName{compareDir + fileName};
+
+    std::string command{"tfc -t -u -i " + inputFileName + " -o " + outputFileName};
+    // std::cout << command << '\n';
+    system(command.c_str());
+    std::vector<char> compare = readBinaryFile(compareFileName);
+    std::vector<char> output = readBinaryFile(outputFileName);
+
+    REQUIRE(std::equal(compare.begin(), compare.end(), output.begin()))
+
+END_TEST
+
+UNIT_TEST(test4tu, "Test leading tab and trailing unix generation for 'test4.txt'.")
+
+    std::string fileName{"/test4tu.txt"};
+    std::string inputFileName{inputDir + "/test4.txt"};
+    std::string outputFileName{outputDir + fileName};
+    std::string compareFileName{compareDir + fileName};
+
+    std::string command{"tfc -t -u -i " + inputFileName + " -o " + outputFileName};
+    // std::cout << command << '\n';
+    system(command.c_str());
+    std::vector<char> compare = readBinaryFile(compareFileName);
+    std::vector<char> output = readBinaryFile(outputFileName);
+
+    REQUIRE(std::equal(compare.begin(), compare.end(), output.begin()))
+
+END_TEST
+
+
+
+
 int runTests(void)
 {
     std::cout << "Executing all tests.\n";
@@ -265,6 +866,38 @@ int runTests(void)
     RUN_TEST(test2)
     RUN_TEST(test3)
     RUN_TEST(test4)
+    RUN_TEST(test1s)
+    RUN_TEST(test2s)
+    RUN_TEST(test3s)
+    RUN_TEST(test4s)
+    RUN_TEST(test1t)
+    RUN_TEST(test2t)
+    RUN_TEST(test3t)
+    RUN_TEST(test4t)
+    RUN_TEST(test1d)
+    RUN_TEST(test2d)
+    RUN_TEST(test3d)
+    RUN_TEST(test4d)
+    RUN_TEST(test1u)
+    RUN_TEST(test2u)
+    RUN_TEST(test3u)
+    RUN_TEST(test4u)
+    RUN_TEST(test1sd)
+    RUN_TEST(test2sd)
+    RUN_TEST(test3sd)
+    RUN_TEST(test4sd)
+    RUN_TEST(test1td)
+    RUN_TEST(test2td)
+    RUN_TEST(test3td)
+    RUN_TEST(test4td)
+    RUN_TEST(test1su)
+    RUN_TEST(test2su)
+    RUN_TEST(test3su)
+    RUN_TEST(test4su)
+    RUN_TEST(test1tu)
+    RUN_TEST(test2tu)
+    RUN_TEST(test3tu)
+    RUN_TEST(test4tu)
 
     const int err = FINISHED;
     if (err)
