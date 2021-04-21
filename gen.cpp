@@ -1,5 +1,5 @@
 /**
- * @file    testFileGen.cpp
+ * @file    gen.cpp
  * @author  Phil Lockett <phillockett65@gmail.com>
  * @version 1.0
  *
@@ -200,6 +200,7 @@ static std::vector<char> readBinaryFile(const std::string & fileName, int reserv
  */
 static int writeBinaryFile(const std::string & fileName, const std::vector<char> & data)
 {
+    std::cout << "Generating file " << fileName << "\n";
     if (std::ofstream os{fileName, std::ios::binary})
     {
         for (auto & c : data)
@@ -215,6 +216,7 @@ static int writeBinaryFile(const std::string & fileName, const std::vector<char>
 
 static int writeSummaryFile(const std::string & fileName, const std::string & line1, const std::string & line2)
 {
+    std::cout << "Generating summary file " << fileName << "\n";
     if (std::ofstream os{fileName, std::ios::out})
     {
         os << line1 << '\n' << line2 << '\n';
@@ -242,20 +244,11 @@ int runTests(void)
 }
 
 /**
- * Test system entry point.
+ * Test summary generation.
  *
- * @param  argc - command line argument count.
- * @param  argv - command line argument vector.
- * @return error value or 0 if no errors.
  */
-int main(int argc, char *argv[])
+int summaryTests(int argc, char *argv[])
 {
-    deleteDirectory(rootDir);
-    createDirectory(rootDir);
-    createDirectory(inputDir);
-    createDirectory(outputDir);
-    createDirectory(compareDir);
-
     std::string filename{};
     std::string input{};
     std::string output{};
@@ -396,8 +389,642 @@ Line ending:
     writeSummaryFile(compare, input, "9 1 1 3 4 0 0 9");
     addTest("-x -i " + input, output, compare);
 
-    genTestScript("runTests.sh", argv[0]);
+    return 0;
+}
+
+
+/**
+ * Test space leading generation.
+ *
+ * tfc -s -i testdata/input/testX.txt -o testdata/output/testXs.txt
+ */
+int spaceTests(void)
+{
+    const std::string & postfix{"s"};
+    std::string input{};
+
+// test1.txt : A mix of space and tab leading, space and tab in middle and CR LF EOL.
+    std::vector<char> test1{ 
+        ' ', ' ', ' ', ' ', ' ', ' ', 'S', 'u', 'b', ' ', '1', '\r', '\n', 
+        ' ', ' ', ' ', ' ', ' ', ' ', 'C', 'R', 'L', 'F', '.', 'm', '\r', '\n', 
+        ' ', ' ', ' ', ' ', '\r', '\n', 
+        ' ', ' ', ' ', ' ', '\r', '\n', 
+        ' ', ' ', ' ', ' ', 'H', '\t', 'i', '\r', '\n', 
+        ' ', 'H', '\t', 'i', '\r', '\n', 
+        'H', '\t', 'i', '\r', '\n', 
+        'H', ' ', 'i', '\r', '\n', 
+        '\r', '\n' 
+    };
+    input = compareDir + "/test1" + postfix + ".txt";
+    writeBinaryFile(input, test1);
+
+// test2.txt : A mix of space and tab leading, space and tab in middle and only LF EOL.
+    std::vector<char> test2{ 
+        ' ', ' ', ' ', ' ', ' ', ' ', 'S', 'u', 'b', ' ', '1', '\n', 
+        ' ', ' ', ' ', ' ', ' ', ' ', 'L', 'F', '.', 'm', '\n', 
+        ' ', ' ', ' ', ' ', '\n', 
+        ' ', ' ', ' ', ' ', ' ', '\n', 
+        ' ', ' ', ' ', ' ', 'H', '\t', 'i', '\n', 
+        ' ', 'H', '\t', 'i', '\n', 
+        'H', '\t', 'i', '\n', 
+        'H', ' ', 'i', '\n', 
+        '\n' 
+    };
+    input = compareDir + "/test2" + postfix + ".txt";
+    writeBinaryFile(input, test2);
+
+// test3.txt : A mix of space and tab leading, space and tab in middle and mix of CR LF and LF EOL.
+    std::vector<char> test3{ 
+        ' ', ' ', ' ', ' ', ' ', ' ', 'M', 'i', 'x', ' ', '1', '\r', '\n', 
+        ' ', ' ', ' ', ' ', ' ', ' ', 'C', 'R', 'L', 'F', '.', 'm', '\n', 
+        ' ', ' ', ' ', ' ', '\r', '\n', 
+        ' ', ' ', ' ', ' ', ' ', '\n', 
+        ' ', ' ', ' ', ' ', 'H', '\t', 'i', '\r', '\n', 
+        ' ', 'H', '\t', 'i', '\r', '\n', 
+        'H', '\t', 'i', '\n', 
+        'H', ' ', 'i', '\r', '\n', 
+        '\r', '\n' 
+    };
+    input = compareDir + "/test3" + postfix + ".txt";
+    writeBinaryFile(input, test3);
+
+// test4.txt : A mix of space and tab leading, space and tab in middle and malformed EOL.
+    std::vector<char> test4{ 
+        ' ', ' ', ' ', ' ', ' ', ' ', 'S', 'u', 'b', ' ', '1', '\n', '\r', 
+        ' ', ' ', ' ', ' ', ' ', ' ', 'L', 'F', 'C', 'R', '.', 'm', '\n', '\r', 
+        ' ', ' ', ' ', ' ', '\n', '\r', 
+        ' ', ' ', ' ', ' ', ' ', '\n', '\r', 
+        ' ', ' ', ' ', ' ', 'H', '\t', 'i', '\n', '\r', 
+        ' ', 'H', '\t', 'i', '\n', '\r', 
+        'H', '\t', 'i', '\n', '\r', 
+        'H', ' ', 'i', '\n', '\r', 
+        '\n', '\r' 
+    };
+    input = compareDir + "/test4" + postfix + ".txt";
+    writeBinaryFile(input, test4);
 
     return 0;
 }
 
+
+/**
+ * Test tab leading generation.
+ *
+ * tfc -t -i testdata/input/testX.txt -o testdata/output/testXt.txt
+ */
+int tabTests(void)
+{
+    const std::string & postfix{"t"};
+    std::string input{};
+
+// test1.txt : A mix of space and tab leading, space and tab in middle and CR LF EOL.
+    std::vector<char> test1{ 
+        '\t', ' ', ' ', 'S', 'u', 'b', ' ', '1', '\r', '\n', 
+        '\t', ' ', ' ', 'C', 'R', 'L', 'F', '.', 'm', '\r', '\n', 
+        '\t', '\r', '\n', 
+        '\t', ' ', '\r', '\n', 
+        '\t', 'H', '\t', 'i', '\r', '\n', 
+        ' ', 'H', '\t', 'i', '\r', '\n', 
+        'H', '\t', 'i', '\r', '\n', 
+        'H', ' ', 'i', '\r', '\n', 
+        '\r', '\n' 
+    };
+    input = compareDir + "/test1" + postfix + ".txt";
+    writeBinaryFile(input, test1);
+
+// test2.txt : A mix of space and tab leading, space and tab in middle and only LF EOL.
+    std::vector<char> test2{ 
+        '\t', ' ', ' ', 'S', 'u', 'b', ' ', '1', '\n', 
+        '\t', ' ', ' ', 'L', 'F', '.', 'm', '\n', 
+        '\t', '\n', 
+        '\t', ' ', '\n', 
+        '\t', 'H', '\t', 'i', '\n', 
+        ' ', 'H', '\t', 'i', '\n', 
+        'H', '\t', 'i', '\n', 
+        'H', ' ', 'i', '\n', 
+        '\n' 
+    };
+    input = compareDir + "/test2" + postfix + ".txt";
+    writeBinaryFile(input, test2);
+
+// test3.txt : A mix of space and tab leading, space and tab in middle and mix of CR LF and LF EOL.
+    std::vector<char> test3{ 
+        '\t', ' ', ' ', 'M', 'i', 'x', ' ', '1', '\r', '\n', 
+        '\t', ' ', ' ', 'C', 'R', 'L', 'F', '.', 'm', '\n', 
+        '\t', '\r', '\n', 
+        '\t', ' ', '\n', 
+        '\t', 'H', '\t', 'i', '\r', '\n', 
+        ' ', 'H', '\t', 'i', '\r', '\n', 
+        'H', '\t', 'i', '\n', 
+        'H', ' ', 'i', '\r', '\n', 
+        '\r', '\n' 
+    };
+    input = compareDir + "/test3" + postfix + ".txt";
+    writeBinaryFile(input, test3);
+
+// test4.txt : A mix of space and tab leading, space and tab in middle and malformed EOL.
+    std::vector<char> test4{ 
+        '\t', ' ', ' ', 'S', 'u', 'b', ' ', '1', '\n', '\r', 
+        '\t', ' ', ' ', 'L', 'F', 'C', 'R', '.', 'm', '\n', '\r', 
+        '\t', '\n', '\r', 
+        '\t', ' ', '\n', '\r', 
+        '\t', 'H', '\t', 'i', '\n', '\r', 
+        ' ', 'H', '\t', 'i', '\n', '\r', 
+        'H', '\t', 'i', '\n', '\r', 
+        'H', ' ', 'i', '\n', '\r', 
+        '\n', '\r' 
+    };
+    input = compareDir + "/test4" + postfix + ".txt";
+    writeBinaryFile(input, test4);
+
+    return 0;
+}
+
+
+
+
+/**
+ * Test dos trailing generation.
+ *
+ * tfc -d -i testdata/input/testX.txt -o testdata/output/testXd.txt
+ */
+int dosTests(void)
+{
+    const std::string & postfix{"d"};
+    std::string input{};
+
+// test1.txt : A mix of space and tab leading, space and tab in middle and CR LF EOL.
+    std::vector<char> test1{ 
+        '\t', ' ', ' ', 'S', 'u', 'b', ' ', '1', '\r', '\n', 
+        ' ', '\t', ' ', ' ', 'C', 'R', 'L', 'F', '.', 'm', '\r', '\n', 
+        ' ', '\t', '\r', '\n', 
+        '\t', ' ', '\r', '\n', 
+        '\t', 'H', '\t', 'i', '\r', '\n', 
+        ' ', 'H', '\t', 'i', '\r', '\n', 
+        'H', '\t', 'i', '\r', '\n', 
+        'H', ' ', 'i', '\r', '\n', 
+        '\r', '\n' 
+    };
+    input = compareDir + "/test1" + postfix + ".txt";
+    writeBinaryFile(input, test1);
+
+// test2.txt : A mix of space and tab leading, space and tab in middle and only LF EOL.
+    std::vector<char> test2{ 
+        '\t', ' ', ' ', 'S', 'u', 'b', ' ', '1', '\r', '\n', 
+        ' ', '\t', ' ', ' ', 'C', 'R', 'L', 'F', '.', 'm', '\r', '\n', 
+        ' ', '\t', '\r', '\n', 
+        '\t', ' ', '\r', '\n', 
+        '\t', 'H', '\t', 'i', '\r', '\n', 
+        ' ', 'H', '\t', 'i', '\r', '\n', 
+        'H', '\t', 'i', '\r', '\n', 
+        'H', ' ', 'i', '\r', '\n', 
+        '\r', '\n' 
+    };
+    input = compareDir + "/test2" + postfix + ".txt";
+    writeBinaryFile(input, test2);
+
+// test3.txt : A mix of space and tab leading, space and tab in middle and mix of CR LF and LF EOL.
+    std::vector<char> test3{ 
+        '\t', ' ', ' ', 'S', 'u', 'b', ' ', '1', '\r', '\n', 
+        ' ', '\t', ' ', ' ', 'C', 'R', 'L', 'F', '.', 'm', '\r', '\n', 
+        ' ', '\t', '\r', '\n', 
+        '\t', ' ', '\r', '\n', 
+        '\t', 'H', '\t', 'i', '\r', '\n', 
+        ' ', 'H', '\t', 'i', '\r', '\n', 
+        'H', '\t', 'i', '\r', '\n', 
+        'H', ' ', 'i', '\r', '\n', 
+        '\r', '\n' 
+    };
+    input = compareDir + "/test3" + postfix + ".txt";
+    writeBinaryFile(input, test3);
+
+// test4.txt : A mix of space and tab leading, space and tab in middle and malformed EOL.
+    std::vector<char> test4{ 
+        '\t', ' ', ' ', 'S', 'u', 'b', ' ', '1', '\r', '\n', 
+        ' ', '\t', ' ', ' ', 'C', 'R', 'L', 'F', '.', 'm', '\r', '\n', 
+        ' ', '\t', '\r', '\n', 
+        '\t', ' ', '\r', '\n', 
+        '\t', 'H', '\t', 'i', '\r', '\n', 
+        ' ', 'H', '\t', 'i', '\r', '\n', 
+        'H', '\t', 'i', '\r', '\n', 
+        'H', ' ', 'i', '\r', '\n', 
+        '\r', '\n' 
+    };
+    input = compareDir + "/test4" + postfix + ".txt";
+    writeBinaryFile(input, test4);
+
+    return 0;
+}
+
+
+
+/**
+ * Test unix trailing generation.
+ *
+ * tfc -u -i testdata/input/testX.txt -o testdata/output/testXu.txt
+ */
+int unixTests(void)
+{
+    const std::string & postfix{"u"};
+    std::string input{};
+
+// test1.txt : A mix of space and tab leading, space and tab in middle and CR LF EOL.
+    std::vector<char> test1{ 
+        '\t', ' ', ' ', 'S', 'u', 'b', ' ', '1', '\n', 
+        ' ', '\t', ' ', ' ', 'L', 'F', '.', 'm', '\n', 
+        ' ', '\t', '\n', 
+        '\t', ' ', '\n', 
+        '\t', 'H', '\t', 'i', '\n', 
+        ' ', 'H', '\t', 'i', '\n', 
+        'H', '\t', 'i', '\n', 
+        'H', ' ', 'i', '\n', 
+        '\n' 
+    };
+    input = compareDir + "/test1" + postfix + ".txt";
+    writeBinaryFile(input, test1);
+
+// test2.txt : A mix of space and tab leading, space and tab in middle and only LF EOL.
+    std::vector<char> test2{ 
+        '\t', ' ', ' ', 'S', 'u', 'b', ' ', '1', '\n', 
+        ' ', '\t', ' ', ' ', 'L', 'F', '.', 'm', '\n', 
+        ' ', '\t', '\n', 
+        '\t', ' ', '\n', 
+        '\t', 'H', '\t', 'i', '\n', 
+        ' ', 'H', '\t', 'i', '\n', 
+        'H', '\t', 'i', '\n', 
+        'H', ' ', 'i', '\n', 
+        '\n' 
+    };
+    input = compareDir + "/test2" + postfix + ".txt";
+    writeBinaryFile(input, test2);
+
+// test3.txt : A mix of space and tab leading, space and tab in middle and mix of CR LF and LF EOL.
+    std::vector<char> test3{ 
+        '\t', ' ', ' ', 'S', 'u', 'b', ' ', '1', '\n', 
+        ' ', '\t', ' ', ' ', 'L', 'F', '.', 'm', '\n', 
+        ' ', '\t', '\n', 
+        '\t', ' ', '\n', 
+        '\t', 'H', '\t', 'i', '\n', 
+        ' ', 'H', '\t', 'i', '\n', 
+        'H', '\t', 'i', '\n', 
+        'H', ' ', 'i', '\n', 
+        '\n' 
+    };
+    input = compareDir + "/test3" + postfix + ".txt";
+    writeBinaryFile(input, test3);
+
+// test4.txt : A mix of space and tab leading, space and tab in middle and malformed EOL.
+    std::vector<char> test4{ 
+        '\t', ' ', ' ', 'S', 'u', 'b', ' ', '1', '\n', 
+        ' ', '\t', ' ', ' ', 'L', 'F', '.', 'm', '\n', 
+        ' ', '\t', '\n', 
+        '\t', ' ', '\n', 
+        '\t', 'H', '\t', 'i', '\n', 
+        ' ', 'H', '\t', 'i', '\n', 
+        'H', '\t', 'i', '\n', 
+        'H', ' ', 'i', '\n', 
+        '\n' 
+    };
+    input = compareDir + "/test4" + postfix + ".txt";
+    writeBinaryFile(input, test4);
+
+    return 0;
+}
+
+
+/**
+ * Test space leading dos trailing generation.
+ *
+ * tfc -s -d -i testdata/input/testX.txt -o testdata/output/testXsd.txt
+ */
+int spaceDosTests(void)
+{
+    const std::string & postfix{"sd"};
+    std::string input{};
+
+// test1.txt : A mix of space and tab leading, space and tab in middle and CR LF EOL.
+    std::vector<char> test1{ 
+        ' ', ' ', ' ', ' ', ' ', ' ', 'S', 'u', 'b', ' ', '1', '\r', '\n', 
+        ' ', ' ', ' ', ' ', ' ', ' ', 'C', 'R', 'L', 'F', '.', 'm', '\r', '\n', 
+        ' ', ' ', ' ', ' ', '\r', '\n', 
+        ' ', ' ', ' ', ' ', '\r', '\n', 
+        ' ', ' ', ' ', ' ', 'H', '\t', 'i', '\r', '\n', 
+        ' ', 'H', '\t', 'i', '\r', '\n', 
+        'H', '\t', 'i', '\r', '\n', 
+        'H', ' ', 'i', '\r', '\n', 
+        '\r', '\n' 
+    };
+    input = compareDir + "/test1" + postfix + ".txt";
+    writeBinaryFile(input, test1);
+
+// test2.txt : A mix of space and tab leading, space and tab in middle and only LF EOL.
+    std::vector<char> test2{ 
+        ' ', ' ', ' ', ' ', ' ', ' ', 'S', 'u', 'b', ' ', '1', '\r', '\n', 
+        ' ', ' ', ' ', ' ', ' ', ' ', 'C', 'R', 'L', 'F', '.', 'm', '\r', '\n', 
+        ' ', ' ', ' ', ' ', '\r', '\n', 
+        ' ', ' ', ' ', ' ', '\r', '\n', 
+        ' ', ' ', ' ', ' ', 'H', '\t', 'i', '\r', '\n', 
+        ' ', 'H', '\t', 'i', '\r', '\n', 
+        'H', '\t', 'i', '\r', '\n', 
+        'H', ' ', 'i', '\r', '\n', 
+        '\r', '\n' 
+    };
+    input = compareDir + "/test2" + postfix + ".txt";
+    writeBinaryFile(input, test2);
+
+// test3.txt : A mix of space and tab leading, space and tab in middle and mix of CR LF and LF EOL.
+    std::vector<char> test3{ 
+        ' ', ' ', ' ', ' ', ' ', ' ', 'S', 'u', 'b', ' ', '1', '\r', '\n', 
+        ' ', ' ', ' ', ' ', ' ', ' ', 'C', 'R', 'L', 'F', '.', 'm', '\r', '\n', 
+        ' ', ' ', ' ', ' ', '\r', '\n', 
+        ' ', ' ', ' ', ' ', '\r', '\n', 
+        ' ', ' ', ' ', ' ', 'H', '\t', 'i', '\r', '\n', 
+        ' ', 'H', '\t', 'i', '\r', '\n', 
+        'H', '\t', 'i', '\r', '\n', 
+        'H', ' ', 'i', '\r', '\n', 
+        '\r', '\n' 
+    };
+    input = compareDir + "/test3" + postfix + ".txt";
+    writeBinaryFile(input, test3);
+
+// test4.txt : A mix of space and tab leading, space and tab in middle and malformed EOL.
+    std::vector<char> test4{ 
+        ' ', ' ', ' ', ' ', ' ', ' ', 'S', 'u', 'b', ' ', '1', '\r', '\n', 
+        ' ', ' ', ' ', ' ', ' ', ' ', 'C', 'R', 'L', 'F', '.', 'm', '\r', '\n', 
+        ' ', ' ', ' ', ' ', '\r', '\n', 
+        ' ', ' ', ' ', ' ', '\r', '\n', 
+        ' ', ' ', ' ', ' ', 'H', '\t', 'i', '\r', '\n', 
+        ' ', 'H', '\t', 'i', '\r', '\n', 
+        'H', '\t', 'i', '\r', '\n', 
+        'H', ' ', 'i', '\r', '\n', 
+        '\r', '\n' 
+    };
+    input = compareDir + "/test4" + postfix + ".txt";
+    writeBinaryFile(input, test4);
+
+    return 0;
+}
+
+
+
+
+
+/**
+ * Test tab leading dos trailing generation.
+ *
+ * tfc -t -d -i testdata/input/testX.txt -o testdata/output/testXtd.txt
+ */
+int tabDosTests(void)
+{
+    const std::string & postfix{"td"};
+    std::string input{};
+
+// test1.txt : A mix of space and tab leading, space and tab in middle and CR LF EOL.
+    std::vector<char> test1{ 
+        '\t', ' ', ' ', 'S', 'u', 'b', ' ', '1', '\r', '\n', 
+        '\t', ' ', ' ', 'C', 'R', 'L', 'F', '.', 'm', '\r', '\n', 
+        '\t', '\r', '\n', 
+        '\t', ' ', '\r', '\n', 
+        '\t', 'H', '\t', 'i', '\r', '\n', 
+        ' ', 'H', '\t', 'i', '\r', '\n', 
+        'H', '\t', 'i', '\r', '\n', 
+        'H', ' ', 'i', '\r', '\n', 
+        '\r', '\n' 
+    };
+    input = compareDir + "/test1" + postfix + ".txt";
+    writeBinaryFile(input, test1);
+
+// test2.txt : A mix of space and tab leading, space and tab in middle and only LF EOL.
+    std::vector<char> test2{ 
+        '\t', ' ', ' ', 'S', 'u', 'b', ' ', '1', '\r', '\n', 
+        '\t', ' ', ' ', 'C', 'R', 'L', 'F', '.', 'm', '\r', '\n', 
+        '\t', '\r', '\n', 
+        '\t', ' ', '\r', '\n', 
+        '\t', 'H', '\t', 'i', '\r', '\n', 
+        ' ', 'H', '\t', 'i', '\r', '\n', 
+        'H', '\t', 'i', '\r', '\n', 
+        'H', ' ', 'i', '\r', '\n', 
+        '\r', '\n' 
+    };
+    input = compareDir + "/test2" + postfix + ".txt";
+    writeBinaryFile(input, test2);
+
+// test3.txt : A mix of space and tab leading, space and tab in middle and mix of CR LF and LF EOL.
+    std::vector<char> test3{ 
+        '\t', ' ', ' ', 'S', 'u', 'b', ' ', '1', '\r', '\n', 
+        '\t', ' ', ' ', 'C', 'R', 'L', 'F', '.', 'm', '\r', '\n', 
+        '\t', '\r', '\n', 
+        '\t', ' ', '\r', '\n', 
+        '\t', 'H', '\t', 'i', '\r', '\n', 
+        ' ', 'H', '\t', 'i', '\r', '\n', 
+        'H', '\t', 'i', '\r', '\n', 
+        'H', ' ', 'i', '\r', '\n', 
+        '\r', '\n' 
+    };
+    input = compareDir + "/test3" + postfix + ".txt";
+    writeBinaryFile(input, test3);
+
+// test4.txt : A mix of space and tab leading, space and tab in middle and malformed EOL.
+    std::vector<char> test4{ 
+        '\t', ' ', ' ', 'S', 'u', 'b', ' ', '1', '\r', '\n', 
+        '\t', ' ', ' ', 'C', 'R', 'L', 'F', '.', 'm', '\r', '\n', 
+        '\t', '\r', '\n', 
+        '\t', ' ', '\r', '\n', 
+        '\t', 'H', '\t', 'i', '\r', '\n', 
+        ' ', 'H', '\t', 'i', '\r', '\n', 
+        'H', '\t', 'i', '\r', '\n', 
+        'H', ' ', 'i', '\r', '\n', 
+        '\r', '\n' 
+    };
+    input = compareDir + "/test4" + postfix + ".txt";
+    writeBinaryFile(input, test4);
+
+    return 0;
+}
+
+
+
+/**
+ * Test space leading unix trailing generation.
+ *
+ * tfc -s -u -i testdata/input/testX.txt -o testdata/output/testXsu.txt
+ */
+int spaceUnixTests(void)
+{
+    const std::string & postfix{"su"};
+    std::string input{};
+
+// test1.txt : A mix of space and tab leading, space and tab in middle and CR LF EOL.
+    std::vector<char> test1{ 
+        ' ', ' ', ' ', ' ', ' ', ' ', 'S', 'u', 'b', ' ', '1', '\n', 
+        ' ', ' ', ' ', ' ', ' ', ' ', 'L', 'F', '.', 'm', '\n', 
+        ' ', ' ', ' ', ' ', '\n', 
+        ' ', ' ', ' ', ' ', ' ', '\n', 
+        ' ', ' ', ' ', ' ', 'H', '\t', 'i', '\n', 
+        ' ', 'H', '\t', 'i', '\n', 
+        'H', '\t', 'i', '\n', 
+        'H', ' ', 'i', '\n', 
+        '\n' 
+    };
+    input = compareDir + "/test1" + postfix + ".txt";
+    writeBinaryFile(input, test1);
+
+// test2.txt : A mix of space and tab leading, space and tab in middle and only LF EOL.
+    std::vector<char> test2{ 
+        ' ', ' ', ' ', ' ', ' ', ' ', 'S', 'u', 'b', ' ', '1', '\n', 
+        ' ', ' ', ' ', ' ', ' ', ' ', 'L', 'F', '.', 'm', '\n', 
+        ' ', ' ', ' ', ' ', '\n', 
+        ' ', ' ', ' ', ' ', ' ', '\n', 
+        ' ', ' ', ' ', ' ', 'H', '\t', 'i', '\n', 
+        ' ', 'H', '\t', 'i', '\n', 
+        'H', '\t', 'i', '\n', 
+        'H', ' ', 'i', '\n', 
+        '\n' 
+    };
+    input = compareDir + "/test2" + postfix + ".txt";
+    writeBinaryFile(input, test2);
+
+// test3.txt : A mix of space and tab leading, space and tab in middle and mix of CR LF and LF EOL.
+    std::vector<char> test3{ 
+        ' ', ' ', ' ', ' ', ' ', ' ', 'S', 'u', 'b', ' ', '1', '\n', 
+        ' ', ' ', ' ', ' ', ' ', ' ', 'L', 'F', '.', 'm', '\n', 
+        ' ', ' ', ' ', ' ', '\n', 
+        ' ', ' ', ' ', ' ', ' ', '\n', 
+        ' ', ' ', ' ', ' ', 'H', '\t', 'i', '\n', 
+        ' ', 'H', '\t', 'i', '\n', 
+        'H', '\t', 'i', '\n', 
+        'H', ' ', 'i', '\n', 
+        '\n' 
+    };
+    input = compareDir + "/test3" + postfix + ".txt";
+    writeBinaryFile(input, test3);
+
+// test4.txt : A mix of space and tab leading, space and tab in middle and malformed EOL.
+    std::vector<char> test4{ 
+        ' ', ' ', ' ', ' ', ' ', ' ', 'S', 'u', 'b', ' ', '1', '\n', 
+        ' ', ' ', ' ', ' ', ' ', ' ', 'L', 'F', '.', 'm', '\n', 
+        ' ', ' ', ' ', ' ', '\n', 
+        ' ', ' ', ' ', ' ', ' ', '\n', 
+        ' ', ' ', ' ', ' ', 'H', '\t', 'i', '\n', 
+        ' ', 'H', '\t', 'i', '\n', 
+        'H', '\t', 'i', '\n', 
+        'H', ' ', 'i', '\n', 
+        '\n' 
+    };
+    input = compareDir + "/test4" + postfix + ".txt";
+    writeBinaryFile(input, test4);
+
+    return 0;
+}
+
+
+
+/**
+ * Test tab leading unix trailing generation.
+ *
+ * tfc -t -u -i testdata/input/testX.txt -o testdata/output/testXtu.txt
+ */
+int tabUnixTests(void)
+{
+    const std::string & postfix{"tu"};
+    std::string input{};
+
+// test1.txt : A mix of space and tab leading, space and tab in middle and CR LF EOL.
+    std::vector<char> test1{ 
+        '\t', ' ', ' ', 'S', 'u', 'b', ' ', '1', '\n', 
+        '\t', ' ', ' ', 'L', 'F', '.', 'm', '\n', 
+        '\t', '\n', 
+        '\t', ' ', '\n', 
+        '\t', 'H', '\t', 'i', '\n', 
+        ' ', 'H', '\t', 'i', '\n', 
+        'H', '\t', 'i', '\n', 
+        'H', ' ', 'i', '\n', 
+        '\n' 
+    };
+    input = compareDir + "/test1" + postfix + ".txt";
+    writeBinaryFile(input, test1);
+
+// test2.txt : A mix of space and tab leading, space and tab in middle and only LF EOL.
+    std::vector<char> test2{ 
+        '\t', ' ', ' ', 'S', 'u', 'b', ' ', '1', '\n', 
+        '\t', ' ', ' ', 'L', 'F', '.', 'm', '\n', 
+        '\t', '\n', 
+        '\t', ' ', '\n', 
+        '\t', 'H', '\t', 'i', '\n', 
+        ' ', 'H', '\t', 'i', '\n', 
+        'H', '\t', 'i', '\n', 
+        'H', ' ', 'i', '\n', 
+        '\n' 
+    };
+    input = compareDir + "/test2" + postfix + ".txt";
+    writeBinaryFile(input, test2);
+
+// test3.txt : A mix of space and tab leading, space and tab in middle and mix of CR LF and LF EOL.
+    std::vector<char> test3{ 
+        '\t', ' ', ' ', 'S', 'u', 'b', ' ', '1', '\n', 
+        '\t', ' ', ' ', 'L', 'F', '.', 'm', '\n', 
+        '\t', '\n', 
+        '\t', ' ', '\n', 
+        '\t', 'H', '\t', 'i', '\n', 
+        ' ', 'H', '\t', 'i', '\n', 
+        'H', '\t', 'i', '\n', 
+        'H', ' ', 'i', '\n', 
+        '\n' 
+    };
+    input = compareDir + "/test3" + postfix + ".txt";
+    writeBinaryFile(input, test3);
+
+// test4.txt : A mix of space and tab leading, space and tab in middle and malformed EOL.
+    std::vector<char> test4{ 
+        '\t', ' ', ' ', 'S', 'u', 'b', ' ', '1', '\n', 
+        '\t', ' ', ' ', 'L', 'F', '.', 'm', '\n', 
+        '\t', '\n', 
+        '\t', ' ', '\n', 
+        '\t', 'H', '\t', 'i', '\n', 
+        ' ', 'H', '\t', 'i', '\n', 
+        'H', '\t', 'i', '\n', 
+        'H', ' ', 'i', '\n', 
+        '\n' 
+    };
+    input = compareDir + "/test4" + postfix + ".txt";
+    writeBinaryFile(input, test4);
+
+    return 0;
+}
+
+
+
+
+
+
+
+
+/**
+ * Test system entry point.
+ *
+ * @param  argc - command line argument count.
+ * @param  argv - command line argument vector.
+ * @return error value or 0 if no errors.
+ */
+int main(int argc, char *argv[])
+{
+    deleteDirectory(rootDir);
+    createDirectory(rootDir);
+    createDirectory(inputDir);
+    createDirectory(outputDir);
+    createDirectory(compareDir);
+
+    summaryTests(argc, argv);
+//    genTestScript("runTests.sh", argv[0]);
+
+    spaceTests();
+    tabTests();
+    dosTests();
+    unixTests();
+    spaceDosTests();
+    tabDosTests();
+    spaceUnixTests();
+    tabUnixTests();
+
+    return 0;
+}
