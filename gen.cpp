@@ -46,7 +46,7 @@ std::vector<std::tuple<std::string, std::string, std::string>> tests;
 const std::string rootDir{"testdata"};
 const std::string inputDir{rootDir + "/input"};
 const std::string outputDir{rootDir + "/output"};
-const std::string compareDir{rootDir + "/compare"};
+const std::string expectedDir{rootDir + "/expected"};
 
 static bool createDirectory(const std::string & path)
 {
@@ -127,9 +127,9 @@ static std::vector<std::string> fileToVector(const std::string & fileName, int r
     return ret;
 }
 
-static void addTest(const std::string & test, const std::string & output, const std::string & compare)
+static void addTest(const std::string & test, const std::string & output, const std::string & expected)
 {
-    tests.emplace_back(test, output, compare);
+    tests.emplace_back(test, output, expected);
 }
 
 static int genTestScript(const std::string & fileName, const char * program)
@@ -141,13 +141,13 @@ static int genTestScript(const std::string & fileName, const char * program)
         os << "# This file was generated as \"" << fileName << "\" using " << program << '\n';
         os << "#\n";
         os << '\n';
-        for (auto [test, output, compare] : tests)
+        for (auto [test, output, expected] : tests)
         {
-            os << "echo Comparing " << output << " with " << compare << '\n';
+            os << "echo Comparing " << output << " with " << expected << '\n';
             os << "tfc " << test;
             if (!output.empty())
                 os << " -o " << output;
-            os << '\n' << "diff " << output << ' ' << compare << '\n';
+            os << '\n' << "diff " << output << ' ' << expected << '\n';
         }
 
         os.close();
@@ -253,9 +253,9 @@ int summaryTests(int argc, char *argv[])
     std::string filename{};
     std::string input{};
     std::string output{};
-    std::string compare{};
+    std::string expected{};
     // std::string before{inputDir + "/test1.txt"};
-    // const std::string after{compareDir + "/" + filename};
+    // const std::string after{expectedDir + "/" + filename};
     // std::cout << filename << " [" << before << "] -> [" << after << "]\n";
 
 /* A mix of space and tab leading, space and tab in middle and CR LF EOL.
@@ -285,11 +285,11 @@ Line ending:
     filename = "/test1.txt";
     input = inputDir + filename;
     output = outputDir + filename;
-    compare = compareDir + filename;
+    expected = expectedDir + filename;
     
     writeBinaryFile(input, test1);
-    writeSummaryFile(compare, input, "9 1 1 3 4 9 0 0");
-    addTest("-x -i " + input, output, compare);
+    writeSummaryFile(expected, input, "9 1 1 3 4 9 0 0");
+    addTest("-x -i " + input, output, expected);
 
 /* A mix of space and tab leading, space and tab in middle and only LF EOL.
 testdata/input/test2.txt
@@ -318,11 +318,11 @@ Line ending:
     filename = "/test2.txt";
     input = inputDir + filename;
     output = outputDir + filename;
-    compare = compareDir + filename;
+    expected = expectedDir + filename;
 
     writeBinaryFile(input, test2);
-    writeSummaryFile(compare, input, "9 1 1 3 4 0 9 0");
-    addTest("-x -i " + input, output, compare);
+    writeSummaryFile(expected, input, "9 1 1 3 4 0 9 0");
+    addTest("-x -i " + input, output, expected);
 
 /* A mix of space and tab leading, space and tab in middle and mix of CR LF and LF EOL.
 testdata/input/test3.txt
@@ -351,11 +351,11 @@ Line ending:
     filename = "/test3.txt";
     input = inputDir + filename;
     output = outputDir + filename;
-    compare = compareDir + filename;
+    expected = expectedDir + filename;
 
     writeBinaryFile(input, test3);
-    writeSummaryFile(compare, input, "9 1 1 3 4 6 3 0");
-    addTest("-x -i " + input, output, compare);
+    writeSummaryFile(expected, input, "9 1 1 3 4 6 3 0");
+    addTest("-x -i " + input, output, expected);
 
 /* A mix of space and tab leading, space and tab in middle and malformed EOL.
 testdata/input/test4.txt
@@ -384,11 +384,11 @@ Line ending:
     filename = "/test4.txt";
     input = inputDir + filename;
     output = outputDir + filename;
-    compare = compareDir + filename;
+    expected = expectedDir + filename;
 
     writeBinaryFile(input, test4);
-    writeSummaryFile(compare, input, "9 1 1 3 4 0 0 9");
-    addTest("-x -i " + input, output, compare);
+    writeSummaryFile(expected, input, "9 1 1 3 4 0 0 9");
+    addTest("-x -i " + input, output, expected);
 
     return 0;
 }
@@ -416,7 +416,7 @@ int spaceTests(void)
         'H', ' ', 'i', '\r', '\n', 
         '\r', '\n' 
     };
-    input = compareDir + "/test1" + postfix + ".txt";
+    input = expectedDir + "/test1" + postfix + ".txt";
     writeBinaryFile(input, test1);
 
 // test2.txt : A mix of space and tab leading, space and tab in middle and only LF EOL.
@@ -431,7 +431,7 @@ int spaceTests(void)
         'H', ' ', 'i', '\n', 
         '\n' 
     };
-    input = compareDir + "/test2" + postfix + ".txt";
+    input = expectedDir + "/test2" + postfix + ".txt";
     writeBinaryFile(input, test2);
 
 // test3.txt : A mix of space and tab leading, space and tab in middle and mix of CR LF and LF EOL.
@@ -446,7 +446,7 @@ int spaceTests(void)
         'H', ' ', 'i', '\r', '\n', 
         '\r', '\n' 
     };
-    input = compareDir + "/test3" + postfix + ".txt";
+    input = expectedDir + "/test3" + postfix + ".txt";
     writeBinaryFile(input, test3);
 
 // test4.txt : A mix of space and tab leading, space and tab in middle and malformed EOL.
@@ -461,7 +461,7 @@ int spaceTests(void)
         'H', ' ', 'i', '\n', '\r', 
         '\n', '\r' 
     };
-    input = compareDir + "/test4" + postfix + ".txt";
+    input = expectedDir + "/test4" + postfix + ".txt";
     writeBinaryFile(input, test4);
 
     return 0;
@@ -490,7 +490,7 @@ int tabTests(void)
         'H', ' ', 'i', '\r', '\n', 
         '\r', '\n' 
     };
-    input = compareDir + "/test1" + postfix + ".txt";
+    input = expectedDir + "/test1" + postfix + ".txt";
     writeBinaryFile(input, test1);
 
 // test2.txt : A mix of space and tab leading, space and tab in middle and only LF EOL.
@@ -505,7 +505,7 @@ int tabTests(void)
         'H', ' ', 'i', '\n', 
         '\n' 
     };
-    input = compareDir + "/test2" + postfix + ".txt";
+    input = expectedDir + "/test2" + postfix + ".txt";
     writeBinaryFile(input, test2);
 
 // test3.txt : A mix of space and tab leading, space and tab in middle and mix of CR LF and LF EOL.
@@ -520,7 +520,7 @@ int tabTests(void)
         'H', ' ', 'i', '\r', '\n', 
         '\r', '\n' 
     };
-    input = compareDir + "/test3" + postfix + ".txt";
+    input = expectedDir + "/test3" + postfix + ".txt";
     writeBinaryFile(input, test3);
 
 // test4.txt : A mix of space and tab leading, space and tab in middle and malformed EOL.
@@ -535,7 +535,7 @@ int tabTests(void)
         'H', ' ', 'i', '\n', '\r', 
         '\n', '\r' 
     };
-    input = compareDir + "/test4" + postfix + ".txt";
+    input = expectedDir + "/test4" + postfix + ".txt";
     writeBinaryFile(input, test4);
 
     return 0;
@@ -564,7 +564,7 @@ int dosTests(void)
         'H', ' ', 'i', '\r', '\n', 
         '\r', '\n' 
     };
-    input = compareDir + "/test1" + postfix + ".txt";
+    input = expectedDir + "/test1" + postfix + ".txt";
     writeBinaryFile(input, test1);
 
 // test2.txt : A mix of space and tab leading, space and tab in middle and only LF EOL.
@@ -579,7 +579,7 @@ int dosTests(void)
         'H', ' ', 'i', '\r', '\n', 
         '\r', '\n' 
     };
-    input = compareDir + "/test2" + postfix + ".txt";
+    input = expectedDir + "/test2" + postfix + ".txt";
     writeBinaryFile(input, test2);
 
 // test3.txt : A mix of space and tab leading, space and tab in middle and mix of CR LF and LF EOL.
@@ -594,7 +594,7 @@ int dosTests(void)
         'H', ' ', 'i', '\r', '\n', 
         '\r', '\n' 
     };
-    input = compareDir + "/test3" + postfix + ".txt";
+    input = expectedDir + "/test3" + postfix + ".txt";
     writeBinaryFile(input, test3);
 
 // test4.txt : A mix of space and tab leading, space and tab in middle and malformed EOL.
@@ -609,7 +609,7 @@ int dosTests(void)
         'H', ' ', 'i', '\r', '\n', 
         '\r', '\n' 
     };
-    input = compareDir + "/test4" + postfix + ".txt";
+    input = expectedDir + "/test4" + postfix + ".txt";
     writeBinaryFile(input, test4);
 
     return 0;
@@ -638,7 +638,7 @@ int unixTests(void)
         'H', ' ', 'i', '\n', 
         '\n' 
     };
-    input = compareDir + "/test1" + postfix + ".txt";
+    input = expectedDir + "/test1" + postfix + ".txt";
     writeBinaryFile(input, test1);
 
 // test2.txt : A mix of space and tab leading, space and tab in middle and only LF EOL.
@@ -653,7 +653,7 @@ int unixTests(void)
         'H', ' ', 'i', '\n', 
         '\n' 
     };
-    input = compareDir + "/test2" + postfix + ".txt";
+    input = expectedDir + "/test2" + postfix + ".txt";
     writeBinaryFile(input, test2);
 
 // test3.txt : A mix of space and tab leading, space and tab in middle and mix of CR LF and LF EOL.
@@ -668,7 +668,7 @@ int unixTests(void)
         'H', ' ', 'i', '\n', 
         '\n' 
     };
-    input = compareDir + "/test3" + postfix + ".txt";
+    input = expectedDir + "/test3" + postfix + ".txt";
     writeBinaryFile(input, test3);
 
 // test4.txt : A mix of space and tab leading, space and tab in middle and malformed EOL.
@@ -683,7 +683,7 @@ int unixTests(void)
         'H', ' ', 'i', '\n', 
         '\n' 
     };
-    input = compareDir + "/test4" + postfix + ".txt";
+    input = expectedDir + "/test4" + postfix + ".txt";
     writeBinaryFile(input, test4);
 
     return 0;
@@ -712,7 +712,7 @@ int spaceDosTests(void)
         'H', ' ', 'i', '\r', '\n', 
         '\r', '\n' 
     };
-    input = compareDir + "/test1" + postfix + ".txt";
+    input = expectedDir + "/test1" + postfix + ".txt";
     writeBinaryFile(input, test1);
 
 // test2.txt : A mix of space and tab leading, space and tab in middle and only LF EOL.
@@ -727,7 +727,7 @@ int spaceDosTests(void)
         'H', ' ', 'i', '\r', '\n', 
         '\r', '\n' 
     };
-    input = compareDir + "/test2" + postfix + ".txt";
+    input = expectedDir + "/test2" + postfix + ".txt";
     writeBinaryFile(input, test2);
 
 // test3.txt : A mix of space and tab leading, space and tab in middle and mix of CR LF and LF EOL.
@@ -742,7 +742,7 @@ int spaceDosTests(void)
         'H', ' ', 'i', '\r', '\n', 
         '\r', '\n' 
     };
-    input = compareDir + "/test3" + postfix + ".txt";
+    input = expectedDir + "/test3" + postfix + ".txt";
     writeBinaryFile(input, test3);
 
 // test4.txt : A mix of space and tab leading, space and tab in middle and malformed EOL.
@@ -757,7 +757,7 @@ int spaceDosTests(void)
         'H', ' ', 'i', '\r', '\n', 
         '\r', '\n' 
     };
-    input = compareDir + "/test4" + postfix + ".txt";
+    input = expectedDir + "/test4" + postfix + ".txt";
     writeBinaryFile(input, test4);
 
     return 0;
@@ -786,7 +786,7 @@ int tabDosTests(void)
         'H', ' ', 'i', '\r', '\n', 
         '\r', '\n' 
     };
-    input = compareDir + "/test1" + postfix + ".txt";
+    input = expectedDir + "/test1" + postfix + ".txt";
     writeBinaryFile(input, test1);
 
 // test2.txt : A mix of space and tab leading, space and tab in middle and only LF EOL.
@@ -801,7 +801,7 @@ int tabDosTests(void)
         'H', ' ', 'i', '\r', '\n', 
         '\r', '\n' 
     };
-    input = compareDir + "/test2" + postfix + ".txt";
+    input = expectedDir + "/test2" + postfix + ".txt";
     writeBinaryFile(input, test2);
 
 // test3.txt : A mix of space and tab leading, space and tab in middle and mix of CR LF and LF EOL.
@@ -816,7 +816,7 @@ int tabDosTests(void)
         'H', ' ', 'i', '\r', '\n', 
         '\r', '\n' 
     };
-    input = compareDir + "/test3" + postfix + ".txt";
+    input = expectedDir + "/test3" + postfix + ".txt";
     writeBinaryFile(input, test3);
 
 // test4.txt : A mix of space and tab leading, space and tab in middle and malformed EOL.
@@ -831,7 +831,7 @@ int tabDosTests(void)
         'H', ' ', 'i', '\r', '\n', 
         '\r', '\n' 
     };
-    input = compareDir + "/test4" + postfix + ".txt";
+    input = expectedDir + "/test4" + postfix + ".txt";
     writeBinaryFile(input, test4);
 
     return 0;
@@ -860,7 +860,7 @@ int spaceUnixTests(void)
         'H', ' ', 'i', '\n', 
         '\n' 
     };
-    input = compareDir + "/test1" + postfix + ".txt";
+    input = expectedDir + "/test1" + postfix + ".txt";
     writeBinaryFile(input, test1);
 
 // test2.txt : A mix of space and tab leading, space and tab in middle and only LF EOL.
@@ -875,7 +875,7 @@ int spaceUnixTests(void)
         'H', ' ', 'i', '\n', 
         '\n' 
     };
-    input = compareDir + "/test2" + postfix + ".txt";
+    input = expectedDir + "/test2" + postfix + ".txt";
     writeBinaryFile(input, test2);
 
 // test3.txt : A mix of space and tab leading, space and tab in middle and mix of CR LF and LF EOL.
@@ -890,7 +890,7 @@ int spaceUnixTests(void)
         'H', ' ', 'i', '\n', 
         '\n' 
     };
-    input = compareDir + "/test3" + postfix + ".txt";
+    input = expectedDir + "/test3" + postfix + ".txt";
     writeBinaryFile(input, test3);
 
 // test4.txt : A mix of space and tab leading, space and tab in middle and malformed EOL.
@@ -905,7 +905,7 @@ int spaceUnixTests(void)
         'H', ' ', 'i', '\n', 
         '\n' 
     };
-    input = compareDir + "/test4" + postfix + ".txt";
+    input = expectedDir + "/test4" + postfix + ".txt";
     writeBinaryFile(input, test4);
 
     return 0;
@@ -934,7 +934,7 @@ int tabUnixTests(void)
         'H', ' ', 'i', '\n', 
         '\n' 
     };
-    input = compareDir + "/test1" + postfix + ".txt";
+    input = expectedDir + "/test1" + postfix + ".txt";
     writeBinaryFile(input, test1);
 
 // test2.txt : A mix of space and tab leading, space and tab in middle and only LF EOL.
@@ -949,7 +949,7 @@ int tabUnixTests(void)
         'H', ' ', 'i', '\n', 
         '\n' 
     };
-    input = compareDir + "/test2" + postfix + ".txt";
+    input = expectedDir + "/test2" + postfix + ".txt";
     writeBinaryFile(input, test2);
 
 // test3.txt : A mix of space and tab leading, space and tab in middle and mix of CR LF and LF EOL.
@@ -964,7 +964,7 @@ int tabUnixTests(void)
         'H', ' ', 'i', '\n', 
         '\n' 
     };
-    input = compareDir + "/test3" + postfix + ".txt";
+    input = expectedDir + "/test3" + postfix + ".txt";
     writeBinaryFile(input, test3);
 
 // test4.txt : A mix of space and tab leading, space and tab in middle and malformed EOL.
@@ -979,7 +979,7 @@ int tabUnixTests(void)
         'H', ' ', 'i', '\n', 
         '\n' 
     };
-    input = compareDir + "/test4" + postfix + ".txt";
+    input = expectedDir + "/test4" + postfix + ".txt";
     writeBinaryFile(input, test4);
 
     return 0;
@@ -1005,7 +1005,7 @@ int main(int argc, char *argv[])
     createDirectory(rootDir);
     createDirectory(inputDir);
     createDirectory(outputDir);
-    createDirectory(compareDir);
+    createDirectory(expectedDir);
 
     summaryTests(argc, argv);
 //    genTestScript("runTests.sh", argv[0]);
