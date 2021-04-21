@@ -1,0 +1,5 @@
+testdata/
+*.o
+*.exe
+unittest.*
+timings.txt
