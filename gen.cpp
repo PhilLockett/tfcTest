@@ -243,8 +243,9 @@ int runTests(void)
     return err;
 }
 
+
 /**
- * Test summary generation.
+ * @section test summary generation.
  *
  */
 int summaryTests(int argc, char *argv[])
@@ -394,7 +395,7 @@ Line ending:
 
 
 /**
- * Test space leading generation.
+ * @section test leading space generation.
  *
  * tfc -s -i testdata/input/testX.txt -o testdata/output/testXs.txt
  */
@@ -468,7 +469,7 @@ int spaceTests(void)
 
 
 /**
- * Test tab leading generation.
+ * @section test leading tab generation.
  *
  * tfc -t -i testdata/input/testX.txt -o testdata/output/testXt.txt
  */
@@ -541,10 +542,8 @@ int tabTests(void)
 }
 
 
-
-
 /**
- * Test dos trailing generation.
+ * @section test trailing dos generation.
  *
  * tfc -d -i testdata/input/testX.txt -o testdata/output/testXd.txt
  */
@@ -617,9 +616,8 @@ int dosTests(void)
 }
 
 
-
 /**
- * Test unix trailing generation.
+ * @section test trailing unix generation.
  *
  * tfc -u -i testdata/input/testX.txt -o testdata/output/testXu.txt
  */
@@ -693,7 +691,7 @@ int unixTests(void)
 
 
 /**
- * Test space leading dos trailing generation.
+ * @section test leading space and trailing dos generation.
  *
  * tfc -s -d -i testdata/input/testX.txt -o testdata/output/testXsd.txt
  */
@@ -766,11 +764,8 @@ int spaceDosTests(void)
 }
 
 
-
-
-
 /**
- * Test tab leading dos trailing generation.
+ * @section test leading tab and trailing dos generation.
  *
  * tfc -t -d -i testdata/input/testX.txt -o testdata/output/testXtd.txt
  */
@@ -843,9 +838,8 @@ int tabDosTests(void)
 }
 
 
-
 /**
- * Test space leading unix trailing generation.
+ * @section test leading space and trailing unix generation.
  *
  * tfc -s -u -i testdata/input/testX.txt -o testdata/output/testXsu.txt
  */
@@ -918,9 +912,8 @@ int spaceUnixTests(void)
 }
 
 
-
 /**
- * Test tab leading unix trailing generation.
+ * @section test leading tab and trailing unix generation.
  *
  * tfc -t -u -i testdata/input/testX.txt -o testdata/output/testXtu.txt
  */
