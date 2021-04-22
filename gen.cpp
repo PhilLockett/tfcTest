@@ -34,7 +34,6 @@
 #include <filesystem>
 #include <vector>
 #include <tuple>
-#include <sys/stat.h>
 
 
 std::vector<std::tuple<std::string, std::string, std::string>> tests;
@@ -134,6 +133,8 @@ static void addTest(const std::string & test, const std::string & output, const 
 
 static int genTestScript(const std::string & fileName, const char * program)
 {
+    namespace fs = std::filesystem;
+
     if (std::ofstream os{fileName, std::ios::out})
     {
         os << "#!/bin/sh\n";
@@ -153,7 +154,10 @@ static int genTestScript(const std::string & fileName, const char * program)
         os.close();
 
         // Ensure output scripts are executable.
-        chmod(fileName.c_str(), S_IRWXU|S_IRGRP|S_IXGRP|S_IROTH|S_IXOTH);
+        fs::perms permissions{fs::perms::owner_all |
+            fs::perms::group_read | fs::perms::group_exec | 
+            fs::perms::others_read | fs::perms::others_exec};
+        fs::permissions(fileName, permissions, fs::perm_options::add);
 
         return 0;
     }
