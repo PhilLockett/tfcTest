@@ -204,8 +204,8 @@ UNIT_TEST(test1, "Test summary generation for 'test1.txt'.")
     std::string command{"tfc -x -i " + inputFileName + " -o " + outputFileName};
     // std::cout << command << '\n';
     system(command.c_str());
-    std::vector<char> expected = readBinaryFile(expectedFileName);
-    std::vector<char> output = readBinaryFile(outputFileName);
+    auto expected = readBinaryFile(expectedFileName);
+    auto output = readBinaryFile(outputFileName);
 
     REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
 
@@ -221,8 +221,8 @@ UNIT_TEST(test2, "Test summary generation for 'test2.txt'.")
     std::string command{"tfc -x -i " + inputFileName + " -o " + outputFileName};
     // std::cout << command << '\n';
     system(command.c_str());
-    std::vector<char> expected = readBinaryFile(expectedFileName);
-    std::vector<char> output = readBinaryFile(outputFileName);
+    auto expected = readBinaryFile(expectedFileName);
+    auto output = readBinaryFile(outputFileName);
 
     REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
 
@@ -238,8 +238,8 @@ UNIT_TEST(test3, "Test summary generation for 'test3.txt'.")
     std::string command{"tfc -x -i " + inputFileName + " -o " + outputFileName};
     // std::cout << command << '\n';
     system(command.c_str());
-    std::vector<char> expected = readBinaryFile(expectedFileName);
-    std::vector<char> output = readBinaryFile(outputFileName);
+    auto expected = readBinaryFile(expectedFileName);
+    auto output = readBinaryFile(outputFileName);
 
     REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
 
@@ -255,8 +255,8 @@ UNIT_TEST(test4, "Test summary generation for 'test4.txt'.")
     std::string command{"tfc -x -i " + inputFileName + " -o " + outputFileName};
     // std::cout << command << '\n';
     system(command.c_str());
-    std::vector<char> expected = readBinaryFile(expectedFileName);
-    std::vector<char> output = readBinaryFile(outputFileName);
+    auto expected = readBinaryFile(expectedFileName);
+    auto output = readBinaryFile(outputFileName);
 
     REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
 
@@ -278,8 +278,8 @@ UNIT_TEST(test1s, "Test leading space generation for 'test1.txt'.")
     std::string command{"tfc -s -i " + inputFileName + " -o " + outputFileName};
     // std::cout << command << '\n';
     system(command.c_str());
-    std::vector<char> expected = readBinaryFile(expectedFileName);
-    std::vector<char> output = readBinaryFile(outputFileName);
+    auto expected = readBinaryFile(expectedFileName);
+    auto output = readBinaryFile(outputFileName);
 
     REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
 
@@ -295,8 +295,8 @@ UNIT_TEST(test2s, "Test leading space generation for 'test2.txt'.")
     std::string command{"tfc -s -i " + inputFileName + " -o " + outputFileName};
     // std::cout << command << '\n';
     system(command.c_str());
-    std::vector<char> expected = readBinaryFile(expectedFileName);
-    std::vector<char> output = readBinaryFile(outputFileName);
+    auto expected = readBinaryFile(expectedFileName);
+    auto output = readBinaryFile(outputFileName);
 
     REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
 
@@ -312,8 +312,8 @@ UNIT_TEST(test3s, "Test leading space generation for 'test3.txt'.")
     std::string command{"tfc -s -i " + inputFileName + " -o " + outputFileName};
     // std::cout << command << '\n';
     system(command.c_str());
-    std::vector<char> expected = readBinaryFile(expectedFileName);
-    std::vector<char> output = readBinaryFile(outputFileName);
+    auto expected = readBinaryFile(expectedFileName);
+    auto output = readBinaryFile(outputFileName);
 
     REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
 
@@ -329,8 +329,8 @@ UNIT_TEST(test4s, "Test leading space generation for 'test4.txt'.")
     std::string command{"tfc -s -i " + inputFileName + " -o " + outputFileName};
     // std::cout << command << '\n';
     system(command.c_str());
-    std::vector<char> expected = readBinaryFile(expectedFileName);
-    std::vector<char> output = readBinaryFile(outputFileName);
+    auto expected = readBinaryFile(expectedFileName);
+    auto output = readBinaryFile(outputFileName);
 
     REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
 
@@ -352,8 +352,8 @@ UNIT_TEST(test1t, "Test leading tab generation for 'test1.txt'.")
     std::string command{"tfc -t -i " + inputFileName + " -o " + outputFileName};
     // std::cout << command << '\n';
     system(command.c_str());
-    std::vector<char> expected = readBinaryFile(expectedFileName);
-    std::vector<char> output = readBinaryFile(outputFileName);
+    auto expected = readBinaryFile(expectedFileName);
+    auto output = readBinaryFile(outputFileName);
 
     REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
 
@@ -369,8 +369,8 @@ UNIT_TEST(test2t, "Test leading tab generation for 'test2.txt'.")
     std::string command{"tfc -t -i " + inputFileName + " -o " + outputFileName};
     // std::cout << command << '\n';
     system(command.c_str());
-    std::vector<char> expected = readBinaryFile(expectedFileName);
-    std::vector<char> output = readBinaryFile(outputFileName);
+    auto expected = readBinaryFile(expectedFileName);
+    auto output = readBinaryFile(outputFileName);
 
     REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
 
@@ -386,8 +386,8 @@ UNIT_TEST(test3t, "Test leading tab generation for 'test3.txt'.")
     std::string command{"tfc -t -i " + inputFileName + " -o " + outputFileName};
     // std::cout << command << '\n';
     system(command.c_str());
-    std::vector<char> expected = readBinaryFile(expectedFileName);
-    std::vector<char> output = readBinaryFile(outputFileName);
+    auto expected = readBinaryFile(expectedFileName);
+    auto output = readBinaryFile(outputFileName);
 
     REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
 
@@ -403,8 +403,8 @@ UNIT_TEST(test4t, "Test leading tab generation for 'test4.txt'.")
     std::string command{"tfc -t -i " + inputFileName + " -o " + outputFileName};
     // std::cout << command << '\n';
     system(command.c_str());
-    std::vector<char> expected = readBinaryFile(expectedFileName);
-    std::vector<char> output = readBinaryFile(outputFileName);
+    auto expected = readBinaryFile(expectedFileName);
+    auto output = readBinaryFile(outputFileName);
 
     REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
 
@@ -426,8 +426,8 @@ UNIT_TEST(test1d, "Test trailing dos generation for 'test1.txt'.")
     std::string command{"tfc -d -i " + inputFileName + " -o " + outputFileName};
     // std::cout << command << '\n';
     system(command.c_str());
-    std::vector<char> expected = readBinaryFile(expectedFileName);
-    std::vector<char> output = readBinaryFile(outputFileName);
+    auto expected = readBinaryFile(expectedFileName);
+    auto output = readBinaryFile(outputFileName);
 
     REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
 
@@ -443,8 +443,8 @@ UNIT_TEST(test2d, "Test trailing dos generation for 'test2.txt'.")
     std::string command{"tfc -d -i " + inputFileName + " -o " + outputFileName};
     // std::cout << command << '\n';
     system(command.c_str());
-    std::vector<char> expected = readBinaryFile(expectedFileName);
-    std::vector<char> output = readBinaryFile(outputFileName);
+    auto expected = readBinaryFile(expectedFileName);
+    auto output = readBinaryFile(outputFileName);
 
     REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
 
@@ -460,8 +460,8 @@ UNIT_TEST(test3d, "Test trailing dos generation for 'test3.txt'.")
     std::string command{"tfc -d -i " + inputFileName + " -o " + outputFileName};
     // std::cout << command << '\n';
     system(command.c_str());
-    std::vector<char> expected = readBinaryFile(expectedFileName);
-    std::vector<char> output = readBinaryFile(outputFileName);
+    auto expected = readBinaryFile(expectedFileName);
+    auto output = readBinaryFile(outputFileName);
 
     REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
 
@@ -477,8 +477,8 @@ UNIT_TEST(test4d, "Test trailing dos generation for 'test4.txt'.")
     std::string command{"tfc -d -i " + inputFileName + " -o " + outputFileName};
     // std::cout << command << '\n';
     system(command.c_str());
-    std::vector<char> expected = readBinaryFile(expectedFileName);
-    std::vector<char> output = readBinaryFile(outputFileName);
+    auto expected = readBinaryFile(expectedFileName);
+    auto output = readBinaryFile(outputFileName);
 
     REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
 
@@ -500,8 +500,8 @@ UNIT_TEST(test1u, "Test trailing unix generation for 'test1.txt'.")
     std::string command{"tfc -u -i " + inputFileName + " -o " + outputFileName};
     // std::cout << command << '\n';
     system(command.c_str());
-    std::vector<char> expected = readBinaryFile(expectedFileName);
-    std::vector<char> output = readBinaryFile(outputFileName);
+    auto expected = readBinaryFile(expectedFileName);
+    auto output = readBinaryFile(outputFileName);
 
     REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
 
@@ -517,8 +517,8 @@ UNIT_TEST(test2u, "Test trailing unix generation for 'test2.txt'.")
     std::string command{"tfc -u -i " + inputFileName + " -o " + outputFileName};
     // std::cout << command << '\n';
     system(command.c_str());
-    std::vector<char> expected = readBinaryFile(expectedFileName);
-    std::vector<char> output = readBinaryFile(outputFileName);
+    auto expected = readBinaryFile(expectedFileName);
+    auto output = readBinaryFile(outputFileName);
 
     REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
 
@@ -534,8 +534,8 @@ UNIT_TEST(test3u, "Test trailing unix generation for 'test3.txt'.")
     std::string command{"tfc -u -i " + inputFileName + " -o " + outputFileName};
     // std::cout << command << '\n';
     system(command.c_str());
-    std::vector<char> expected = readBinaryFile(expectedFileName);
-    std::vector<char> output = readBinaryFile(outputFileName);
+    auto expected = readBinaryFile(expectedFileName);
+    auto output = readBinaryFile(outputFileName);
 
     REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
 
@@ -551,8 +551,8 @@ UNIT_TEST(test4u, "Test trailing unix generation for 'test4.txt'.")
     std::string command{"tfc -u -i " + inputFileName + " -o " + outputFileName};
     // std::cout << command << '\n';
     system(command.c_str());
-    std::vector<char> expected = readBinaryFile(expectedFileName);
-    std::vector<char> output = readBinaryFile(outputFileName);
+    auto expected = readBinaryFile(expectedFileName);
+    auto output = readBinaryFile(outputFileName);
 
     REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
 
@@ -574,8 +574,8 @@ UNIT_TEST(test1sd, "Test leading space and trailing dos generation for 'test1.tx
     std::string command{"tfc -s -d -i " + inputFileName + " -o " + outputFileName};
     // std::cout << command << '\n';
     system(command.c_str());
-    std::vector<char> expected = readBinaryFile(expectedFileName);
-    std::vector<char> output = readBinaryFile(outputFileName);
+    auto expected = readBinaryFile(expectedFileName);
+    auto output = readBinaryFile(outputFileName);
 
     REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
 
@@ -591,8 +591,8 @@ UNIT_TEST(test2sd, "Test leading space and trailing dos generation for 'test2.tx
     std::string command{"tfc -s -d -i " + inputFileName + " -o " + outputFileName};
     // std::cout << command << '\n';
     system(command.c_str());
-    std::vector<char> expected = readBinaryFile(expectedFileName);
-    std::vector<char> output = readBinaryFile(outputFileName);
+    auto expected = readBinaryFile(expectedFileName);
+    auto output = readBinaryFile(outputFileName);
 
     REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
 
@@ -608,8 +608,8 @@ UNIT_TEST(test3sd, "Test leading space and trailing dos generation for 'test3.tx
     std::string command{"tfc -s -d -i " + inputFileName + " -o " + outputFileName};
     // std::cout << command << '\n';
     system(command.c_str());
-    std::vector<char> expected = readBinaryFile(expectedFileName);
-    std::vector<char> output = readBinaryFile(outputFileName);
+    auto expected = readBinaryFile(expectedFileName);
+    auto output = readBinaryFile(outputFileName);
 
     REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
 
@@ -625,8 +625,8 @@ UNIT_TEST(test4sd, "Test leading space and trailing dos generation for 'test4.tx
     std::string command{"tfc -s -d -i " + inputFileName + " -o " + outputFileName};
     // std::cout << command << '\n';
     system(command.c_str());
-    std::vector<char> expected = readBinaryFile(expectedFileName);
-    std::vector<char> output = readBinaryFile(outputFileName);
+    auto expected = readBinaryFile(expectedFileName);
+    auto output = readBinaryFile(outputFileName);
 
     REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
 
@@ -648,8 +648,8 @@ UNIT_TEST(test1td, "Test leading tab and trailing dos generation for 'test1.txt'
     std::string command{"tfc -t -d -i " + inputFileName + " -o " + outputFileName};
     // std::cout << command << '\n';
     system(command.c_str());
-    std::vector<char> expected = readBinaryFile(expectedFileName);
-    std::vector<char> output = readBinaryFile(outputFileName);
+    auto expected = readBinaryFile(expectedFileName);
+    auto output = readBinaryFile(outputFileName);
 
     REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
 
@@ -665,8 +665,8 @@ UNIT_TEST(test2td, "Test leading tab and trailing dos generation for 'test2.txt'
     std::string command{"tfc -t -d -i " + inputFileName + " -o " + outputFileName};
     // std::cout << command << '\n';
     system(command.c_str());
-    std::vector<char> expected = readBinaryFile(expectedFileName);
-    std::vector<char> output = readBinaryFile(outputFileName);
+    auto expected = readBinaryFile(expectedFileName);
+    auto output = readBinaryFile(outputFileName);
 
     REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
 
@@ -682,8 +682,8 @@ UNIT_TEST(test3td, "Test leading tab and trailing dos generation for 'test3.txt'
     std::string command{"tfc -t -d -i " + inputFileName + " -o " + outputFileName};
     // std::cout << command << '\n';
     system(command.c_str());
-    std::vector<char> expected = readBinaryFile(expectedFileName);
-    std::vector<char> output = readBinaryFile(outputFileName);
+    auto expected = readBinaryFile(expectedFileName);
+    auto output = readBinaryFile(outputFileName);
 
     REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
 
@@ -699,8 +699,8 @@ UNIT_TEST(test4td, "Test leading tab and trailing dos generation for 'test4.txt'
     std::string command{"tfc -t -d -i " + inputFileName + " -o " + outputFileName};
     // std::cout << command << '\n';
     system(command.c_str());
-    std::vector<char> expected = readBinaryFile(expectedFileName);
-    std::vector<char> output = readBinaryFile(outputFileName);
+    auto expected = readBinaryFile(expectedFileName);
+    auto output = readBinaryFile(outputFileName);
 
     REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
 
@@ -722,8 +722,8 @@ UNIT_TEST(test1su, "Test leading space and trailing unix generation for 'test1.t
     std::string command{"tfc -s -u -i " + inputFileName + " -o " + outputFileName};
     // std::cout << command << '\n';
     system(command.c_str());
-    std::vector<char> expected = readBinaryFile(expectedFileName);
-    std::vector<char> output = readBinaryFile(outputFileName);
+    auto expected = readBinaryFile(expectedFileName);
+    auto output = readBinaryFile(outputFileName);
 
     REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
 
@@ -739,8 +739,8 @@ UNIT_TEST(test2su, "Test leading space and trailing unix generation for 'test2.t
     std::string command{"tfc -s -u -i " + inputFileName + " -o " + outputFileName};
     // std::cout << command << '\n';
     system(command.c_str());
-    std::vector<char> expected = readBinaryFile(expectedFileName);
-    std::vector<char> output = readBinaryFile(outputFileName);
+    auto expected = readBinaryFile(expectedFileName);
+    auto output = readBinaryFile(outputFileName);
 
     REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
 
@@ -756,8 +756,8 @@ UNIT_TEST(test3su, "Test leading space and trailing unix generation for 'test3.t
     std::string command{"tfc -s -u -i " + inputFileName + " -o " + outputFileName};
     // std::cout << command << '\n';
     system(command.c_str());
-    std::vector<char> expected = readBinaryFile(expectedFileName);
-    std::vector<char> output = readBinaryFile(outputFileName);
+    auto expected = readBinaryFile(expectedFileName);
+    auto output = readBinaryFile(outputFileName);
 
     REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
 
@@ -773,8 +773,8 @@ UNIT_TEST(test4su, "Test leading space and trailing unix generation for 'test4.t
     std::string command{"tfc -s -u -i " + inputFileName + " -o " + outputFileName};
     // std::cout << command << '\n';
     system(command.c_str());
-    std::vector<char> expected = readBinaryFile(expectedFileName);
-    std::vector<char> output = readBinaryFile(outputFileName);
+    auto expected = readBinaryFile(expectedFileName);
+    auto output = readBinaryFile(outputFileName);
 
     REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
 
@@ -796,8 +796,8 @@ UNIT_TEST(test1tu, "Test leading tab and trailing unix generation for 'test1.txt
     std::string command{"tfc -t -u -i " + inputFileName + " -o " + outputFileName};
     // std::cout << command << '\n';
     system(command.c_str());
-    std::vector<char> expected = readBinaryFile(expectedFileName);
-    std::vector<char> output = readBinaryFile(outputFileName);
+    auto expected = readBinaryFile(expectedFileName);
+    auto output = readBinaryFile(outputFileName);
 
     REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
 
@@ -813,8 +813,8 @@ UNIT_TEST(test2tu, "Test leading tab and trailing unix generation for 'test2.txt
     std::string command{"tfc -t -u -i " + inputFileName + " -o " + outputFileName};
     // std::cout << command << '\n';
     system(command.c_str());
-    std::vector<char> expected = readBinaryFile(expectedFileName);
-    std::vector<char> output = readBinaryFile(outputFileName);
+    auto expected = readBinaryFile(expectedFileName);
+    auto output = readBinaryFile(outputFileName);
 
     REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
 
@@ -830,8 +830,8 @@ UNIT_TEST(test3tu, "Test leading tab and trailing unix generation for 'test3.txt
     std::string command{"tfc -t -u -i " + inputFileName + " -o " + outputFileName};
     // std::cout << command << '\n';
     system(command.c_str());
-    std::vector<char> expected = readBinaryFile(expectedFileName);
-    std::vector<char> output = readBinaryFile(outputFileName);
+    auto expected = readBinaryFile(expectedFileName);
+    auto output = readBinaryFile(outputFileName);
 
     REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
 
@@ -847,8 +847,8 @@ UNIT_TEST(test4tu, "Test leading tab and trailing unix generation for 'test4.txt
     std::string command{"tfc -t -u -i " + inputFileName + " -o " + outputFileName};
     // std::cout << command << '\n';
     system(command.c_str());
-    std::vector<char> expected = readBinaryFile(expectedFileName);
-    std::vector<char> output = readBinaryFile(outputFileName);
+    auto expected = readBinaryFile(expectedFileName);
+    auto output = readBinaryFile(outputFileName);
 
     REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
 
@@ -870,8 +870,8 @@ UNIT_TEST(testSpace2, "Test leading space to tab replacement 'testSpace2.txt'.")
     std::string command{"tfc -t -2 -i " + inputFileName + " -o " + outputFileName};
     // std::cout << command << '\n';
     system(command.c_str());
-    std::vector<std::string> expected = readTextFile(expectedFileName);
-    std::vector<std::string> output = readTextFile(outputFileName);
+    auto expected = readTextFile(expectedFileName);
+    auto output = readTextFile(outputFileName);
 
     REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
 
@@ -887,8 +887,8 @@ UNIT_TEST(testSpace4, "Test leading space to tab replacement 'testSpace4.txt'.")
     std::string command{"tfc -t -4 -i " + inputFileName + " -o " + outputFileName};
     // std::cout << command << '\n';
     system(command.c_str());
-    std::vector<std::string> expected = readTextFile(expectedFileName);
-    std::vector<std::string> output = readTextFile(outputFileName);
+    auto expected = readTextFile(expectedFileName);
+    auto output = readTextFile(outputFileName);
 
     REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
 
@@ -904,8 +904,8 @@ UNIT_TEST(testSpace8, "Test leading space to tab replacement 'testSpace8.txt'.")
     std::string command{"tfc -t -8 -i " + inputFileName + " -o " + outputFileName};
     // std::cout << command << '\n';
     system(command.c_str());
-    std::vector<std::string> expected = readTextFile(expectedFileName);
-    std::vector<std::string> output = readTextFile(outputFileName);
+    auto expected = readTextFile(expectedFileName);
+    auto output = readTextFile(outputFileName);
 
     REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
 
@@ -927,8 +927,8 @@ UNIT_TEST(testTab2, "Test leading space to tab replacement 'testTab2.txt'.")
     std::string command{"tfc -s -2 -i " + inputFileName + " -o " + outputFileName};
     // std::cout << command << '\n';
     system(command.c_str());
-    std::vector<std::string> expected = readTextFile(expectedFileName);
-    std::vector<std::string> output = readTextFile(outputFileName);
+    auto expected = readTextFile(expectedFileName);
+    auto output = readTextFile(outputFileName);
 
     REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
 
@@ -944,8 +944,8 @@ UNIT_TEST(testTab4, "Test leading space to tab replacement 'testTab4.txt'.")
     std::string command{"tfc -s -4 -i " + inputFileName + " -o " + outputFileName};
     // std::cout << command << '\n';
     system(command.c_str());
-    std::vector<std::string> expected = readTextFile(expectedFileName);
-    std::vector<std::string> output = readTextFile(outputFileName);
+    auto expected = readTextFile(expectedFileName);
+    auto output = readTextFile(outputFileName);
 
     REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
 
@@ -961,8 +961,8 @@ UNIT_TEST(testTab8, "Test leading space to tab replacement 'testTab8.txt'.")
     std::string command{"tfc -s -8 -i " + inputFileName + " -o " + outputFileName};
     // std::cout << command << '\n';
     system(command.c_str());
-    std::vector<std::string> expected = readTextFile(expectedFileName);
-    std::vector<std::string> output = readTextFile(outputFileName);
+    auto expected = readTextFile(expectedFileName);
+    auto output = readTextFile(outputFileName);
 
     REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
 
