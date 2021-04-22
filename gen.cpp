@@ -36,95 +36,11 @@
 #include <tuple>
 
 
-std::vector<std::tuple<std::string, std::string, std::string>> tests;
-
 /**
- * @section basic utility code.
+ * @section test script generation, currently not used.
  */
 
-const std::string rootDir{"testdata"};
-const std::string inputDir{rootDir + "/input"};
-const std::string outputDir{rootDir + "/output"};
-const std::string expectedDir{rootDir + "/expected"};
-
-static bool createDirectory(const std::string & path)
-{
-    bool ret{std::filesystem::create_directories(path)};
-
-    return ret;
-}
-
-static bool checkFileExists(const std::string & path)
-{
-    return std::filesystem::exists(path);
-}
-
-static void deleteDirectory(const std::string & path)
-{
-    std::filesystem::remove_all(path); // Delete directory and contents.
-}
-
-static int getFileLength(const std::string & fileName)
-{
-    std::ifstream infile(fileName, std::ifstream::in);
-    if (!infile.is_open())
-        return 0;
-
-    int count = 0;
-    std::string line;
-
-    while (getline(infile, line))
-    {
-        if (!infile.eof() && line.length())
-            count++;
-    }
-
-    infile.close();
-
-    return count;
-}
-
-static bool checkFileLineLength(const std::string & fileName, int length)
-{
-    std::ifstream infile(fileName, std::ifstream::in);
-    if (!infile.is_open())
-        return false;
-
-    std::string line;
-
-    while (getline(infile, line))
-    {
-        if (!infile.eof() && line.length())
-            if (line.length() != length)
-                return false;
-    }
-
-    infile.close();
-
-    return true;
-}
-
-static std::vector<std::string> fileToVector(const std::string & fileName, int reserve = 50)
-{
-//    std::cout << "fileToVector " << fileName << '\n';
-    std::ifstream infile(fileName, std::ifstream::in);
-    std::vector<std::string> ret;
-    if (!infile.is_open())
-        return ret;
-
-    ret.reserve(reserve);
-    std::string line;
-
-    while (getline(infile, line))
-    {
-        if (!infile.eof() && line.length())
-            ret.push_back(std::move(line));
-    }
-
-    infile.close();
-
-    return ret;
-}
+std::vector<std::tuple<std::string, std::string, std::string>> tests;
 
 static void addTest(const std::string & test, const std::string & output, const std::string & expected)
 {
@@ -165,52 +81,41 @@ static int genTestScript(const std::string & fileName, const char * program)
     return 1;
 }
 
-/**
- * @section test logging code.
- */
-
-
 
 /**
- * @section test sending log entries in various ways to check that low priority entires are filtered out..
+ * @section basic utility code.
  */
 
-void checkFile(const std::vector<std::string> & comp, const std::string currentLogFileName, int targetCount)
-{
-    std::vector<std::string> entries = fileToVector(currentLogFileName, targetCount);
-}
+const std::string rootDir{"testdata"};
+const std::string inputDir{rootDir + "/input"};
+const std::string outputDir{rootDir + "/output"};
+const std::string expectedDir{rootDir + "/expected"};
 
-static std::vector<char> readBinaryFile(const std::string & fileName, int reserve = 50)
+static bool createDirectory(const std::string & path)
 {
-//    std::cout << "readBinaryFile " << fileName << '\n';
-    std::vector<char> ret;
-    if (std::ifstream is{fileName, std::ios::binary})
-    {
-        ret.reserve(reserve);
-        char event;
-        for (is.get(event); !is.eof(); is.get(event))
-        {
-            ret.push_back(event);
-        }
-    }
+    bool ret{std::filesystem::create_directories(path)};
 
     return ret;
 }
 
-/**
- * Process the user specified file.
- *
- * @return error value or 0 if no errors.
- */
+static bool checkFileExists(const std::string & path)
+{
+    return std::filesystem::exists(path);
+}
+
+static void deleteDirectory(const std::string & path)
+{
+    std::filesystem::remove_all(path); // Delete directory and contents.
+}
+
+
 static int writeBinaryFile(const std::string & fileName, const std::vector<char> & data)
 {
     std::cout << "Generating file " << fileName << "\n";
     if (std::ofstream os{fileName, std::ios::binary})
     {
         for (auto & c : data)
-        {
             os.put(c);
-        }
 
         return 0;
     }
@@ -228,23 +133,6 @@ static int writeSummaryFile(const std::string & fileName, const std::string & li
     }
 
     return 1;
-}
-
-
-/**
- * @section launch the tests and check the results.
- */
-
-int runTests(void)
-{
-    std::cout << "Executing all tests.\n";
-    const int err = 0;
-    if (err)
-        std::cerr << err << " ERROR(S) encountered!.\n";
-    else
-        std::cout << "All tests passed.\n";
-
-    return err;
 }
 
 
