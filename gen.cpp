@@ -123,6 +123,20 @@ static int writeBinaryFile(const std::string & fileName, const std::vector<char>
     return 1;
 }
 
+static int writeTextFile(const std::string & fileName, const std::vector<std::string> & lines)
+{
+    std::cout << "Generating text file " << fileName << "\n";
+    if (std::ofstream os{fileName, std::ios::out})
+    {
+        for (auto & line : lines)
+            os << line << '\n';
+
+        return 0;
+    }
+
+    return 1;
+}
+
 static int writeSummaryFile(const std::string & fileName, const std::string & line1, const std::string & line2)
 {
     std::cout << "Generating summary file " << fileName << "\n";
@@ -146,9 +160,6 @@ int summaryTests(int argc, char *argv[])
     std::string input{};
     std::string output{};
     std::string expected{};
-    // std::string before{inputDir + "/test1.txt"};
-    // const std::string after{expectedDir + "/" + filename};
-    // std::cout << filename << " [" << before << "] -> [" << after << "]\n";
 
 /* A mix of space and tab leading, space and tab in middle and CR LF EOL.
 testdata/input/test1.txt
@@ -879,8 +890,167 @@ int tabUnixTests(void)
 
 
 
+/**
+ * @section test leading space to tab replacement.
+ * 
+ * tfc -t -Y -i testdata/input/testSpace.txt -o testdata/output/testSpaceY.txt
+ */
+
+int spaceToTabTests(void)
+{
+    std::string filename{};
+    std::string input{};
+    std::string expected{};
+    std::string postfix{};
 
 
+    std::vector<std::string> testSpace{ 
+        "0", 
+        " 1", 
+        "  2", 
+        "   3", 
+        "    4", 
+        "     5", 
+        "      6", 
+        "       7", 
+        "        8", 
+        "         9"
+    };
+    filename = "/testSpace";
+    input = inputDir + filename + ".txt";
+    writeTextFile(input, testSpace);
+
+    std::vector<std::string> testSpace2{ 
+        "0", 
+        " 1", 
+        "\t2", 
+        "\t 3", 
+        "\t\t4", 
+        "\t\t 5", 
+        "\t\t\t6", 
+        "\t\t\t 7", 
+        "\t\t\t\t8", 
+        "\t\t\t\t 9"
+    };
+    postfix = "2";
+    expected = expectedDir + filename + postfix + ".txt";
+    writeTextFile(expected, testSpace2);
+
+    std::vector<std::string> testSpace4{ 
+        "0", 
+        " 1", 
+        "  2", 
+        "   3", 
+        "\t4", 
+        "\t 5", 
+        "\t  6", 
+        "\t   7", 
+        "\t\t8", 
+        "\t\t 9"
+    };
+    postfix = "4";
+    expected = expectedDir + filename + postfix + ".txt";
+    writeTextFile(expected, testSpace4);
+
+    std::vector<std::string> testSpace8{ 
+        "0", 
+        " 1", 
+        "  2", 
+        "   3", 
+        "    4", 
+        "     5", 
+        "      6", 
+        "       7", 
+        "\t8", 
+        "\t 9"
+    };
+    postfix = "8";
+    expected = expectedDir + filename + postfix + ".txt";
+    writeTextFile(expected, testSpace8);
+
+    return 0;
+}
+
+/**
+ * @section test leading tab to space replacement.
+ * 
+ * tfc -s -Y -i testdata/input/testSpace.txt -o testdata/output/testSpaceY.txt
+ */
+
+int tabToSpaceTests(void)
+{
+    std::string filename{};
+    std::string input{};
+    std::string expected{};
+    std::string postfix{};
+
+
+    std::vector<std::string> testTab{ 
+        "0", 
+        "\t1", 
+        "\t\t2", 
+        "\t\t\t3", 
+        "\t\t\t\t4", 
+        "\t\t\t\t\t5", 
+        "\t\t\t\t\t\t6", 
+        "\t\t\t\t\t\t\t7", 
+        "\t\t\t\t\t\t\t\t8", 
+        "\t\t\t\t\t\t\t\t\t9"
+    };
+    filename = "/testTab";
+    input = inputDir + filename + ".txt";
+    writeTextFile(input, testTab);
+
+    std::vector<std::string> testTab2{ 
+        "0", 
+        "  1", 
+        "    2", 
+        "      3", 
+        "        4", 
+        "          5", 
+        "            6", 
+        "              7", 
+        "                8", 
+        "                  9"
+    };
+    postfix = "2";
+    expected = expectedDir + filename + postfix + ".txt";
+    writeTextFile(expected, testTab2);
+
+    std::vector<std::string> testTab4{ 
+        "0", 
+        "    1", 
+        "        2", 
+        "            3", 
+        "                4", 
+        "                    5", 
+        "                        6", 
+        "                            7", 
+        "                                8", 
+        "                                    9"
+    };
+    postfix = "4";
+    expected = expectedDir + filename + postfix + ".txt";
+    writeTextFile(expected, testTab4);
+
+    std::vector<std::string> testTab8{ 
+        "0", 
+        "        1", 
+        "                2", 
+        "                        3", 
+        "                                4", 
+        "                                        5", 
+        "                                                6", 
+        "                                                        7", 
+        "                                                                8", 
+        "                                                                        9"
+    };
+    postfix = "8";
+    expected = expectedDir + filename + postfix + ".txt";
+    writeTextFile(expected, testTab8);
+
+    return 0;
+}
 
 
 
@@ -910,6 +1080,8 @@ int main(int argc, char *argv[])
     tabDosTests();
     spaceUnixTests();
     tabUnixTests();
-
+    spaceToTabTests();
+    tabToSpaceTests();
+    
     return 0;
 }
