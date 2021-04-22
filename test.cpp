@@ -106,9 +106,9 @@ static bool checkFileLineLength(const std::string & fileName, int length)
     return true;
 }
 
-static std::vector<std::string> fileToVector(const std::string & fileName, int reserve = 50)
+static std::vector<std::string> readTextFile(const std::string & fileName, int reserve = 50)
 {
-//    std::cout << "fileToVector " << fileName << '\n';
+//    std::cout << "readTextFile " << fileName << '\n';
     std::ifstream infile(fileName, std::ifstream::in);
     std::vector<std::string> ret;
     if (!infile.is_open())
@@ -870,8 +870,8 @@ UNIT_TEST(testSpace2, "Test leading space to tab replacement 'testSpace2.txt'.")
     std::string command{"tfc -t -2 -i " + inputFileName + " -o " + outputFileName};
     // std::cout << command << '\n';
     system(command.c_str());
-    std::vector<char> expected = readBinaryFile(expectedFileName);
-    std::vector<char> output = readBinaryFile(outputFileName);
+    std::vector<std::string> expected = readTextFile(expectedFileName);
+    std::vector<std::string> output = readTextFile(outputFileName);
 
     REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
 
@@ -887,8 +887,8 @@ UNIT_TEST(testSpace4, "Test leading space to tab replacement 'testSpace4.txt'.")
     std::string command{"tfc -t -4 -i " + inputFileName + " -o " + outputFileName};
     // std::cout << command << '\n';
     system(command.c_str());
-    std::vector<char> expected = readBinaryFile(expectedFileName);
-    std::vector<char> output = readBinaryFile(outputFileName);
+    std::vector<std::string> expected = readTextFile(expectedFileName);
+    std::vector<std::string> output = readTextFile(outputFileName);
 
     REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
 
@@ -904,8 +904,8 @@ UNIT_TEST(testSpace8, "Test leading space to tab replacement 'testSpace8.txt'.")
     std::string command{"tfc -t -8 -i " + inputFileName + " -o " + outputFileName};
     // std::cout << command << '\n';
     system(command.c_str());
-    std::vector<char> expected = readBinaryFile(expectedFileName);
-    std::vector<char> output = readBinaryFile(outputFileName);
+    std::vector<std::string> expected = readTextFile(expectedFileName);
+    std::vector<std::string> output = readTextFile(outputFileName);
 
     REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
 
@@ -927,8 +927,8 @@ UNIT_TEST(testTab2, "Test leading space to tab replacement 'testTab2.txt'.")
     std::string command{"tfc -s -2 -i " + inputFileName + " -o " + outputFileName};
     // std::cout << command << '\n';
     system(command.c_str());
-    std::vector<char> expected = readBinaryFile(expectedFileName);
-    std::vector<char> output = readBinaryFile(outputFileName);
+    std::vector<std::string> expected = readTextFile(expectedFileName);
+    std::vector<std::string> output = readTextFile(outputFileName);
 
     REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
 
@@ -944,8 +944,8 @@ UNIT_TEST(testTab4, "Test leading space to tab replacement 'testTab4.txt'.")
     std::string command{"tfc -s -4 -i " + inputFileName + " -o " + outputFileName};
     // std::cout << command << '\n';
     system(command.c_str());
-    std::vector<char> expected = readBinaryFile(expectedFileName);
-    std::vector<char> output = readBinaryFile(outputFileName);
+    std::vector<std::string> expected = readTextFile(expectedFileName);
+    std::vector<std::string> output = readTextFile(outputFileName);
 
     REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
 
@@ -961,8 +961,8 @@ UNIT_TEST(testTab8, "Test leading space to tab replacement 'testTab8.txt'.")
     std::string command{"tfc -s -8 -i " + inputFileName + " -o " + outputFileName};
     // std::cout << command << '\n';
     system(command.c_str());
-    std::vector<char> expected = readBinaryFile(expectedFileName);
-    std::vector<char> output = readBinaryFile(outputFileName);
+    std::vector<std::string> expected = readTextFile(expectedFileName);
+    std::vector<std::string> output = readTextFile(outputFileName);
 
     REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
 
