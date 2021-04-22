@@ -855,6 +855,118 @@ UNIT_TEST(test4tu, "Test leading tab and trailing unix generation for 'test4.txt
 END_TEST
 
 
+/**
+ * @section test leading space to tab replacement.
+ *
+ */
+
+UNIT_TEST(testSpace2, "Test leading space to tab replacement 'testSpace2.txt'.")
+
+    std::string fileName{"/testSpace2.txt"};
+    std::string inputFileName{inputDir + "/testSpace.txt"};
+    std::string outputFileName{outputDir + fileName};
+    std::string expectedFileName{expectedDir + fileName};
+
+    std::string command{"tfc -t -2 -i " + inputFileName + " -o " + outputFileName};
+    // std::cout << command << '\n';
+    system(command.c_str());
+    std::vector<char> expected = readBinaryFile(expectedFileName);
+    std::vector<char> output = readBinaryFile(outputFileName);
+
+    REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
+
+END_TEST
+
+UNIT_TEST(testSpace4, "Test leading space to tab replacement 'testSpace4.txt'.")
+
+    std::string fileName{"/testSpace4.txt"};
+    std::string inputFileName{inputDir + "/testSpace.txt"};
+    std::string outputFileName{outputDir + fileName};
+    std::string expectedFileName{expectedDir + fileName};
+
+    std::string command{"tfc -t -4 -i " + inputFileName + " -o " + outputFileName};
+    // std::cout << command << '\n';
+    system(command.c_str());
+    std::vector<char> expected = readBinaryFile(expectedFileName);
+    std::vector<char> output = readBinaryFile(outputFileName);
+
+    REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
+
+END_TEST
+
+UNIT_TEST(testSpace8, "Test leading space to tab replacement 'testSpace8.txt'.")
+
+    std::string fileName{"/testSpace8.txt"};
+    std::string inputFileName{inputDir + "/testSpace.txt"};
+    std::string outputFileName{outputDir + fileName};
+    std::string expectedFileName{expectedDir + fileName};
+
+    std::string command{"tfc -t -8 -i " + inputFileName + " -o " + outputFileName};
+    // std::cout << command << '\n';
+    system(command.c_str());
+    std::vector<char> expected = readBinaryFile(expectedFileName);
+    std::vector<char> output = readBinaryFile(outputFileName);
+
+    REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
+
+END_TEST
+
+
+/**
+ * @section test leading tab to space replacement.
+ *
+ */
+
+UNIT_TEST(testTab2, "Test leading space to tab replacement 'testTab2.txt'.")
+
+    std::string fileName{"/testTab2.txt"};
+    std::string inputFileName{inputDir + "/testTab.txt"};
+    std::string outputFileName{outputDir + fileName};
+    std::string expectedFileName{expectedDir + fileName};
+
+    std::string command{"tfc -s -2 -i " + inputFileName + " -o " + outputFileName};
+    // std::cout << command << '\n';
+    system(command.c_str());
+    std::vector<char> expected = readBinaryFile(expectedFileName);
+    std::vector<char> output = readBinaryFile(outputFileName);
+
+    REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
+
+END_TEST
+
+UNIT_TEST(testTab4, "Test leading space to tab replacement 'testTab4.txt'.")
+
+    std::string fileName{"/testTab4.txt"};
+    std::string inputFileName{inputDir + "/testTab.txt"};
+    std::string outputFileName{outputDir + fileName};
+    std::string expectedFileName{expectedDir + fileName};
+
+    std::string command{"tfc -s -4 -i " + inputFileName + " -o " + outputFileName};
+    // std::cout << command << '\n';
+    system(command.c_str());
+    std::vector<char> expected = readBinaryFile(expectedFileName);
+    std::vector<char> output = readBinaryFile(outputFileName);
+
+    REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
+
+END_TEST
+
+UNIT_TEST(testTab8, "Test leading space to tab replacement 'testTab8.txt'.")
+
+    std::string fileName{"/testTab8.txt"};
+    std::string inputFileName{inputDir + "/testTab.txt"};
+    std::string outputFileName{outputDir + fileName};
+    std::string expectedFileName{expectedDir + fileName};
+
+    std::string command{"tfc -s -8 -i " + inputFileName + " -o " + outputFileName};
+    // std::cout << command << '\n';
+    system(command.c_str());
+    std::vector<char> expected = readBinaryFile(expectedFileName);
+    std::vector<char> output = readBinaryFile(outputFileName);
+
+    REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
+
+END_TEST
 
 
 int runTests(void)
@@ -898,6 +1010,12 @@ int runTests(void)
     RUN_TEST(test2tu)
     RUN_TEST(test3tu)
     RUN_TEST(test4tu)
+    RUN_TEST(testSpace2)
+    RUN_TEST(testSpace4)
+    RUN_TEST(testSpace8)
+    RUN_TEST(testTab2)
+    RUN_TEST(testTab4)
+    RUN_TEST(testTab8)
 
     const int err = FINISHED;
     if (err)
