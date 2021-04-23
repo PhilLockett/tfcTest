@@ -925,8 +925,29 @@ UNIT_TEST(testOptions5, "Test source file replacement with summary.")
     std::string inputFileName{inputDir + fileName};
 
     std::string command{"tfc -r " + inputFileName};
-
     REQUIRE(execute(command) != 0)
+
+END_TEST
+
+UNIT_TEST(testOptions6, "Test source file and destination file are the same.")
+
+    std::string fileName{"/testOptions.txt"};
+    std::string inputFileName{inputDir + fileName};
+
+    std::string command{"tfc -s -i " + inputFileName + " -o " + inputFileName};
+    REQUIRE(execute(command) != 0)
+
+END_TEST
+
+UNIT_TEST(testOptions7, "Test overwriting of existing destination file.")
+
+    std::string fileName{"/testOptions.txt"};
+    std::string inputFileName{inputDir + fileName};
+    std::string outputFileName{outputDir + fileName};
+
+    std::string command{"tfc -s -i " + inputFileName + " -o " + outputFileName};
+    REQUIRE(execute(command) == 0)  // Create.
+    REQUIRE(execute(command) == 0)  // Overwrite.
 
 END_TEST
 
@@ -984,6 +1005,8 @@ int runTests(void)
     RUN_TEST(testOptions3)
     RUN_TEST(testOptions4)
     RUN_TEST(testOptions5)
+    RUN_TEST(testOptions6)
+    RUN_TEST(testOptions7)
 
     const int err = FINISHED;
     if (err)
