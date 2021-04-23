@@ -1055,13 +1055,13 @@ int tabToSpaceTests(void)
 
 
 /**
- * Test system entry point.
+ * Test environment set up.
  *
  * @param  argc - command line argument count.
  * @param  argv - command line argument vector.
  * @return error value or 0 if no errors.
  */
-int main(int argc, char *argv[])
+int init(int argc, char *argv[])
 {
     deleteDirectory(rootDir);
     createDirectory(rootDir);

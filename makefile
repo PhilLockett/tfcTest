@@ -1,5 +1,6 @@
 # Makefile for Logger unit tests.
 objects  = test.o
+objects += gen.o
 objects += unittest.o
 
 headers  = unittest.h
@@ -11,9 +12,6 @@ test:	$(objects)	$(headers)
 
 %.o:	%.cpp	$(headers)
 	g++ $(options) -c -o $@ $<
-
-gen:	gen.o
-	g++ $(options) -o gen gen.o
 
 clean:
 	rm -f *.exe *.o

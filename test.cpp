@@ -1033,8 +1033,12 @@ int runTests(void)
  * @param  argv - command line argument vector.
  * @return error value or 0 if no errors.
  */
+extern int init(int argc, char *argv[]);
+
 int main(int argc, char *argv[])
 {
+    init(argc, argv);
+
     return runTests();
 }
 
