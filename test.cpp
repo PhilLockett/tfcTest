@@ -885,7 +885,7 @@ UNIT_TEST(testOptions0, "Test invalid option.")
 
 END_TEST
 
-UNIT_TEST(testOptions1, "Test help option.")
+UNIT_TEST(testOptions1, "Test help option (both '-h' and '--help').")
 
     std::string command{"tfc -h"};
     REQUIRE(execute(command) == 0)
@@ -895,7 +895,7 @@ UNIT_TEST(testOptions1, "Test help option.")
 
 END_TEST
 
-UNIT_TEST(testOptions2, "Test version option.")
+UNIT_TEST(testOptions2, "Test version option (both '-v' and '--version').")
 
     std::string command{"tfc -v"};
     REQUIRE(execute(command) == 0)
@@ -919,12 +919,15 @@ UNIT_TEST(testOptions4, "Test invalid input file.")
 
 END_TEST
 
-UNIT_TEST(testOptions5, "Test source file replacement with summary.")
+UNIT_TEST(testOptions5, "Test source file replacement with summary (both '-r' and '--replace').")
 
     std::string fileName{"/testOptions.txt"};
     std::string inputFileName{inputDir + fileName};
 
-    std::string command{"tfc -r " + inputFileName};
+    std::string command{"tfc -r --dos " + inputFileName};
+    REQUIRE(execute(command) != 0)
+
+    command = "tfc --replace --unix " + inputFileName;
     REQUIRE(execute(command) != 0)
 
 END_TEST
@@ -934,7 +937,7 @@ UNIT_TEST(testOptions6, "Test source file and destination file are the same.")
     std::string fileName{"/testOptions.txt"};
     std::string inputFileName{inputDir + fileName};
 
-    std::string command{"tfc -s -i " + inputFileName + " -o " + inputFileName};
+    std::string command{"tfc --space --input " + inputFileName + " --output " + inputFileName};
     REQUIRE(execute(command) != 0)
 
 END_TEST
@@ -945,9 +948,27 @@ UNIT_TEST(testOptions7, "Test overwriting of existing destination file.")
     std::string inputFileName{inputDir + fileName};
     std::string outputFileName{outputDir + fileName};
 
-    std::string command{"tfc -s -i " + inputFileName + " -o " + outputFileName};
-    REQUIRE(execute(command) == 0)  // Create.
-    REQUIRE(execute(command) == 0)  // Overwrite.
+    std::string command{"tfc --tab -i " + inputFileName + " -o " + outputFileName};
+    REQUIRE(execute(command) == 0)  // Create destination.
+
+    command = "tfc --space -i " + inputFileName + " -o " + outputFileName;
+    REQUIRE(execute(command) == 0)  // Overwrite destination.
+
+END_TEST
+
+UNIT_TEST(testOptions8, "Test overwriting of source file (both '-r' and '--replace').")
+
+    std::string inputFileName{inputDir + "/testOptions.txt"};
+    std::string outputFileName{outputDir + "/testOverwrite.txt"};
+
+    std::string command{"tfc --dos -i " + inputFileName + " -o " + outputFileName};
+    REQUIRE(execute(command) == 0)  // Create "testOverwrite.txt".
+
+    command = "tfc --unix -r " + outputFileName;
+    REQUIRE(execute(command) == 0)  // Replace "testOverwrite.txt".
+
+    command = "tfc --dos --replace " + outputFileName;
+    REQUIRE(execute(command) == 0)  // Replace "again testOverwrite.txt".
 
 END_TEST
 
@@ -1007,6 +1028,7 @@ int runTests(void)
     RUN_TEST(testOptions5)
     RUN_TEST(testOptions6)
     RUN_TEST(testOptions7)
+    RUN_TEST(testOptions8)
 
     const int err = FINISHED;
     if (err)
