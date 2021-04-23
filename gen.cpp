@@ -1063,6 +1063,8 @@ int tabToSpaceTests(void)
  */
 int init(int argc, char *argv[])
 {
+    std::cout << "\nCreating test environment.\n";
+
     deleteDirectory(rootDir);
     createDirectory(rootDir);
     createDirectory(inputDir);
@@ -1082,6 +1084,6 @@ int init(int argc, char *argv[])
     tabUnixTests();
     spaceToTabTests();
     tabToSpaceTests();
-    
+
     return 0;
 }
