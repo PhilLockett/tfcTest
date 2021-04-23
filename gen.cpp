@@ -986,64 +986,64 @@ int tabToSpaceTests(void)
 
 
     std::vector<std::string> testTab{ 
-        "0", 
-        "\t1", 
-        "\t\t2", 
-        "\t\t\t3", 
-        "\t\t\t\t4", 
-        "\t\t\t\t\t5", 
-        "\t\t\t\t\t\t6", 
-        "\t\t\t\t\t\t\t7", 
-        "\t\t\t\t\t\t\t\t8", 
-        "\t\t\t\t\t\t\t\t\t9"
+        "\t0", 
+        " \t1", 
+        "  \t2", 
+        "   \t3", 
+        "    \t4", 
+        "     \t5", 
+        "      \t6", 
+        "       \t7", 
+        "        \t8", 
+        "         \t9"
     };
     filename = "/testTab";
     input = inputDir + filename + ".txt";
     writeTextFile(input, testTab);
 
     std::vector<std::string> testTab2{ 
-        "0", 
+        "  0", 
         "  1", 
         "    2", 
-        "      3", 
-        "        4", 
-        "          5", 
-        "            6", 
-        "              7", 
-        "                8", 
-        "                  9"
+        "    3", 
+        "      4", 
+        "      5", 
+        "        6", 
+        "        7", 
+        "          8", 
+        "          9"
     };
     postfix = "2";
     expected = expectedDir + filename + postfix + ".txt";
     writeTextFile(expected, testTab2);
 
     std::vector<std::string> testTab4{ 
-        "0", 
+        "    0", 
         "    1", 
-        "        2", 
-        "            3", 
-        "                4", 
-        "                    5", 
-        "                        6", 
-        "                            7", 
-        "                                8", 
-        "                                    9"
+        "    2", 
+        "    3", 
+        "        4", 
+        "        5", 
+        "        6", 
+        "        7", 
+        "            8", 
+        "            9"
     };
     postfix = "4";
     expected = expectedDir + filename + postfix + ".txt";
     writeTextFile(expected, testTab4);
 
     std::vector<std::string> testTab8{ 
-        "0", 
+        "        0", 
         "        1", 
-        "                2", 
-        "                        3", 
-        "                                4", 
-        "                                        5", 
-        "                                                6", 
-        "                                                        7", 
-        "                                                                8", 
-        "                                                                        9"
+        "        2", 
+        "        3", 
+        "        4", 
+        "        5", 
+        "        6", 
+        "        7", 
+        "                8", 
+        "                9"
     };
     postfix = "8";
     expected = expectedDir + filename + postfix + ".txt";
