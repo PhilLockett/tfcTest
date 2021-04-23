@@ -20,12 +20,6 @@
  *
  * Test file generator for the 'tfc' utility.
  *
- * Build using:
- *    g++ -std=c++20 -o gen gen.cpp
- *
- * Test using:
- *    ./gen
- *
  */
 
 #include <iostream>

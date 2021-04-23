@@ -22,8 +22,9 @@
  *
  * Build using:
  *    g++ -std=c++20 -c -o test.o test.cpp
+ *    g++ -std=c++20 -c -o gen.o gen.cpp
  *    g++ -std=c++20 -c -o unittest.o unittest.cpp
- *    g++ -std=c++20 -o test test.o unittest.o
+ *    g++ -std=c++20 -o test test.o gen.o unittest.o
  *
  * Test using:
  *    ./test
