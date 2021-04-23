@@ -1053,6 +1053,29 @@ int tabToSpaceTests(void)
 }
 
 
+/**
+ * @section test source file replacement.
+ * 
+ * tfc -r testdata/input/testOptions.txt
+ */
+
+int optionsTests(void)
+{
+    std::string input{};
+
+    std::vector<std::string> testOptions{ 
+        "Line 0", 
+        "Line 1", 
+        "Line 2", 
+        "Line 3", 
+        "Line 4"
+    };
+    input = inputDir + "/testOptions.txt";
+    writeTextFile(input, testOptions);
+
+    return 0;
+}
+
 
 /**
  * Test environment set up.
@@ -1084,6 +1107,7 @@ int init(int argc, char *argv[])
     tabUnixTests();
     spaceToTabTests();
     tabToSpaceTests();
+    optionsTests();
 
     return 0;
 }

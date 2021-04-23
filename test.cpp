@@ -969,6 +969,63 @@ UNIT_TEST(testTab8, "Test leading space to tab replacement 'testTab8.txt'.")
 END_TEST
 
 
+/**
+ * @section test option validation.
+ *
+ */
+
+UNIT_TEST(testOptions0, "Test invalid option.")
+
+    std::string command{"tfc -z"};
+    REQUIRE(system(command.c_str()) != 0)
+
+END_TEST
+
+UNIT_TEST(testOptions1, "Test help option.")
+
+    std::string command{"tfc -h"};
+    REQUIRE(system(command.c_str()) == 0)
+
+    command = "tfc --help";
+    REQUIRE(system(command.c_str()) == 0)
+
+END_TEST
+
+UNIT_TEST(testOptions2, "Test version option.")
+
+    std::string command{"tfc -v"};
+    REQUIRE(system(command.c_str()) == 0)
+
+    command = "tfc --version";
+    REQUIRE(system(command.c_str()) == 0)
+
+END_TEST
+
+UNIT_TEST(testOptions3, "Test incomplete input option.")
+
+    std::string command{"tfc -i"};
+    REQUIRE(system(command.c_str()) != 0)
+
+END_TEST
+
+UNIT_TEST(testOptions4, "Test invalid input file.")
+
+    std::string command{"tfc -i zxcv"};
+    REQUIRE(system(command.c_str()) != 0)
+
+END_TEST
+
+UNIT_TEST(testOptions5, "Test source file replacement with summary.")
+
+    std::string fileName{"/testOptions.txt"};
+    std::string inputFileName{inputDir + fileName};
+
+    std::string command{"tfc -r " + inputFileName};
+    // std::cout << command << '\n';
+    REQUIRE(system(command.c_str()) != 0)
+
+END_TEST
+
 
 int runTests(void)
 {
@@ -1017,6 +1074,12 @@ int runTests(void)
     RUN_TEST(testTab2)
     RUN_TEST(testTab4)
     RUN_TEST(testTab8)
+    RUN_TEST(testOptions0)
+    RUN_TEST(testOptions1)
+    RUN_TEST(testOptions2)
+    RUN_TEST(testOptions3)
+    RUN_TEST(testOptions4)
+    RUN_TEST(testOptions5)
 
     const int err = FINISHED;
     if (err)
