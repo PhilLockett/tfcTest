@@ -66,45 +66,6 @@ static void deleteDirectory(const std::string & path)
     std::filesystem::remove_all(path); // Delete directory and contents.
 }
 
-static int getFileLength(const std::string & fileName)
-{
-    std::ifstream infile(fileName, std::ifstream::in);
-    if (!infile.is_open())
-        return 0;
-
-    int count = 0;
-    std::string line;
-
-    while (getline(infile, line))
-    {
-        if (!infile.eof() && line.length())
-            count++;
-    }
-
-    infile.close();
-
-    return count;
-}
-
-static bool checkFileLineLength(const std::string & fileName, int length)
-{
-    std::ifstream infile(fileName, std::ifstream::in);
-    if (!infile.is_open())
-        return false;
-
-    std::string line;
-
-    while (getline(infile, line))
-    {
-        if (!infile.eof() && line.length())
-            if (line.length() != length)
-                return false;
-    }
-
-    infile.close();
-
-    return true;
-}
 
 static std::vector<std::string> readTextFile(const std::string & fileName, int reserve = 50)
 {
@@ -145,36 +106,6 @@ static std::vector<char> readBinaryFile(const std::string & fileName, int reserv
     return ret;
 }
 
-/**
- * Process the user specified file.
- *
- * @return error value or 0 if no errors.
- */
-static int writeBinaryFile(const std::string & fileName, const std::vector<char> & data)
-{
-    if (std::ofstream os{fileName, std::ios::binary})
-    {
-        for (auto & c : data)
-        {
-            os.put(c);
-        }
-
-        return 0;
-    }
-
-    return 1;
-}
-
-static int writeSummaryFile(const std::string & fileName, const std::string & line1, const std::string & line2)
-{
-    if (std::ofstream os{fileName, std::ios::out})
-    {
-        os << line1 << '\n' << line2 << '\n';
-        return 0;
-    }
-
-    return 1;
-}
 
 
 /**
