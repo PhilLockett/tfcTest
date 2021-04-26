@@ -925,10 +925,10 @@ UNIT_TEST(testOptions5, "Test source file replacement with summary (both '-r' an
     std::string fileName{"/testOptions.txt"};
     std::string inputFileName{inputDir + fileName};
 
-    std::string command{"tfc -r --dos " + inputFileName};
+    std::string command{"tfc -r " + inputFileName};
     REQUIRE(execute(command) != 0)
 
-    command = "tfc --replace --unix " + inputFileName;
+    command = "tfc --replace " + inputFileName;
     REQUIRE(execute(command) != 0)
 
 END_TEST
