@@ -119,7 +119,7 @@ static int execute(const std::string & command)
 static int displayCommands(void)
 {
     for (auto & command : commands)
-		std::cout << command << '\n';
+        std::cout << command << '\n';
 
     return commands.size();
 }
