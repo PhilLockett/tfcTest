@@ -1,5 +1,5 @@
 # tfcTest
-Test code for 'tfc', a command-line utility Text File Checker.
+Test code for 'tfc' (a command-line utility Text File Checker).
 
 ## Overview
 A sequence of regression tests for the 'tfc' utility.
@@ -23,5 +23,6 @@ To clone, build and run this code, execute the following unix/linux commands:
 ## Points of interest
 This code has the following points of interest:
 
-  * The unit test code is implemented as a singleton.
-  * Light weight code validation.
+  * The unit test code completely regenerates the required test files.
+  * The unit test code exercises all ‘tfc’ options and validates the results.
+  * The unit test code lists all ‘tfc’ commands used.
