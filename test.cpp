@@ -125,6 +125,39 @@ static int displayCommands(void)
 }
 
 /**
+ * @section test script generation, currently not used.
+ */
+
+static int genTestScript(const std::string & fileName, const char * program)
+{
+    namespace fs = std::filesystem;
+
+    if (std::ofstream os{fileName, std::ios::out})
+    {
+        os << "#!/bin/sh\n";
+        os << '\n';
+        os << "# This file was generated as \"" << fileName << "\" using " << program << '\n';
+        os << "#\n";
+        os << '\n';
+        for (auto command : commands)
+            os << command << '\n';
+
+        os.close();
+
+        // Ensure output scripts are executable.
+        fs::perms permissions{fs::perms::owner_all |
+            fs::perms::group_read | fs::perms::group_exec | 
+            fs::perms::others_read | fs::perms::others_exec};
+        fs::permissions(fileName, permissions, fs::perm_options::add);
+
+        return 0;
+    }
+
+    return 1;
+}
+
+
+/**
  * @section check test environment setup.
  *
  */
@@ -974,7 +1007,7 @@ UNIT_TEST(testOptions8, "Test overwriting of source file (both '-r' and '--repla
 END_TEST
 
 
-int runTests(void)
+int runTests(const char * program)
 {
     std::cout << "\nExecuting all tests.\n";
 
@@ -1038,6 +1071,7 @@ int runTests(void)
     {
         std::cout << "\nCommands executed:\n";
         displayCommands();
+        // genTestScript("runTests.sh", program);
 
         std::cout << "\nAll tests passed.\n";
     }
@@ -1052,12 +1086,12 @@ int runTests(void)
  * @param  argv - command line argument vector.
  * @return error value or 0 if no errors.
  */
-extern int init(int argc, char *argv[]);
+extern int init(void);
 
 int main(int argc, char *argv[])
 {
-    init(argc, argv);
+    init();
 
-    return runTests();
+    return runTests(argv[0]);
 }
 

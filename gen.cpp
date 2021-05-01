@@ -30,50 +30,6 @@
 #include <tuple>
 
 
-/**
- * @section test script generation, currently not used.
- */
-
-std::vector<std::tuple<std::string, std::string, std::string>> tests;
-
-static void addTest(const std::string & test, const std::string & output, const std::string & expected)
-{
-    tests.emplace_back(test, output, expected);
-}
-
-static int genTestScript(const std::string & fileName, const char * program)
-{
-    namespace fs = std::filesystem;
-
-    if (std::ofstream os{fileName, std::ios::out})
-    {
-        os << "#!/bin/sh\n";
-        os << '\n';
-        os << "# This file was generated as \"" << fileName << "\" using " << program << '\n';
-        os << "#\n";
-        os << '\n';
-        for (auto [test, output, expected] : tests)
-        {
-            os << "echo Comparing " << output << " with " << expected << '\n';
-            os << "tfc " << test;
-            if (!output.empty())
-                os << " -o " << output;
-            os << '\n' << "diff " << output << ' ' << expected << '\n';
-        }
-
-        os.close();
-
-        // Ensure output scripts are executable.
-        fs::perms permissions{fs::perms::owner_all |
-            fs::perms::group_read | fs::perms::group_exec | 
-            fs::perms::others_read | fs::perms::others_exec};
-        fs::permissions(fileName, permissions, fs::perm_options::add);
-
-        return 0;
-    }
-
-    return 1;
-}
 
 
 /**
@@ -148,7 +104,7 @@ static int writeSummaryFile(const std::string & fileName, const std::string & li
  * @section test summary generation.
  *
  */
-int summaryTests(int argc, char *argv[])
+int summaryTests(void)
 {
     std::string filename{};
     std::string input{};
@@ -186,7 +142,6 @@ Line ending:
     
     writeBinaryFile(input, test1);
     writeSummaryFile(expected, input, "9 1 1 3 4 9 0 0");
-    addTest("-x -i " + input, output, expected);
 
 /* A mix of space and tab leading, space and tab in middle and only LF EOL.
 testdata/input/test2.txt
@@ -219,7 +174,6 @@ Line ending:
 
     writeBinaryFile(input, test2);
     writeSummaryFile(expected, input, "9 1 1 3 4 0 9 0");
-    addTest("-x -i " + input, output, expected);
 
 /* A mix of space and tab leading, space and tab in middle and mix of CR LF and LF EOL.
 testdata/input/test3.txt
@@ -252,7 +206,6 @@ Line ending:
 
     writeBinaryFile(input, test3);
     writeSummaryFile(expected, input, "9 1 1 3 4 6 3 0");
-    addTest("-x -i " + input, output, expected);
 
 /* A mix of space and tab leading, space and tab in middle and malformed EOL.
 testdata/input/test4.txt
@@ -285,7 +238,6 @@ Line ending:
 
     writeBinaryFile(input, test4);
     writeSummaryFile(expected, input, "9 1 1 3 4 0 0 9");
-    addTest("-x -i " + input, output, expected);
 
     return 0;
 }
@@ -1078,7 +1030,7 @@ int optionsTests(void)
  * @param  argv - command line argument vector.
  * @return error value or 0 if no errors.
  */
-int init(int argc, char *argv[])
+int init(void)
 {
     std::cout << "\nCreating test environment.\n";
 
@@ -1088,8 +1040,7 @@ int init(int argc, char *argv[])
     createDirectory(outputDir);
     createDirectory(expectedDir);
 
-    summaryTests(argc, argv);
-//    genTestScript("runTests.sh", argv[0]);
+    summaryTests();
 
     spaceTests();
     tabTests();
