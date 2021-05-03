@@ -69,7 +69,7 @@ public:
 private:
     void display(std::ostream &os) const;
 
-    std::string fileName; 
+    std::filesystem::path fileName; 
     std::vector<T> data;
 };
 
