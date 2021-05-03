@@ -42,51 +42,19 @@ static bool createDirectory(const std::string & path)
     return std::filesystem::create_directories(path);
 }
 
-static bool checkFileExists(const std::string & path)
-{
-    return std::filesystem::exists(path);
-}
-
 static void deleteDirectory(const std::string & path)
 {
     std::filesystem::remove_all(path); // Delete directory and contents.
 }
 
-
-static int writeBinaryFile(const std::string & fileName, const std::vector<char> & data)
+static int writeSummaryFile(const std::string & fileName, const std::string & line2)
 {
-    std::cout << "Generating file " << fileName << "\n";
-    if (std::ofstream os{fileName, std::ios::binary})
+    const std::string expected{expectedDir + fileName};
+
+    std::cout << "Generating summary file " << expected << "\n";
+    if (std::ofstream os{expected, std::ios::out})
     {
-        for (auto & c : data)
-            os.put(c);
-
-        return 0;
-    }
-
-    return 1;
-}
-
-static int writeTextFile(const std::string & fileName, const std::vector<std::string> & lines)
-{
-    std::cout << "Generating text file " << fileName << "\n";
-    if (std::ofstream os{fileName, std::ios::out})
-    {
-        for (auto & line : lines)
-            os << line << '\n';
-
-        return 0;
-    }
-
-    return 1;
-}
-
-static int writeSummaryFile(const std::string & fileName, const std::string & line1, const std::string & line2)
-{
-    std::cout << "Generating summary file " << fileName << "\n";
-    if (std::ofstream os{fileName, std::ios::out})
-    {
-        os << line1 << '\n' << line2 << '\n';
+        os << inputDir << fileName << '\n' << line2 << '\n';
         return 0;
     }
 
@@ -100,10 +68,6 @@ static int writeSummaryFile(const std::string & fileName, const std::string & li
  */
 int summaryTests(void)
 {
-    std::string filename{};
-    std::string input{};
-    std::string expected{};
-
 /* A mix of space and tab leading, space and tab in middle and CR LF EOL.
 testdata/input/test1.txt
   Total Lines:  9
@@ -128,12 +92,10 @@ Line ending:
         'H', ' ', 'i', '\r', '\n', 
         '\r', '\n' 
     };
-    filename = "/test1.txt";
-    input = inputDir + filename;
-    expected = expectedDir + filename;
-    
-    writeBinaryFile(input, test1);
-    writeSummaryFile(expected, input, "9 1 1 3 4 9 0 0");
+    std::string filename{"/test1.txt"};
+    BinaryFile<> input{inputDir + filename};
+    input.write(test1);
+    writeSummaryFile(filename, "9 1 1 3 4 9 0 0");
 
 /* A mix of space and tab leading, space and tab in middle and only LF EOL.
 testdata/input/test2.txt
@@ -160,11 +122,9 @@ Line ending:
         '\n' 
     };
     filename = "/test2.txt";
-    input = inputDir + filename;
-    expected = expectedDir + filename;
-
-    writeBinaryFile(input, test2);
-    writeSummaryFile(expected, input, "9 1 1 3 4 0 9 0");
+    input.setFileName(inputDir + filename);
+    input.write(test2);
+    writeSummaryFile(filename, "9 1 1 3 4 0 9 0");
 
 /* A mix of space and tab leading, space and tab in middle and mix of CR LF and LF EOL.
 testdata/input/test3.txt
@@ -191,11 +151,9 @@ Line ending:
         '\r', '\n' 
     };
     filename = "/test3.txt";
-    input = inputDir + filename;
-    expected = expectedDir + filename;
-
-    writeBinaryFile(input, test3);
-    writeSummaryFile(expected, input, "9 1 1 3 4 6 3 0");
+    input.setFileName(inputDir + filename);
+    input.write(test3);
+    writeSummaryFile(filename, "9 1 1 3 4 6 3 0");
 
 /* A mix of space and tab leading, space and tab in middle and malformed EOL.
 testdata/input/test4.txt
@@ -222,11 +180,9 @@ Line ending:
         '\n', '\r' 
     };
     filename = "/test4.txt";
-    input = inputDir + filename;
-    expected = expectedDir + filename;
-
-    writeBinaryFile(input, test4);
-    writeSummaryFile(expected, input, "9 1 1 3 4 0 0 9");
+    input.setFileName(inputDir + filename);
+    input.write(test4);
+    writeSummaryFile(filename, "9 1 1 3 4 0 0 9");
 
     return 0;
 }
@@ -239,8 +195,6 @@ Line ending:
  */
 int spaceTests(void)
 {
-    const std::string & postfix{"s"};
-
 // test1.txt : A mix of space and tab leading, space and tab in middle and CR LF EOL.
     std::vector<char> test1{ 
         ' ', ' ', ' ', ' ', ' ', ' ', 'S', 'u', 'b', ' ', '1', '\r', '\n', 
@@ -253,7 +207,7 @@ int spaceTests(void)
         'H', ' ', 'i', '\r', '\n', 
         '\r', '\n' 
     };
-    BinaryFile<> input{expectedDir + "/test1" + postfix + ".txt"};
+    BinaryFile<> input{expectedDir + "/test1s.txt"};
     input.write(test1);
 
 // test2.txt : A mix of space and tab leading, space and tab in middle and only LF EOL.
@@ -268,7 +222,7 @@ int spaceTests(void)
         'H', ' ', 'i', '\n', 
         '\n' 
     };
-    input.setFileName(expectedDir + "/test2" + postfix + ".txt");
+    input.setFileName(expectedDir + "/test2s.txt");
     input.write(test2);
 
 // test3.txt : A mix of space and tab leading, space and tab in middle and mix of CR LF and LF EOL.
@@ -283,7 +237,7 @@ int spaceTests(void)
         'H', ' ', 'i', '\r', '\n', 
         '\r', '\n' 
     };
-    input.setFileName(expectedDir + "/test3" + postfix + ".txt");
+    input.setFileName(expectedDir + "/test3s.txt");
     input.write(test3);
 
 // test4.txt : A mix of space and tab leading, space and tab in middle and malformed EOL.
@@ -298,7 +252,7 @@ int spaceTests(void)
         'H', ' ', 'i', '\n', '\r', 
         '\n', '\r' 
     };
-    input.setFileName(expectedDir + "/test4" + postfix + ".txt");
+    input.setFileName(expectedDir + "/test4s.txt");
     input.write(test4);
 
     return 0;
@@ -312,9 +266,6 @@ int spaceTests(void)
  */
 int tabTests(void)
 {
-    const std::string & postfix{"t"};
-    std::string input{};
-
 // test1.txt : A mix of space and tab leading, space and tab in middle and CR LF EOL.
     std::vector<char> test1{ 
         '\t', ' ', ' ', 'S', 'u', 'b', ' ', '1', '\r', '\n', 
@@ -327,8 +278,8 @@ int tabTests(void)
         'H', ' ', 'i', '\r', '\n', 
         '\r', '\n' 
     };
-    input = expectedDir + "/test1" + postfix + ".txt";
-    writeBinaryFile(input, test1);
+    BinaryFile<> input{expectedDir + "/test1t.txt"};
+    input.write(test1);
 
 // test2.txt : A mix of space and tab leading, space and tab in middle and only LF EOL.
     std::vector<char> test2{ 
@@ -342,8 +293,8 @@ int tabTests(void)
         'H', ' ', 'i', '\n', 
         '\n' 
     };
-    input = expectedDir + "/test2" + postfix + ".txt";
-    writeBinaryFile(input, test2);
+    input.setFileName(expectedDir + "/test2t.txt");
+    input.write(test2);
 
 // test3.txt : A mix of space and tab leading, space and tab in middle and mix of CR LF and LF EOL.
     std::vector<char> test3{ 
@@ -357,8 +308,8 @@ int tabTests(void)
         'H', ' ', 'i', '\r', '\n', 
         '\r', '\n' 
     };
-    input = expectedDir + "/test3" + postfix + ".txt";
-    writeBinaryFile(input, test3);
+    input.setFileName(expectedDir + "/test3t.txt");
+    input.write(test3);
 
 // test4.txt : A mix of space and tab leading, space and tab in middle and malformed EOL.
     std::vector<char> test4{ 
@@ -372,8 +323,8 @@ int tabTests(void)
         'H', ' ', 'i', '\n', '\r', 
         '\n', '\r' 
     };
-    input = expectedDir + "/test4" + postfix + ".txt";
-    writeBinaryFile(input, test4);
+    input.setFileName(expectedDir + "/test4t.txt");
+    input.write(test4);
 
     return 0;
 }
@@ -386,9 +337,6 @@ int tabTests(void)
  */
 int dosTests(void)
 {
-    const std::string & postfix{"d"};
-    std::string input{};
-
 // test1.txt : A mix of space and tab leading, space and tab in middle and CR LF EOL.
     std::vector<char> test1{ 
         '\t', ' ', ' ', 'S', 'u', 'b', ' ', '1', '\r', '\n', 
@@ -401,8 +349,8 @@ int dosTests(void)
         'H', ' ', 'i', '\r', '\n', 
         '\r', '\n' 
     };
-    input = expectedDir + "/test1" + postfix + ".txt";
-    writeBinaryFile(input, test1);
+    BinaryFile<> input{expectedDir + "/test1d.txt"};
+    input.write(test1);
 
 // test2.txt : A mix of space and tab leading, space and tab in middle and only LF EOL.
     std::vector<char> test2{ 
@@ -416,8 +364,8 @@ int dosTests(void)
         'H', ' ', 'i', '\r', '\n', 
         '\r', '\n' 
     };
-    input = expectedDir + "/test2" + postfix + ".txt";
-    writeBinaryFile(input, test2);
+    input.setFileName(expectedDir + "/test2d.txt");
+    input.write(test2);
 
 // test3.txt : A mix of space and tab leading, space and tab in middle and mix of CR LF and LF EOL.
     std::vector<char> test3{ 
@@ -431,8 +379,8 @@ int dosTests(void)
         'H', ' ', 'i', '\r', '\n', 
         '\r', '\n' 
     };
-    input = expectedDir + "/test3" + postfix + ".txt";
-    writeBinaryFile(input, test3);
+    input.setFileName(expectedDir + "/test3d.txt");
+    input.write(test3);
 
 // test4.txt : A mix of space and tab leading, space and tab in middle and malformed EOL.
     std::vector<char> test4{ 
@@ -446,9 +394,9 @@ int dosTests(void)
         'H', ' ', 'i', '\r', '\n', 
         '\r', '\n' 
     };
-    input = expectedDir + "/test4" + postfix + ".txt";
-    writeBinaryFile(input, test4);
-
+    input.setFileName(expectedDir + "/test4d.txt");
+    input.write(test4);
+ 
     return 0;
 }
 
@@ -460,9 +408,6 @@ int dosTests(void)
  */
 int unixTests(void)
 {
-    const std::string & postfix{"u"};
-    std::string input{};
-
 // test1.txt : A mix of space and tab leading, space and tab in middle and CR LF EOL.
     std::vector<char> test1{ 
         '\t', ' ', ' ', 'S', 'u', 'b', ' ', '1', '\n', 
@@ -475,8 +420,8 @@ int unixTests(void)
         'H', ' ', 'i', '\n', 
         '\n' 
     };
-    input = expectedDir + "/test1" + postfix + ".txt";
-    writeBinaryFile(input, test1);
+    BinaryFile<> input{expectedDir + "/test1u.txt"};
+    input.write(test1);
 
 // test2.txt : A mix of space and tab leading, space and tab in middle and only LF EOL.
     std::vector<char> test2{ 
@@ -490,8 +435,8 @@ int unixTests(void)
         'H', ' ', 'i', '\n', 
         '\n' 
     };
-    input = expectedDir + "/test2" + postfix + ".txt";
-    writeBinaryFile(input, test2);
+    input.setFileName(expectedDir + "/test2u.txt");
+    input.write(test2);
 
 // test3.txt : A mix of space and tab leading, space and tab in middle and mix of CR LF and LF EOL.
     std::vector<char> test3{ 
@@ -505,8 +450,8 @@ int unixTests(void)
         'H', ' ', 'i', '\n', 
         '\n' 
     };
-    input = expectedDir + "/test3" + postfix + ".txt";
-    writeBinaryFile(input, test3);
+    input.setFileName(expectedDir + "/test3u.txt");
+    input.write(test3);
 
 // test4.txt : A mix of space and tab leading, space and tab in middle and malformed EOL.
     std::vector<char> test4{ 
@@ -520,8 +465,8 @@ int unixTests(void)
         'H', ' ', 'i', '\n', 
         '\n' 
     };
-    input = expectedDir + "/test4" + postfix + ".txt";
-    writeBinaryFile(input, test4);
+    input.setFileName(expectedDir + "/test4u.txt");
+    input.write(test4);
 
     return 0;
 }
@@ -534,9 +479,6 @@ int unixTests(void)
  */
 int spaceDosTests(void)
 {
-    const std::string & postfix{"sd"};
-    std::string input{};
-
 // test1.txt : A mix of space and tab leading, space and tab in middle and CR LF EOL.
     std::vector<char> test1{ 
         ' ', ' ', ' ', ' ', ' ', ' ', 'S', 'u', 'b', ' ', '1', '\r', '\n', 
@@ -549,8 +491,8 @@ int spaceDosTests(void)
         'H', ' ', 'i', '\r', '\n', 
         '\r', '\n' 
     };
-    input = expectedDir + "/test1" + postfix + ".txt";
-    writeBinaryFile(input, test1);
+    BinaryFile<> input{expectedDir + "/test1sd.txt"};
+    input.write(test1);
 
 // test2.txt : A mix of space and tab leading, space and tab in middle and only LF EOL.
     std::vector<char> test2{ 
@@ -564,8 +506,8 @@ int spaceDosTests(void)
         'H', ' ', 'i', '\r', '\n', 
         '\r', '\n' 
     };
-    input = expectedDir + "/test2" + postfix + ".txt";
-    writeBinaryFile(input, test2);
+    input.setFileName(expectedDir + "/test2sd.txt");
+    input.write(test2);
 
 // test3.txt : A mix of space and tab leading, space and tab in middle and mix of CR LF and LF EOL.
     std::vector<char> test3{ 
@@ -579,8 +521,8 @@ int spaceDosTests(void)
         'H', ' ', 'i', '\r', '\n', 
         '\r', '\n' 
     };
-    input = expectedDir + "/test3" + postfix + ".txt";
-    writeBinaryFile(input, test3);
+    input.setFileName(expectedDir + "/test3sd.txt");
+    input.write(test3);
 
 // test4.txt : A mix of space and tab leading, space and tab in middle and malformed EOL.
     std::vector<char> test4{ 
@@ -594,8 +536,8 @@ int spaceDosTests(void)
         'H', ' ', 'i', '\r', '\n', 
         '\r', '\n' 
     };
-    input = expectedDir + "/test4" + postfix + ".txt";
-    writeBinaryFile(input, test4);
+    input.setFileName(expectedDir + "/test4sd.txt");
+    input.write(test4);
 
     return 0;
 }
@@ -608,9 +550,6 @@ int spaceDosTests(void)
  */
 int tabDosTests(void)
 {
-    const std::string & postfix{"td"};
-    std::string input{};
-
 // test1.txt : A mix of space and tab leading, space and tab in middle and CR LF EOL.
     std::vector<char> test1{ 
         '\t', ' ', ' ', 'S', 'u', 'b', ' ', '1', '\r', '\n', 
@@ -623,8 +562,8 @@ int tabDosTests(void)
         'H', ' ', 'i', '\r', '\n', 
         '\r', '\n' 
     };
-    input = expectedDir + "/test1" + postfix + ".txt";
-    writeBinaryFile(input, test1);
+    BinaryFile<> input{expectedDir + "/test1td.txt"};
+    input.write(test1);
 
 // test2.txt : A mix of space and tab leading, space and tab in middle and only LF EOL.
     std::vector<char> test2{ 
@@ -638,8 +577,8 @@ int tabDosTests(void)
         'H', ' ', 'i', '\r', '\n', 
         '\r', '\n' 
     };
-    input = expectedDir + "/test2" + postfix + ".txt";
-    writeBinaryFile(input, test2);
+    input.setFileName(expectedDir + "/test2td.txt");
+    input.write(test2);
 
 // test3.txt : A mix of space and tab leading, space and tab in middle and mix of CR LF and LF EOL.
     std::vector<char> test3{ 
@@ -653,8 +592,8 @@ int tabDosTests(void)
         'H', ' ', 'i', '\r', '\n', 
         '\r', '\n' 
     };
-    input = expectedDir + "/test3" + postfix + ".txt";
-    writeBinaryFile(input, test3);
+    input.setFileName(expectedDir + "/test3td.txt");
+    input.write(test3);
 
 // test4.txt : A mix of space and tab leading, space and tab in middle and malformed EOL.
     std::vector<char> test4{ 
@@ -668,8 +607,8 @@ int tabDosTests(void)
         'H', ' ', 'i', '\r', '\n', 
         '\r', '\n' 
     };
-    input = expectedDir + "/test4" + postfix + ".txt";
-    writeBinaryFile(input, test4);
+    input.setFileName(expectedDir + "/test4td.txt");
+    input.write(test4);
 
     return 0;
 }
@@ -682,9 +621,6 @@ int tabDosTests(void)
  */
 int spaceUnixTests(void)
 {
-    const std::string & postfix{"su"};
-    std::string input{};
-
 // test1.txt : A mix of space and tab leading, space and tab in middle and CR LF EOL.
     std::vector<char> test1{ 
         ' ', ' ', ' ', ' ', ' ', ' ', 'S', 'u', 'b', ' ', '1', '\n', 
@@ -697,8 +633,8 @@ int spaceUnixTests(void)
         'H', ' ', 'i', '\n', 
         '\n' 
     };
-    input = expectedDir + "/test1" + postfix + ".txt";
-    writeBinaryFile(input, test1);
+    BinaryFile<> input{expectedDir + "/test1su.txt"};
+    input.write(test1);
 
 // test2.txt : A mix of space and tab leading, space and tab in middle and only LF EOL.
     std::vector<char> test2{ 
@@ -712,8 +648,8 @@ int spaceUnixTests(void)
         'H', ' ', 'i', '\n', 
         '\n' 
     };
-    input = expectedDir + "/test2" + postfix + ".txt";
-    writeBinaryFile(input, test2);
+    input.setFileName(expectedDir + "/test2su.txt");
+    input.write(test2);
 
 // test3.txt : A mix of space and tab leading, space and tab in middle and mix of CR LF and LF EOL.
     std::vector<char> test3{ 
@@ -727,8 +663,8 @@ int spaceUnixTests(void)
         'H', ' ', 'i', '\n', 
         '\n' 
     };
-    input = expectedDir + "/test3" + postfix + ".txt";
-    writeBinaryFile(input, test3);
+    input.setFileName(expectedDir + "/test3su.txt");
+    input.write(test3);
 
 // test4.txt : A mix of space and tab leading, space and tab in middle and malformed EOL.
     std::vector<char> test4{ 
@@ -742,8 +678,8 @@ int spaceUnixTests(void)
         'H', ' ', 'i', '\n', 
         '\n' 
     };
-    input = expectedDir + "/test4" + postfix + ".txt";
-    writeBinaryFile(input, test4);
+    input.setFileName(expectedDir + "/test4su.txt");
+    input.write(test4);
 
     return 0;
 }
@@ -756,9 +692,6 @@ int spaceUnixTests(void)
  */
 int tabUnixTests(void)
 {
-    const std::string & postfix{"tu"};
-    std::string input{};
-
 // test1.txt : A mix of space and tab leading, space and tab in middle and CR LF EOL.
     std::vector<char> test1{ 
         '\t', ' ', ' ', 'S', 'u', 'b', ' ', '1', '\n', 
@@ -771,8 +704,8 @@ int tabUnixTests(void)
         'H', ' ', 'i', '\n', 
         '\n' 
     };
-    input = expectedDir + "/test1" + postfix + ".txt";
-    writeBinaryFile(input, test1);
+    BinaryFile<> input{expectedDir + "/test1tu.txt"};
+    input.write(test1);
 
 // test2.txt : A mix of space and tab leading, space and tab in middle and only LF EOL.
     std::vector<char> test2{ 
@@ -786,8 +719,8 @@ int tabUnixTests(void)
         'H', ' ', 'i', '\n', 
         '\n' 
     };
-    input = expectedDir + "/test2" + postfix + ".txt";
-    writeBinaryFile(input, test2);
+    input.setFileName(expectedDir + "/test2tu.txt");
+    input.write(test2);
 
 // test3.txt : A mix of space and tab leading, space and tab in middle and mix of CR LF and LF EOL.
     std::vector<char> test3{ 
@@ -801,8 +734,8 @@ int tabUnixTests(void)
         'H', ' ', 'i', '\n', 
         '\n' 
     };
-    input = expectedDir + "/test3" + postfix + ".txt";
-    writeBinaryFile(input, test3);
+    input.setFileName(expectedDir + "/test3tu.txt");
+    input.write(test3);
 
 // test4.txt : A mix of space and tab leading, space and tab in middle and malformed EOL.
     std::vector<char> test4{ 
@@ -816,8 +749,8 @@ int tabUnixTests(void)
         'H', ' ', 'i', '\n', 
         '\n' 
     };
-    input = expectedDir + "/test4" + postfix + ".txt";
-    writeBinaryFile(input, test4);
+    input.setFileName(expectedDir + "/test4tu.txt");
+    input.write(test4);
 
     return 0;
 }
@@ -906,10 +839,7 @@ int spaceToTabTests(void)
 
 int tabToSpaceTests(void)
 {
-    std::string filename{};
-    std::string input{};
-    std::string expected{};
-    std::string postfix{};
+    std::string filename{"/testTab"};
 
 
     std::vector<std::string> testTab{ 
@@ -924,9 +854,8 @@ int tabToSpaceTests(void)
         "        \t8", 
         "         \t9"
     };
-    filename = "/testTab";
-    input = inputDir + filename + ".txt";
-    writeTextFile(input, testTab);
+    TextFile<> input{inputDir + filename + ".txt"};
+    input.write(testTab);
 
     std::vector<std::string> testTab2{ 
         "  0", 
@@ -940,9 +869,8 @@ int tabToSpaceTests(void)
         "          8", 
         "          9"
     };
-    postfix = "2";
-    expected = expectedDir + filename + postfix + ".txt";
-    writeTextFile(expected, testTab2);
+    TextFile<> expected{expectedDir + filename + "2.txt"};
+    expected.write(testTab2);
 
     std::vector<std::string> testTab4{ 
         "    0", 
@@ -956,9 +884,8 @@ int tabToSpaceTests(void)
         "            8", 
         "            9"
     };
-    postfix = "4";
-    expected = expectedDir + filename + postfix + ".txt";
-    writeTextFile(expected, testTab4);
+    expected.setFileName(expectedDir + filename + "4.txt");
+    expected.write(testTab4);
 
     std::vector<std::string> testTab8{ 
         "        0", 
@@ -972,9 +899,8 @@ int tabToSpaceTests(void)
         "                8", 
         "                9"
     };
-    postfix = "8";
-    expected = expectedDir + filename + postfix + ".txt";
-    writeTextFile(expected, testTab8);
+    expected.setFileName(expectedDir + filename + "8.txt");
+    expected.write(testTab8);
 
     return 0;
 }
@@ -988,8 +914,6 @@ int tabToSpaceTests(void)
 
 int optionsTests(void)
 {
-    std::string input{};
-
     std::vector<std::string> testOptions{ 
         "Line 0", 
         "Line 1", 
@@ -997,8 +921,8 @@ int optionsTests(void)
         "Line 3", 
         "Line 4"
     };
-    input = inputDir + "/testOptions.txt";
-    writeTextFile(input, testOptions);
+    TextFile<> input{inputDir + "/testOptions.txt"};
+    input.write(testOptions);
 
     return 0;
 }
