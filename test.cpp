@@ -33,10 +33,8 @@
 
 #include <iostream>
 #include <fstream>
-#include <sstream>
 #include <filesystem>
 #include <vector>
-#include <cstdlib>
 
 #include "unittest.h"
 
@@ -1069,11 +1067,11 @@ int runTests(const char * program)
  * @param  argv - command line argument vector.
  * @return error value or 0 if no errors.
  */
-extern int init(void);
+extern int init(const std::string & root, const std::string & input, const std::string & output, const std::string & expected);
 
 int main(int argc, char *argv[])
 {
-    init();
+    init(rootDir, inputDir, outputDir, expectedDir);
 
     return runTests(argv[0]);
 }

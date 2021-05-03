@@ -24,7 +24,6 @@
 
 #include <iostream>
 #include <fstream>
-#include <sstream>
 #include <filesystem>
 #include <vector>
 #include <tuple>
@@ -34,10 +33,9 @@
  * @section basic utility code.
  */
 
-const std::string rootDir{"testdata"};
-const std::string inputDir{rootDir + "/input"};
-const std::string outputDir{rootDir + "/output"};
-const std::string expectedDir{rootDir + "/expected"};
+std::string inputDir{};
+std::string outputDir{};
+std::string expectedDir{};
 
 static bool createDirectory(const std::string & path)
 {
@@ -1022,19 +1020,24 @@ int optionsTests(void)
 /**
  * Test environment set up.
  *
- * @param  argc - command line argument count.
- * @param  argv - command line argument vector.
+ * @param  root - root directory for test environment staging.
+ * @param  input - directory for file to be used as input to tfc.
+ * @param  output - directory for tfc to place generated files.
+ * @param  expected - directory containing the expected files for comparison.
  * @return error value or 0 if no errors.
  */
-int init(void)
+int init(const std::string & root, const std::string & input, const std::string & output, const std::string & expected)
 {
     std::cout << "\nCreating test environment.\n";
 
-    deleteDirectory(rootDir);
-    createDirectory(rootDir);
-    createDirectory(inputDir);
-    createDirectory(outputDir);
-    createDirectory(expectedDir);
+    inputDir = input;
+    outputDir = output;
+    expectedDir = expected;
+
+    deleteDirectory(root);
+    createDirectory(input);
+    createDirectory(output);
+    createDirectory(expected);
 
     summaryTests();
 
