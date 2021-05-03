@@ -49,23 +49,6 @@ const std::string outputDir{rootDir + "/output"};
 const std::string expectedDir{rootDir + "/expected"};
 
 
-// static std::vector<char> readBinaryFile(const std::string & fileName, int reserve = 100)
-// {
-// //    std::cout << "readBinaryFile " << fileName << '\n';
-//     std::vector<char> ret;
-//     if (std::ifstream is{fileName, std::ios::binary})
-//     {
-//         ret.reserve(reserve);
-//         char event;
-//         for (is.get(event); !is.eof(); is.get(event))
-//         {
-//             ret.push_back(event);
-//         }
-//     }
-
-//     return ret;
-// }
-
 static std::vector<std::string> commands{};
 
 static int execute(const std::string & command)
