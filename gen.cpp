@@ -24,7 +24,6 @@
 
 #include <iostream>
 #include <vector>
-#include <tuple>
 
 #include "TextFile.h"
 #include "BinaryFile.h"
