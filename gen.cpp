@@ -102,7 +102,6 @@ int summaryTests(void)
 {
     std::string filename{};
     std::string input{};
-    std::string output{};
     std::string expected{};
 
 /* A mix of space and tab leading, space and tab in middle and CR LF EOL.
@@ -131,7 +130,6 @@ Line ending:
     };
     filename = "/test1.txt";
     input = inputDir + filename;
-    output = outputDir + filename;
     expected = expectedDir + filename;
     
     writeBinaryFile(input, test1);
@@ -163,7 +161,6 @@ Line ending:
     };
     filename = "/test2.txt";
     input = inputDir + filename;
-    output = outputDir + filename;
     expected = expectedDir + filename;
 
     writeBinaryFile(input, test2);
@@ -195,7 +192,6 @@ Line ending:
     };
     filename = "/test3.txt";
     input = inputDir + filename;
-    output = outputDir + filename;
     expected = expectedDir + filename;
 
     writeBinaryFile(input, test3);
@@ -227,7 +223,6 @@ Line ending:
     };
     filename = "/test4.txt";
     input = inputDir + filename;
-    output = outputDir + filename;
     expected = expectedDir + filename;
 
     writeBinaryFile(input, test4);
