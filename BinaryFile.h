@@ -56,6 +56,7 @@ public:
 
     void setFileName(const std::string & file) { fileName = file; }
     std::string getFileName(void) const { return fileName; }
+    bool exists(void) const { return std::filesystem::exists(fileName); }
 
     size_t size(void) { return data.size(); }
     Iterator begin(void) { return data.begin(); }
