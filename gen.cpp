@@ -30,8 +30,6 @@
 #include <tuple>
 
 
-
-
 /**
  * @section basic utility code.
  */
@@ -43,9 +41,7 @@ const std::string expectedDir{rootDir + "/expected"};
 
 static bool createDirectory(const std::string & path)
 {
-    bool ret{std::filesystem::create_directories(path)};
-
-    return ret;
+    return std::filesystem::create_directories(path);
 }
 
 static bool checkFileExists(const std::string & path)

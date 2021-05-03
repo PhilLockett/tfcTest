@@ -50,23 +50,6 @@ const std::string inputDir{rootDir + "/input"};
 const std::string outputDir{rootDir + "/output"};
 const std::string expectedDir{rootDir + "/expected"};
 
-static bool createDirectory(const std::string & path)
-{
-    bool ret{std::filesystem::create_directories(path)};
-
-    return ret;
-}
-
-static bool checkFileExists(const std::string & path)
-{
-    return std::filesystem::exists(path);
-}
-
-static void deleteDirectory(const std::string & path)
-{
-    std::filesystem::remove_all(path); // Delete directory and contents.
-}
-
 
 static std::vector<std::string> readTextFile(const std::string & fileName, int reserve = 50)
 {
