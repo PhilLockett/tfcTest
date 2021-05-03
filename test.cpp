@@ -32,11 +32,11 @@
  */
 
 #include <iostream>
-#include <fstream>
-#include <filesystem>
 #include <vector>
 
 #include "unittest.h"
+#include "TextFile.h"
+#include "BinaryFile.h"
 
 
 /**
@@ -160,14 +160,15 @@ UNIT_TEST(test1, "Test summary generation for 'test1.txt'.")
     std::string fileName{"/test1.txt"};
     std::string inputFileName{inputDir + fileName};
     std::string outputFileName{outputDir + fileName};
-    std::string expectedFileName{expectedDir + fileName};
 
     std::string command{"tfc -x -i " + inputFileName + " -o " + outputFileName};
     REQUIRE(execute(command) == 0)
 
-    auto expected = readBinaryFile(expectedFileName);
-    auto output = readBinaryFile(outputFileName);
-    REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
+    BinaryFile<> expected{expectedDir + fileName};
+    expected.read();
+    BinaryFile<> output{outputFileName};
+    output.read();
+    REQUIRE(expected.equal(output))
 
 END_TEST
 
@@ -790,14 +791,15 @@ UNIT_TEST(testSpace2, "Test leading space to tab replacement 'testSpace2.txt'.")
     std::string fileName{"/testSpace2.txt"};
     std::string inputFileName{inputDir + "/testSpace.txt"};
     std::string outputFileName{outputDir + fileName};
-    std::string expectedFileName{expectedDir + fileName};
 
     std::string command{"tfc -t -2 -i " + inputFileName + " -o " + outputFileName};
     REQUIRE(execute(command) == 0)
 
-    auto expected = readTextFile(expectedFileName);
-    auto output = readTextFile(outputFileName);
-    REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
+    TextFile<> expected{expectedDir + fileName};
+    expected.read();
+    TextFile<> output{outputFileName};
+    output.read();
+    REQUIRE(expected.equal(output))
 
 END_TEST
 

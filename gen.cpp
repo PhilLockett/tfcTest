@@ -23,11 +23,11 @@
  */
 
 #include <iostream>
-#include <fstream>
-#include <filesystem>
 #include <vector>
 #include <tuple>
 
+#include "TextFile.h"
+#include "BinaryFile.h"
 
 /**
  * @section basic utility code.
@@ -240,7 +240,6 @@ Line ending:
 int spaceTests(void)
 {
     const std::string & postfix{"s"};
-    std::string input{};
 
 // test1.txt : A mix of space and tab leading, space and tab in middle and CR LF EOL.
     std::vector<char> test1{ 
@@ -254,8 +253,8 @@ int spaceTests(void)
         'H', ' ', 'i', '\r', '\n', 
         '\r', '\n' 
     };
-    input = expectedDir + "/test1" + postfix + ".txt";
-    writeBinaryFile(input, test1);
+    BinaryFile<> input{expectedDir + "/test1" + postfix + ".txt"};
+    input.write(test1);
 
 // test2.txt : A mix of space and tab leading, space and tab in middle and only LF EOL.
     std::vector<char> test2{ 
@@ -269,8 +268,8 @@ int spaceTests(void)
         'H', ' ', 'i', '\n', 
         '\n' 
     };
-    input = expectedDir + "/test2" + postfix + ".txt";
-    writeBinaryFile(input, test2);
+    input.setFileName(expectedDir + "/test2" + postfix + ".txt");
+    input.write(test2);
 
 // test3.txt : A mix of space and tab leading, space and tab in middle and mix of CR LF and LF EOL.
     std::vector<char> test3{ 
@@ -284,8 +283,8 @@ int spaceTests(void)
         'H', ' ', 'i', '\r', '\n', 
         '\r', '\n' 
     };
-    input = expectedDir + "/test3" + postfix + ".txt";
-    writeBinaryFile(input, test3);
+    input.setFileName(expectedDir + "/test3" + postfix + ".txt");
+    input.write(test3);
 
 // test4.txt : A mix of space and tab leading, space and tab in middle and malformed EOL.
     std::vector<char> test4{ 
@@ -299,8 +298,8 @@ int spaceTests(void)
         'H', ' ', 'i', '\n', '\r', 
         '\n', '\r' 
     };
-    input = expectedDir + "/test4" + postfix + ".txt";
-    writeBinaryFile(input, test4);
+    input.setFileName(expectedDir + "/test4" + postfix + ".txt");
+    input.write(test4);
 
     return 0;
 }
@@ -833,10 +832,7 @@ int tabUnixTests(void)
 
 int spaceToTabTests(void)
 {
-    std::string filename{};
-    std::string input{};
-    std::string expected{};
-    std::string postfix{};
+    std::string filename{"/testSpace"};
 
 
     std::vector<std::string> testSpace{ 
@@ -851,9 +847,8 @@ int spaceToTabTests(void)
         "        8", 
         "         9"
     };
-    filename = "/testSpace";
-    input = inputDir + filename + ".txt";
-    writeTextFile(input, testSpace);
+    TextFile<> input{inputDir + filename + ".txt"};
+    input.write(testSpace);
 
     std::vector<std::string> testSpace2{ 
         "0", 
@@ -867,9 +862,8 @@ int spaceToTabTests(void)
         "\t\t\t\t8", 
         "\t\t\t\t 9"
     };
-    postfix = "2";
-    expected = expectedDir + filename + postfix + ".txt";
-    writeTextFile(expected, testSpace2);
+    TextFile<> expected{expectedDir + filename + "2.txt"};
+    expected.write(testSpace2);
 
     std::vector<std::string> testSpace4{ 
         "0", 
@@ -883,9 +877,8 @@ int spaceToTabTests(void)
         "\t\t8", 
         "\t\t 9"
     };
-    postfix = "4";
-    expected = expectedDir + filename + postfix + ".txt";
-    writeTextFile(expected, testSpace4);
+    expected.setFileName(expectedDir + filename + "4.txt");
+    expected.write(testSpace4);
 
     std::vector<std::string> testSpace8{ 
         "0", 
@@ -899,9 +892,8 @@ int spaceToTabTests(void)
         "\t8", 
         "\t 9"
     };
-    postfix = "8";
-    expected = expectedDir + filename + postfix + ".txt";
-    writeTextFile(expected, testSpace8);
+    expected.setFileName(expectedDir + filename + "8.txt");
+    expected.write(testSpace8);
 
     return 0;
 }
