@@ -34,10 +34,10 @@
 #include <iostream>
 #include <vector>
 
-#include "unittest.h"
 #include "TextFile.h"
 #include "BinaryFile.h"
 
+#include "unittest.h"
 
 /**
  * @section basic utility code.
@@ -49,44 +49,22 @@ const std::string outputDir{rootDir + "/output"};
 const std::string expectedDir{rootDir + "/expected"};
 
 
-static std::vector<std::string> readTextFile(const std::string & fileName, int reserve = 50)
-{
-//    std::cout << "readTextFile " << fileName << '\n';
-    std::ifstream infile(fileName, std::ifstream::in);
-    std::vector<std::string> ret;
-    if (!infile.is_open())
-        return ret;
+// static std::vector<char> readBinaryFile(const std::string & fileName, int reserve = 100)
+// {
+// //    std::cout << "readBinaryFile " << fileName << '\n';
+//     std::vector<char> ret;
+//     if (std::ifstream is{fileName, std::ios::binary})
+//     {
+//         ret.reserve(reserve);
+//         char event;
+//         for (is.get(event); !is.eof(); is.get(event))
+//         {
+//             ret.push_back(event);
+//         }
+//     }
 
-    ret.reserve(reserve);
-    std::string line;
-
-    while (getline(infile, line))
-    {
-        if (!infile.eof() && line.length())
-            ret.push_back(std::move(line));
-    }
-
-    infile.close();
-
-    return ret;
-}
-
-static std::vector<char> readBinaryFile(const std::string & fileName, int reserve = 100)
-{
-//    std::cout << "readBinaryFile " << fileName << '\n';
-    std::vector<char> ret;
-    if (std::ifstream is{fileName, std::ios::binary})
-    {
-        ret.reserve(reserve);
-        char event;
-        for (is.get(event); !is.eof(); is.get(event))
-        {
-            ret.push_back(event);
-        }
-    }
-
-    return ret;
-}
+//     return ret;
+// }
 
 static std::vector<std::string> commands{};
 
@@ -177,14 +155,15 @@ UNIT_TEST(test2, "Test summary generation for 'test2.txt'.")
     std::string fileName{"/test2.txt"};
     std::string inputFileName{inputDir + fileName};
     std::string outputFileName{outputDir + fileName};
-    std::string expectedFileName{expectedDir + fileName};
 
     std::string command{"tfc -x -i " + inputFileName + " -o " + outputFileName};
     REQUIRE(execute(command) == 0)
 
-    auto expected = readBinaryFile(expectedFileName);
-    auto output = readBinaryFile(outputFileName);
-    REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
+    BinaryFile<> expected{expectedDir + fileName};
+    expected.read();
+    BinaryFile<> output{outputFileName};
+    output.read();
+    REQUIRE(expected.equal(output))
 
 END_TEST
 
@@ -193,14 +172,15 @@ UNIT_TEST(test3, "Test summary generation for 'test3.txt'.")
     std::string fileName{"/test3.txt"};
     std::string inputFileName{inputDir + fileName};
     std::string outputFileName{outputDir + fileName};
-    std::string expectedFileName{expectedDir + fileName};
 
     std::string command{"tfc -x -i " + inputFileName + " -o " + outputFileName};
     REQUIRE(execute(command) == 0)
 
-    auto expected = readBinaryFile(expectedFileName);
-    auto output = readBinaryFile(outputFileName);
-    REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
+    BinaryFile<> expected{expectedDir + fileName};
+    expected.read();
+    BinaryFile<> output{outputFileName};
+    output.read();
+    REQUIRE(expected.equal(output))
 
 END_TEST
 
@@ -209,14 +189,15 @@ UNIT_TEST(test4, "Test summary generation for 'test4.txt'.")
     std::string fileName{"/test4.txt"};
     std::string inputFileName{inputDir + fileName};
     std::string outputFileName{outputDir + fileName};
-    std::string expectedFileName{expectedDir + fileName};
 
     std::string command{"tfc -x -i " + inputFileName + " -o " + outputFileName};
     REQUIRE(execute(command) == 0)
 
-    auto expected = readBinaryFile(expectedFileName);
-    auto output = readBinaryFile(outputFileName);
-    REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
+    BinaryFile<> expected{expectedDir + fileName};
+    expected.read();
+    BinaryFile<> output{outputFileName};
+    output.read();
+    REQUIRE(expected.equal(output))
 
 END_TEST
 
@@ -231,14 +212,15 @@ UNIT_TEST(test1s, "Test leading space generation for 'test1.txt'.")
     std::string fileName{"/test1s.txt"};
     std::string inputFileName{inputDir + "/test1.txt"};
     std::string outputFileName{outputDir + fileName};
-    std::string expectedFileName{expectedDir + fileName};
 
     std::string command{"tfc -s -i " + inputFileName + " -o " + outputFileName};
     REQUIRE(execute(command) == 0)
 
-    auto expected = readBinaryFile(expectedFileName);
-    auto output = readBinaryFile(outputFileName);
-    REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
+    BinaryFile<> expected{expectedDir + fileName};
+    expected.read();
+    BinaryFile<> output{outputFileName};
+    output.read();
+    REQUIRE(expected.equal(output))
 
 END_TEST
 
@@ -247,14 +229,15 @@ UNIT_TEST(test2s, "Test leading space generation for 'test2.txt'.")
     std::string fileName{"/test2s.txt"};
     std::string inputFileName{inputDir + "/test2.txt"};
     std::string outputFileName{outputDir + fileName};
-    std::string expectedFileName{expectedDir + fileName};
 
     std::string command{"tfc -s -i " + inputFileName + " -o " + outputFileName};
     REQUIRE(execute(command) == 0)
 
-    auto expected = readBinaryFile(expectedFileName);
-    auto output = readBinaryFile(outputFileName);
-    REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
+    BinaryFile<> expected{expectedDir + fileName};
+    expected.read();
+    BinaryFile<> output{outputFileName};
+    output.read();
+    REQUIRE(expected.equal(output))
 
 END_TEST
 
@@ -263,14 +246,15 @@ UNIT_TEST(test3s, "Test leading space generation for 'test3.txt'.")
     std::string fileName{"/test3s.txt"};
     std::string inputFileName{inputDir + "/test3.txt"};
     std::string outputFileName{outputDir + fileName};
-    std::string expectedFileName{expectedDir + fileName};
 
     std::string command{"tfc -s -i " + inputFileName + " -o " + outputFileName};
     REQUIRE(execute(command) == 0)
 
-    auto expected = readBinaryFile(expectedFileName);
-    auto output = readBinaryFile(outputFileName);
-    REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
+    BinaryFile<> expected{expectedDir + fileName};
+    expected.read();
+    BinaryFile<> output{outputFileName};
+    output.read();
+    REQUIRE(expected.equal(output))
 
 END_TEST
 
@@ -279,14 +263,15 @@ UNIT_TEST(test4s, "Test leading space generation for 'test4.txt'.")
     std::string fileName{"/test4s.txt"};
     std::string inputFileName{inputDir + "/test4.txt"};
     std::string outputFileName{outputDir + fileName};
-    std::string expectedFileName{expectedDir + fileName};
 
     std::string command{"tfc -s -i " + inputFileName + " -o " + outputFileName};
     REQUIRE(execute(command) == 0)
 
-    auto expected = readBinaryFile(expectedFileName);
-    auto output = readBinaryFile(outputFileName);
-    REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
+    BinaryFile<> expected{expectedDir + fileName};
+    expected.read();
+    BinaryFile<> output{outputFileName};
+    output.read();
+    REQUIRE(expected.equal(output))
 
 END_TEST
 
@@ -301,14 +286,15 @@ UNIT_TEST(test1t, "Test leading tab generation for 'test1.txt'.")
     std::string fileName{"/test1t.txt"};
     std::string inputFileName{inputDir + "/test1.txt"};
     std::string outputFileName{outputDir + fileName};
-    std::string expectedFileName{expectedDir + fileName};
 
     std::string command{"tfc -t -i " + inputFileName + " -o " + outputFileName};
     REQUIRE(execute(command) == 0)
 
-    auto expected = readBinaryFile(expectedFileName);
-    auto output = readBinaryFile(outputFileName);
-    REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
+    BinaryFile<> expected{expectedDir + fileName};
+    expected.read();
+    BinaryFile<> output{outputFileName};
+    output.read();
+    REQUIRE(expected.equal(output))
 
 END_TEST
 
@@ -317,14 +303,15 @@ UNIT_TEST(test2t, "Test leading tab generation for 'test2.txt'.")
     std::string fileName{"/test2t.txt"};
     std::string inputFileName{inputDir + "/test2.txt"};
     std::string outputFileName{outputDir + fileName};
-    std::string expectedFileName{expectedDir + fileName};
 
     std::string command{"tfc -t -i " + inputFileName + " -o " + outputFileName};
     REQUIRE(execute(command) == 0)
 
-    auto expected = readBinaryFile(expectedFileName);
-    auto output = readBinaryFile(outputFileName);
-    REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
+    BinaryFile<> expected{expectedDir + fileName};
+    expected.read();
+    BinaryFile<> output{outputFileName};
+    output.read();
+    REQUIRE(expected.equal(output))
 
 END_TEST
 
@@ -333,14 +320,15 @@ UNIT_TEST(test3t, "Test leading tab generation for 'test3.txt'.")
     std::string fileName{"/test3t.txt"};
     std::string inputFileName{inputDir + "/test3.txt"};
     std::string outputFileName{outputDir + fileName};
-    std::string expectedFileName{expectedDir + fileName};
 
     std::string command{"tfc -t -i " + inputFileName + " -o " + outputFileName};
     REQUIRE(execute(command) == 0)
 
-    auto expected = readBinaryFile(expectedFileName);
-    auto output = readBinaryFile(outputFileName);
-    REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
+    BinaryFile<> expected{expectedDir + fileName};
+    expected.read();
+    BinaryFile<> output{outputFileName};
+    output.read();
+    REQUIRE(expected.equal(output))
 
 END_TEST
 
@@ -349,14 +337,15 @@ UNIT_TEST(test4t, "Test leading tab generation for 'test4.txt'.")
     std::string fileName{"/test4t.txt"};
     std::string inputFileName{inputDir + "/test4.txt"};
     std::string outputFileName{outputDir + fileName};
-    std::string expectedFileName{expectedDir + fileName};
 
     std::string command{"tfc -t -i " + inputFileName + " -o " + outputFileName};
     REQUIRE(execute(command) == 0)
 
-    auto expected = readBinaryFile(expectedFileName);
-    auto output = readBinaryFile(outputFileName);
-    REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
+    BinaryFile<> expected{expectedDir + fileName};
+    expected.read();
+    BinaryFile<> output{outputFileName};
+    output.read();
+    REQUIRE(expected.equal(output))
 
 END_TEST
 
@@ -371,14 +360,15 @@ UNIT_TEST(test1d, "Test trailing dos generation for 'test1.txt'.")
     std::string fileName{"/test1d.txt"};
     std::string inputFileName{inputDir + "/test1.txt"};
     std::string outputFileName{outputDir + fileName};
-    std::string expectedFileName{expectedDir + fileName};
 
     std::string command{"tfc -d -i " + inputFileName + " -o " + outputFileName};
     REQUIRE(execute(command) == 0)
 
-    auto expected = readBinaryFile(expectedFileName);
-    auto output = readBinaryFile(outputFileName);
-    REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
+    BinaryFile<> expected{expectedDir + fileName};
+    expected.read();
+    BinaryFile<> output{outputFileName};
+    output.read();
+    REQUIRE(expected.equal(output))
 
 END_TEST
 
@@ -387,14 +377,15 @@ UNIT_TEST(test2d, "Test trailing dos generation for 'test2.txt'.")
     std::string fileName{"/test2d.txt"};
     std::string inputFileName{inputDir + "/test2.txt"};
     std::string outputFileName{outputDir + fileName};
-    std::string expectedFileName{expectedDir + fileName};
 
     std::string command{"tfc -d -i " + inputFileName + " -o " + outputFileName};
     REQUIRE(execute(command) == 0)
 
-    auto expected = readBinaryFile(expectedFileName);
-    auto output = readBinaryFile(outputFileName);
-    REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
+    BinaryFile<> expected{expectedDir + fileName};
+    expected.read();
+    BinaryFile<> output{outputFileName};
+    output.read();
+    REQUIRE(expected.equal(output))
 
 END_TEST
 
@@ -403,14 +394,15 @@ UNIT_TEST(test3d, "Test trailing dos generation for 'test3.txt'.")
     std::string fileName{"/test3d.txt"};
     std::string inputFileName{inputDir + "/test3.txt"};
     std::string outputFileName{outputDir + fileName};
-    std::string expectedFileName{expectedDir + fileName};
 
     std::string command{"tfc -d -i " + inputFileName + " -o " + outputFileName};
     REQUIRE(execute(command) == 0)
 
-    auto expected = readBinaryFile(expectedFileName);
-    auto output = readBinaryFile(outputFileName);
-    REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
+    BinaryFile<> expected{expectedDir + fileName};
+    expected.read();
+    BinaryFile<> output{outputFileName};
+    output.read();
+    REQUIRE(expected.equal(output))
 
 END_TEST
 
@@ -419,14 +411,15 @@ UNIT_TEST(test4d, "Test trailing dos generation for 'test4.txt'.")
     std::string fileName{"/test4d.txt"};
     std::string inputFileName{inputDir + "/test4.txt"};
     std::string outputFileName{outputDir + fileName};
-    std::string expectedFileName{expectedDir + fileName};
 
     std::string command{"tfc -d -i " + inputFileName + " -o " + outputFileName};
     REQUIRE(execute(command) == 0)
 
-    auto expected = readBinaryFile(expectedFileName);
-    auto output = readBinaryFile(outputFileName);
-    REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
+    BinaryFile<> expected{expectedDir + fileName};
+    expected.read();
+    BinaryFile<> output{outputFileName};
+    output.read();
+    REQUIRE(expected.equal(output))
 
 END_TEST
 
@@ -441,14 +434,15 @@ UNIT_TEST(test1u, "Test trailing unix generation for 'test1.txt'.")
     std::string fileName{"/test1u.txt"};
     std::string inputFileName{inputDir + "/test1.txt"};
     std::string outputFileName{outputDir + fileName};
-    std::string expectedFileName{expectedDir + fileName};
 
     std::string command{"tfc -u -i " + inputFileName + " -o " + outputFileName};
     REQUIRE(execute(command) == 0)
 
-    auto expected = readBinaryFile(expectedFileName);
-    auto output = readBinaryFile(outputFileName);
-    REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
+    BinaryFile<> expected{expectedDir + fileName};
+    expected.read();
+    BinaryFile<> output{outputFileName};
+    output.read();
+    REQUIRE(expected.equal(output))
 
 END_TEST
 
@@ -457,14 +451,15 @@ UNIT_TEST(test2u, "Test trailing unix generation for 'test2.txt'.")
     std::string fileName{"/test2u.txt"};
     std::string inputFileName{inputDir + "/test2.txt"};
     std::string outputFileName{outputDir + fileName};
-    std::string expectedFileName{expectedDir + fileName};
 
     std::string command{"tfc -u -i " + inputFileName + " -o " + outputFileName};
     REQUIRE(execute(command) == 0)
 
-    auto expected = readBinaryFile(expectedFileName);
-    auto output = readBinaryFile(outputFileName);
-    REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
+    BinaryFile<> expected{expectedDir + fileName};
+    expected.read();
+    BinaryFile<> output{outputFileName};
+    output.read();
+    REQUIRE(expected.equal(output))
 
 END_TEST
 
@@ -473,14 +468,15 @@ UNIT_TEST(test3u, "Test trailing unix generation for 'test3.txt'.")
     std::string fileName{"/test3u.txt"};
     std::string inputFileName{inputDir + "/test3.txt"};
     std::string outputFileName{outputDir + fileName};
-    std::string expectedFileName{expectedDir + fileName};
 
     std::string command{"tfc -u -i " + inputFileName + " -o " + outputFileName};
     REQUIRE(execute(command) == 0)
 
-    auto expected = readBinaryFile(expectedFileName);
-    auto output = readBinaryFile(outputFileName);
-    REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
+    BinaryFile<> expected{expectedDir + fileName};
+    expected.read();
+    BinaryFile<> output{outputFileName};
+    output.read();
+    REQUIRE(expected.equal(output))
 
 END_TEST
 
@@ -489,14 +485,15 @@ UNIT_TEST(test4u, "Test trailing unix generation for 'test4.txt'.")
     std::string fileName{"/test4u.txt"};
     std::string inputFileName{inputDir + "/test4.txt"};
     std::string outputFileName{outputDir + fileName};
-    std::string expectedFileName{expectedDir + fileName};
 
     std::string command{"tfc -u -i " + inputFileName + " -o " + outputFileName};
     REQUIRE(execute(command) == 0)
 
-    auto expected = readBinaryFile(expectedFileName);
-    auto output = readBinaryFile(outputFileName);
-    REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
+    BinaryFile<> expected{expectedDir + fileName};
+    expected.read();
+    BinaryFile<> output{outputFileName};
+    output.read();
+    REQUIRE(expected.equal(output))
 
 END_TEST
 
@@ -511,14 +508,15 @@ UNIT_TEST(test1sd, "Test leading space and trailing dos generation for 'test1.tx
     std::string fileName{"/test1sd.txt"};
     std::string inputFileName{inputDir + "/test1.txt"};
     std::string outputFileName{outputDir + fileName};
-    std::string expectedFileName{expectedDir + fileName};
 
     std::string command{"tfc -s -d -i " + inputFileName + " -o " + outputFileName};
     REQUIRE(execute(command) == 0)
 
-    auto expected = readBinaryFile(expectedFileName);
-    auto output = readBinaryFile(outputFileName);
-    REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
+    BinaryFile<> expected{expectedDir + fileName};
+    expected.read();
+    BinaryFile<> output{outputFileName};
+    output.read();
+    REQUIRE(expected.equal(output))
 
 END_TEST
 
@@ -527,14 +525,15 @@ UNIT_TEST(test2sd, "Test leading space and trailing dos generation for 'test2.tx
     std::string fileName{"/test2sd.txt"};
     std::string inputFileName{inputDir + "/test2.txt"};
     std::string outputFileName{outputDir + fileName};
-    std::string expectedFileName{expectedDir + fileName};
 
     std::string command{"tfc -s -d -i " + inputFileName + " -o " + outputFileName};
     REQUIRE(execute(command) == 0)
 
-    auto expected = readBinaryFile(expectedFileName);
-    auto output = readBinaryFile(outputFileName);
-    REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
+    BinaryFile<> expected{expectedDir + fileName};
+    expected.read();
+    BinaryFile<> output{outputFileName};
+    output.read();
+    REQUIRE(expected.equal(output))
 
 END_TEST
 
@@ -543,14 +542,15 @@ UNIT_TEST(test3sd, "Test leading space and trailing dos generation for 'test3.tx
     std::string fileName{"/test3sd.txt"};
     std::string inputFileName{inputDir + "/test3.txt"};
     std::string outputFileName{outputDir + fileName};
-    std::string expectedFileName{expectedDir + fileName};
 
     std::string command{"tfc -s -d -i " + inputFileName + " -o " + outputFileName};
     REQUIRE(execute(command) == 0)
 
-    auto expected = readBinaryFile(expectedFileName);
-    auto output = readBinaryFile(outputFileName);
-    REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
+    BinaryFile<> expected{expectedDir + fileName};
+    expected.read();
+    BinaryFile<> output{outputFileName};
+    output.read();
+    REQUIRE(expected.equal(output))
 
 END_TEST
 
@@ -559,14 +559,15 @@ UNIT_TEST(test4sd, "Test leading space and trailing dos generation for 'test4.tx
     std::string fileName{"/test4sd.txt"};
     std::string inputFileName{inputDir + "/test4.txt"};
     std::string outputFileName{outputDir + fileName};
-    std::string expectedFileName{expectedDir + fileName};
 
     std::string command{"tfc -s -d -i " + inputFileName + " -o " + outputFileName};
     REQUIRE(execute(command) == 0)
 
-    auto expected = readBinaryFile(expectedFileName);
-    auto output = readBinaryFile(outputFileName);
-    REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
+    BinaryFile<> expected{expectedDir + fileName};
+    expected.read();
+    BinaryFile<> output{outputFileName};
+    output.read();
+    REQUIRE(expected.equal(output))
 
 END_TEST
 
@@ -581,14 +582,15 @@ UNIT_TEST(test1td, "Test leading tab and trailing dos generation for 'test1.txt'
     std::string fileName{"/test1td.txt"};
     std::string inputFileName{inputDir + "/test1.txt"};
     std::string outputFileName{outputDir + fileName};
-    std::string expectedFileName{expectedDir + fileName};
 
     std::string command{"tfc -t -d -i " + inputFileName + " -o " + outputFileName};
     REQUIRE(execute(command) == 0)
 
-    auto expected = readBinaryFile(expectedFileName);
-    auto output = readBinaryFile(outputFileName);
-    REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
+    BinaryFile<> expected{expectedDir + fileName};
+    expected.read();
+    BinaryFile<> output{outputFileName};
+    output.read();
+    REQUIRE(expected.equal(output))
 
 END_TEST
 
@@ -597,14 +599,15 @@ UNIT_TEST(test2td, "Test leading tab and trailing dos generation for 'test2.txt'
     std::string fileName{"/test2td.txt"};
     std::string inputFileName{inputDir + "/test2.txt"};
     std::string outputFileName{outputDir + fileName};
-    std::string expectedFileName{expectedDir + fileName};
 
     std::string command{"tfc -t -d -i " + inputFileName + " -o " + outputFileName};
     REQUIRE(execute(command) == 0)
 
-    auto expected = readBinaryFile(expectedFileName);
-    auto output = readBinaryFile(outputFileName);
-    REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
+    BinaryFile<> expected{expectedDir + fileName};
+    expected.read();
+    BinaryFile<> output{outputFileName};
+    output.read();
+    REQUIRE(expected.equal(output))
 
 END_TEST
 
@@ -613,14 +616,15 @@ UNIT_TEST(test3td, "Test leading tab and trailing dos generation for 'test3.txt'
     std::string fileName{"/test3td.txt"};
     std::string inputFileName{inputDir + "/test3.txt"};
     std::string outputFileName{outputDir + fileName};
-    std::string expectedFileName{expectedDir + fileName};
 
     std::string command{"tfc -t -d -i " + inputFileName + " -o " + outputFileName};
     REQUIRE(execute(command) == 0)
 
-    auto expected = readBinaryFile(expectedFileName);
-    auto output = readBinaryFile(outputFileName);
-    REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
+    BinaryFile<> expected{expectedDir + fileName};
+    expected.read();
+    BinaryFile<> output{outputFileName};
+    output.read();
+    REQUIRE(expected.equal(output))
 
 END_TEST
 
@@ -629,14 +633,15 @@ UNIT_TEST(test4td, "Test leading tab and trailing dos generation for 'test4.txt'
     std::string fileName{"/test4td.txt"};
     std::string inputFileName{inputDir + "/test4.txt"};
     std::string outputFileName{outputDir + fileName};
-    std::string expectedFileName{expectedDir + fileName};
 
     std::string command{"tfc -t -d -i " + inputFileName + " -o " + outputFileName};
     REQUIRE(execute(command) == 0)
 
-    auto expected = readBinaryFile(expectedFileName);
-    auto output = readBinaryFile(outputFileName);
-    REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
+    BinaryFile<> expected{expectedDir + fileName};
+    expected.read();
+    BinaryFile<> output{outputFileName};
+    output.read();
+    REQUIRE(expected.equal(output))
 
 END_TEST
 
@@ -651,14 +656,15 @@ UNIT_TEST(test1su, "Test leading space and trailing unix generation for 'test1.t
     std::string fileName{"/test1su.txt"};
     std::string inputFileName{inputDir + "/test1.txt"};
     std::string outputFileName{outputDir + fileName};
-    std::string expectedFileName{expectedDir + fileName};
 
     std::string command{"tfc -s -u -i " + inputFileName + " -o " + outputFileName};
     REQUIRE(execute(command) == 0)
 
-    auto expected = readBinaryFile(expectedFileName);
-    auto output = readBinaryFile(outputFileName);
-    REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
+    BinaryFile<> expected{expectedDir + fileName};
+    expected.read();
+    BinaryFile<> output{outputFileName};
+    output.read();
+    REQUIRE(expected.equal(output))
 
 END_TEST
 
@@ -667,14 +673,15 @@ UNIT_TEST(test2su, "Test leading space and trailing unix generation for 'test2.t
     std::string fileName{"/test2su.txt"};
     std::string inputFileName{inputDir + "/test2.txt"};
     std::string outputFileName{outputDir + fileName};
-    std::string expectedFileName{expectedDir + fileName};
 
     std::string command{"tfc -s -u -i " + inputFileName + " -o " + outputFileName};
     REQUIRE(execute(command) == 0)
 
-    auto expected = readBinaryFile(expectedFileName);
-    auto output = readBinaryFile(outputFileName);
-    REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
+    BinaryFile<> expected{expectedDir + fileName};
+    expected.read();
+    BinaryFile<> output{outputFileName};
+    output.read();
+    REQUIRE(expected.equal(output))
 
 END_TEST
 
@@ -683,14 +690,15 @@ UNIT_TEST(test3su, "Test leading space and trailing unix generation for 'test3.t
     std::string fileName{"/test3su.txt"};
     std::string inputFileName{inputDir + "/test3.txt"};
     std::string outputFileName{outputDir + fileName};
-    std::string expectedFileName{expectedDir + fileName};
 
     std::string command{"tfc -s -u -i " + inputFileName + " -o " + outputFileName};
     REQUIRE(execute(command) == 0)
 
-    auto expected = readBinaryFile(expectedFileName);
-    auto output = readBinaryFile(outputFileName);
-    REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
+    BinaryFile<> expected{expectedDir + fileName};
+    expected.read();
+    BinaryFile<> output{outputFileName};
+    output.read();
+    REQUIRE(expected.equal(output))
 
 END_TEST
 
@@ -699,14 +707,15 @@ UNIT_TEST(test4su, "Test leading space and trailing unix generation for 'test4.t
     std::string fileName{"/test4su.txt"};
     std::string inputFileName{inputDir + "/test4.txt"};
     std::string outputFileName{outputDir + fileName};
-    std::string expectedFileName{expectedDir + fileName};
 
     std::string command{"tfc -s -u -i " + inputFileName + " -o " + outputFileName};
     REQUIRE(execute(command) == 0)
 
-    auto expected = readBinaryFile(expectedFileName);
-    auto output = readBinaryFile(outputFileName);
-    REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
+    BinaryFile<> expected{expectedDir + fileName};
+    expected.read();
+    BinaryFile<> output{outputFileName};
+    output.read();
+    REQUIRE(expected.equal(output))
 
 END_TEST
 
@@ -721,14 +730,15 @@ UNIT_TEST(test1tu, "Test leading tab and trailing unix generation for 'test1.txt
     std::string fileName{"/test1tu.txt"};
     std::string inputFileName{inputDir + "/test1.txt"};
     std::string outputFileName{outputDir + fileName};
-    std::string expectedFileName{expectedDir + fileName};
 
     std::string command{"tfc -t -u -i " + inputFileName + " -o " + outputFileName};
     REQUIRE(execute(command) == 0)
 
-    auto expected = readBinaryFile(expectedFileName);
-    auto output = readBinaryFile(outputFileName);
-    REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
+    BinaryFile<> expected{expectedDir + fileName};
+    expected.read();
+    BinaryFile<> output{outputFileName};
+    output.read();
+    REQUIRE(expected.equal(output))
 
 END_TEST
 
@@ -737,14 +747,15 @@ UNIT_TEST(test2tu, "Test leading tab and trailing unix generation for 'test2.txt
     std::string fileName{"/test2tu.txt"};
     std::string inputFileName{inputDir + "/test2.txt"};
     std::string outputFileName{outputDir + fileName};
-    std::string expectedFileName{expectedDir + fileName};
 
     std::string command{"tfc -t -u -i " + inputFileName + " -o " + outputFileName};
     REQUIRE(execute(command) == 0)
 
-    auto expected = readBinaryFile(expectedFileName);
-    auto output = readBinaryFile(outputFileName);
-    REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
+    BinaryFile<> expected{expectedDir + fileName};
+    expected.read();
+    BinaryFile<> output{outputFileName};
+    output.read();
+    REQUIRE(expected.equal(output))
 
 END_TEST
 
@@ -753,14 +764,15 @@ UNIT_TEST(test3tu, "Test leading tab and trailing unix generation for 'test3.txt
     std::string fileName{"/test3tu.txt"};
     std::string inputFileName{inputDir + "/test3.txt"};
     std::string outputFileName{outputDir + fileName};
-    std::string expectedFileName{expectedDir + fileName};
 
     std::string command{"tfc -t -u -i " + inputFileName + " -o " + outputFileName};
     REQUIRE(execute(command) == 0)
 
-    auto expected = readBinaryFile(expectedFileName);
-    auto output = readBinaryFile(outputFileName);
-    REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
+    BinaryFile<> expected{expectedDir + fileName};
+    expected.read();
+    BinaryFile<> output{outputFileName};
+    output.read();
+    REQUIRE(expected.equal(output))
 
 END_TEST
 
@@ -769,14 +781,15 @@ UNIT_TEST(test4tu, "Test leading tab and trailing unix generation for 'test4.txt
     std::string fileName{"/test4tu.txt"};
     std::string inputFileName{inputDir + "/test4.txt"};
     std::string outputFileName{outputDir + fileName};
-    std::string expectedFileName{expectedDir + fileName};
 
     std::string command{"tfc -t -u -i " + inputFileName + " -o " + outputFileName};
     REQUIRE(execute(command) == 0)
 
-    auto expected = readBinaryFile(expectedFileName);
-    auto output = readBinaryFile(outputFileName);
-    REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
+    BinaryFile<> expected{expectedDir + fileName};
+    expected.read();
+    BinaryFile<> output{outputFileName};
+    output.read();
+    REQUIRE(expected.equal(output))
 
 END_TEST
 
@@ -808,14 +821,15 @@ UNIT_TEST(testSpace4, "Test leading space to tab replacement 'testSpace4.txt'.")
     std::string fileName{"/testSpace4.txt"};
     std::string inputFileName{inputDir + "/testSpace.txt"};
     std::string outputFileName{outputDir + fileName};
-    std::string expectedFileName{expectedDir + fileName};
 
     std::string command{"tfc -t -4 -i " + inputFileName + " -o " + outputFileName};
     REQUIRE(execute(command) == 0)
 
-    auto expected = readTextFile(expectedFileName);
-    auto output = readTextFile(outputFileName);
-    REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
+    TextFile<> expected{expectedDir + fileName};
+    expected.read();
+    TextFile<> output{outputFileName};
+    output.read();
+    REQUIRE(expected.equal(output))
 
 END_TEST
 
@@ -824,14 +838,15 @@ UNIT_TEST(testSpace8, "Test leading space to tab replacement 'testSpace8.txt'.")
     std::string fileName{"/testSpace8.txt"};
     std::string inputFileName{inputDir + "/testSpace.txt"};
     std::string outputFileName{outputDir + fileName};
-    std::string expectedFileName{expectedDir + fileName};
 
     std::string command{"tfc -t -8 -i " + inputFileName + " -o " + outputFileName};
     REQUIRE(execute(command) == 0)
 
-    auto expected = readTextFile(expectedFileName);
-    auto output = readTextFile(outputFileName);
-    REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
+    TextFile<> expected{expectedDir + fileName};
+    expected.read();
+    TextFile<> output{outputFileName};
+    output.read();
+    REQUIRE(expected.equal(output))
 
 END_TEST
 
@@ -846,14 +861,15 @@ UNIT_TEST(testTab2, "Test leading space to tab replacement 'testTab2.txt'.")
     std::string fileName{"/testTab2.txt"};
     std::string inputFileName{inputDir + "/testTab.txt"};
     std::string outputFileName{outputDir + fileName};
-    std::string expectedFileName{expectedDir + fileName};
 
     std::string command{"tfc -s -2 -i " + inputFileName + " -o " + outputFileName};
     REQUIRE(execute(command) == 0)
 
-    auto expected = readTextFile(expectedFileName);
-    auto output = readTextFile(outputFileName);
-    REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
+    TextFile<> expected{expectedDir + fileName};
+    expected.read();
+    TextFile<> output{outputFileName};
+    output.read();
+    REQUIRE(expected.equal(output))
 
 END_TEST
 
@@ -862,14 +878,15 @@ UNIT_TEST(testTab4, "Test leading space to tab replacement 'testTab4.txt'.")
     std::string fileName{"/testTab4.txt"};
     std::string inputFileName{inputDir + "/testTab.txt"};
     std::string outputFileName{outputDir + fileName};
-    std::string expectedFileName{expectedDir + fileName};
 
     std::string command{"tfc -s -4 -i " + inputFileName + " -o " + outputFileName};
     REQUIRE(execute(command) == 0)
 
-    auto expected = readTextFile(expectedFileName);
-    auto output = readTextFile(outputFileName);
-    REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
+    TextFile<> expected{expectedDir + fileName};
+    expected.read();
+    TextFile<> output{outputFileName};
+    output.read();
+    REQUIRE(expected.equal(output))
 
 END_TEST
 
@@ -878,14 +895,15 @@ UNIT_TEST(testTab8, "Test leading space to tab replacement 'testTab8.txt'.")
     std::string fileName{"/testTab8.txt"};
     std::string inputFileName{inputDir + "/testTab.txt"};
     std::string outputFileName{outputDir + fileName};
-    std::string expectedFileName{expectedDir + fileName};
 
     std::string command{"tfc -s -8 -i " + inputFileName + " -o " + outputFileName};
     REQUIRE(execute(command) == 0)
 
-    auto expected = readTextFile(expectedFileName);
-    auto output = readTextFile(outputFileName);
-    REQUIRE(std::equal(expected.begin(), expected.end(), output.begin()))
+    TextFile<> expected{expectedDir + fileName};
+    expected.read();
+    TextFile<> output{outputFileName};
+    output.read();
+    REQUIRE(expected.equal(output))
 
 END_TEST
 
