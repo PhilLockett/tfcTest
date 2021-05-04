@@ -1,5 +1,5 @@
 /**
- * @file    BinaryFile.h
+ * @file    TextFile.h
  * @author  Phil Lockett <phillockett65@gmail.com>
  * @version 1.0
  *
