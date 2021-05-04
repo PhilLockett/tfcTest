@@ -76,7 +76,7 @@ private:
 template<typename T>
 int BinaryFile<T>::write(void) const
 {
-    if (std::ofstream os{fileName, std::ios::binary})
+    if (std::ofstream os{fileName, std::ios::binary|std::ios::out})
     {
         for (auto & c : data)
             os.put(c);
@@ -90,7 +90,7 @@ int BinaryFile<T>::write(void) const
 template<typename T>
 int BinaryFile<T>::read(int reserve)
 {
-    if (std::ifstream is{fileName, std::ios::binary})
+    if (std::ifstream is{fileName, std::ios::binary|std::ios::in})
     {
         data.reserve(reserve);
         T event;

@@ -90,7 +90,7 @@ int TextFile<T>::write(void) const
 template<typename T>
 int TextFile<T>::read(int reserve)
 {
-    if (std::ifstream is{fileName, std::ifstream::in})
+    if (std::ifstream is{fileName, std::ios::in})
     {
         data.reserve(reserve);
         T line;
