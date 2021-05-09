@@ -18,7 +18,7 @@
  *
  * @section DESCRIPTION
  *
- * Interface for the Statistics Implementation.
+ * Template for basic text file read/write handling.
  */
 
 #if !defined(_TEXTFILE_H__20210503_1300__INCLUDED_)
@@ -31,9 +31,8 @@
 
 
 /**
- * @section Statistics Singleton.
+ * @section text file read/write handling interface.
  *
- * Implementation of the Statistics Singleton.
  */
 
 template<typename T=std::string>
@@ -58,6 +57,7 @@ public:
     std::string getFileName(void) const { return fileName; }
     bool exists(void) const { return std::filesystem::exists(fileName); }
 
+    void reserve(size_t size) { data.reserve(size); }
     size_t size(void) { return data.size(); }
     Iterator begin(void) { return data.begin(); }
     Iterator end(void) { return data.end(); }
@@ -73,6 +73,17 @@ private:
     std::vector<T> data;
 };
 
+
+/**
+ * @section text file read/write handling implementation.
+ *
+ */
+
+/**
+ * Write the buffer to the named file.
+ *
+ * @return error value or 0 if no errors.
+ */
 template<typename T>
 int TextFile<T>::write(void) const
 {
@@ -87,12 +98,18 @@ int TextFile<T>::write(void) const
     return 1;
 }
 
+/**
+ * Read the named file into the buffer.
+ *
+ * @param  res - reserve the number of lines in the buffer.
+ * @return error value or 0 if no errors.
+ */
 template<typename T>
-int TextFile<T>::read(int reserve)
+int TextFile<T>::read(int res)
 {
     if (std::ifstream is{fileName, std::ios::in})
     {
-        data.reserve(reserve);
+        reserve(res);
         T line;
 
         while (getline(is, line))
@@ -108,9 +125,8 @@ int TextFile<T>::read(int reserve)
 }
 
 
-
 /**
- * Send the current name-value pairs to the output stream.
+ * Send the current lines to the output stream.
  *
  * @param  os - Output stream.
  */
@@ -120,7 +136,6 @@ void TextFile<T>::display(std::ostream &os) const
     for (const auto & line: data)
         os << line << "\n";
 }
-
 
 #endif // !defined(_TEXTFILE_H__20210503_1300__INCLUDED_)
 

@@ -18,7 +18,7 @@
  *
  * @section DESCRIPTION
  *
- * Interface for the Statistics Implementation.
+ * Template for basic binary file read/write handling.
  */
 
 #if !defined(_BINARYFILE_H__20210503_1033__INCLUDED_)
@@ -31,9 +31,8 @@
 
 
 /**
- * @section Statistics Singleton.
+ * @section binary file read/write handling interface.
  *
- * Implementation of the Statistics Singleton.
  */
 
 template<typename T=char>
@@ -58,6 +57,7 @@ public:
     std::string getFileName(void) const { return fileName; }
     bool exists(void) const { return std::filesystem::exists(fileName); }
 
+    void reserve(size_t size) { data.reserve(size); }
     size_t size(void) { return data.size(); }
     Iterator begin(void) { return data.begin(); }
     Iterator end(void) { return data.end(); }
@@ -73,6 +73,17 @@ private:
     std::vector<T> data;
 };
 
+
+/**
+ * @section binary file read/write handling implementation.
+ *
+ */
+
+/**
+ * Write the buffer to the named file.
+ *
+ * @return error value or 0 if no errors.
+ */
 template<typename T>
 int BinaryFile<T>::write(void) const
 {
@@ -87,13 +98,20 @@ int BinaryFile<T>::write(void) const
     return 1;
 }
 
+/**
+ * Read the named file into the buffer.
+ *
+ * @param  res - reserve the number of lines in the buffer.
+ * @return error value or 0 if no errors.
+ */
 template<typename T>
-int BinaryFile<T>::read(int reserve)
+int BinaryFile<T>::read(int res)
 {
     if (std::ifstream is{fileName, std::ios::binary|std::ios::in})
     {
-        data.reserve(reserve);
+        reserve(res);
         T event;
+
         for (is.get(event); !is.eof(); is.get(event))
             data.push_back(event);
 
@@ -104,9 +122,8 @@ int BinaryFile<T>::read(int reserve)
 }
 
 
-
 /**
- * Send the current name-value pairs to the output stream.
+ * Send the current characters to the output stream.
  *
  * @param  os - Output stream.
  */
@@ -119,4 +136,3 @@ void BinaryFile<T>::display(std::ostream &os) const
 
 
 #endif // !defined(_BINARYFILE_H__20210503_1033__INCLUDED_)
-
