@@ -42,6 +42,7 @@ public:
     using Iterator = std::vector<T>::const_iterator;
 
     BinaryFile(const std::string & file) : fileName{file} {}
+    BinaryFile(const std::filesystem::path & file) : fileName{file} {}
     virtual ~BinaryFile(void) {}
 
     BinaryFile(const BinaryFile & other) : fileName{other.fileName}, data{other.data} {}
@@ -54,7 +55,8 @@ public:
     void clear(void) { data.clear(); }
 
     void setFileName(const std::string & file) { fileName = file; }
-    std::string getFileName(void) const { return fileName; }
+    void setFileName(const std::filesystem::path & file) { fileName = file; }
+    std::string getFileName(void) const { return fileName.c_str(); }
     bool exists(void) const { return std::filesystem::exists(fileName); }
 
     void reserve(size_t size) { data.reserve(size); }
@@ -67,10 +69,9 @@ public:
     int read(int reserve = 100);
 
 private:
-    void display(std::ostream &os) const;
-
     std::filesystem::path fileName; 
     std::vector<T> data;
+
 };
 
 
@@ -87,9 +88,9 @@ private:
 template<typename T>
 int BinaryFile<T>::write(void) const
 {
-    if (std::ofstream os{fileName, std::ios::binary|std::ios::out})
+    if (std::basic_ofstream<T> os{fileName, std::ios::binary|std::ios::out})
     {
-        for (auto & c : data)
+        for (const auto & c : data)
             os.put(c);
 
         return 0;
@@ -107,7 +108,7 @@ int BinaryFile<T>::write(void) const
 template<typename T>
 int BinaryFile<T>::read(int res)
 {
-    if (std::ifstream is{fileName, std::ios::binary|std::ios::in})
+    if (std::basic_ifstream<T> is{fileName, std::ios::binary|std::ios::in})
     {
         reserve(res);
         T event;
@@ -119,19 +120,6 @@ int BinaryFile<T>::read(int res)
     }
 
     return 1;
-}
-
-
-/**
- * Send the current characters to the output stream.
- *
- * @param  os - Output stream.
- */
-template<typename T>
-void BinaryFile<T>::display(std::ostream &os) const
-{
-    for (const auto & x: data)
-        os << x << "\n";
 }
 
 
