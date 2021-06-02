@@ -50,8 +50,14 @@ public:
 
     friend std::ostream & operator<<(std::ostream &os, const BinaryFile &A) { A.display(os); return os; }
 
-    void load(const std::vector<T> & other) { data = other; }
+    void setData(const std::vector<T> & other) { data = other; }
+    std::vector<T> getData() { return data; }
+    const std::vector<T> getData() const { return data; }
+    std::vector<T> moveData() noexcept { return std::move(data); }
+    void moveData(std::vector<T> && other) noexcept { data = std::move(other); }
+
     bool equal(const BinaryFile & other) const;
+    bool equal(const BinaryFile & other, size_t count) const { return std::equal(data.begin(), data.begin()+count, other.data.begin()); }
     void clear(void) { data.clear(); }
 
     void setFileName(const std::string & file) { fileName = file; }
@@ -64,7 +70,7 @@ public:
     Iterator begin(void) { return data.begin(); }
     Iterator end(void) { return data.end(); }
 
-    int write(const std::vector<T> & other) { load(other); return write(); }
+    int write(const std::vector<T> & other) { setData(other); return write(); }
     int write(void) const;
     int read(int reserve = 100);
 
