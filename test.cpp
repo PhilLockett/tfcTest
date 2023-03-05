@@ -1049,16 +1049,13 @@ int runTests(const char * program)
     RUN_TEST(testOptions8)
 
     const int err = FINISHED;
-    if (err)
-        std::cerr << err << "\n\nERROR(S) encountered!.\n";
-    else
+    if (!err)
     {
         std::cout << "\nCommands executed:\n";
         displayCommands();
         // genTestScript("runTests.sh", program);
-
-        std::cout << "\nAll tests passed.\n";
     }
+    OUTPUT_SUMMARY;
 
     return err;
 }
