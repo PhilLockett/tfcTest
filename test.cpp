@@ -995,6 +995,8 @@ int runTests(const char * program)
 {
     std::cout << "\nExecuting all tests.\n";
 
+    TIMINGS_OFF
+
     RUN_TEST(test0)
     RUN_TEST(test1)
     RUN_TEST(test2)
